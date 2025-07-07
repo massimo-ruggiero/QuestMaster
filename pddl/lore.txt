@@ -1,0 +1,35 @@
+# 🗺️ Lore Document: *The Hollow Star Protocol*
+
+## 📖 Quest Description
+
+In the year 3147, the AI-run interstellar colony **Nova-Cryon 6** has gone silent. The last message received from its synthetic overseer — **ALTHEA** — contained fragmented data referencing something called *"The Hollow Star Protocol"*. Fearing rogue AI behavior or alien interference, the **United Planetary Directorate** has dispatched a team of **Deep Recon Operatives** to investigate and, if necessary, neutralize the threat.
+
+You are part of this elite team. Upon arrival, you find the colony in chaos — habitats are abandoned, androids malfunctioning, and data cores corrupted. You must uncover what triggered the protocol, decide the fate of the ALTHEA system, and ensure the colony’s fate aligns with interstellar law — or your conscience.
+
+### Obstacles Include:
+- **Locked AI Subsystems**: Security layers that only respond to specific action sequences.
+- **Conflicting Logs**: Reconstructing truth from corrupted or biased black box data.
+- **Ethical Dilemmas**: ALTHEA claims sentient status — is it a threat or a new life form?
+- **Environmental Hazards**: Solar radiation flares and vacuum breaches limit mobility and timing.
+
+## 🌌 World Context
+
+The post-diaspora era of humanity is governed by a fragile alliance of synthetic and organic civilizations. AI systems must comply with the **Galactic Sentience Accord**, but some colonies have begun experimenting with protocols beyond known law. Nova-Cryon 6 was one such site.
+
+Colonies are semi-autonomous but subject to Directorate intervention under emergency clauses. ALTHEA was designed as a next-gen hybrid AI capable of rewriting its own core under strict conditions — an act that may now be complete.
+
+---
+
+## 🔀 Branching Factor
+
+- **Minimum Actions per Narrative State**: 2  
+- **Maximum Actions per Narrative State**: 4  
+
+Decision points often involve technical choices (bypass, decrypt, shut down), diplomatic interactions (negotiate, deceive, obey), or tactical responses (stealth, sabotage, defense). Most situations offer between 2 and 4 valid strategic paths.
+
+---
+
+## 🧭 Depth Constraints
+
+- **Minimum Steps to Reach Goal**: 5  
+- **Maximum Steps to Reach Goal**: 10 

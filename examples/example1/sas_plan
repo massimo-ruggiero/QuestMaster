@@ -1,0 +1,6 @@
+(travel arya oasisvillage dunes)
+(travel arya dunes ruins)
+(retrieve-artifact arya jeweledscarab ruins)
+(travel arya ruins dunes)
+(travel arya dunes oasisvillage)
+; cost = 5 (unit cost)

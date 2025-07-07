@@ -1,0 +1,59 @@
+1. Initial state (remember: plan must have 5–8 steps and 2–3 actions available per state):  
+   - Arya is at OasisVillage  
+   - Arya has MapFragmentA  
+   - Sandstorm is inactive  
+   - GuardianStatue is dormant  
+   - Kharun is at CaravanCamp and unarmed  
+
+2. Goal (still under the 5–8 depth constraint and respecting 2–3 branching):  
+   - `(has arya jeweledscarab)`  
+   - `(at arya oasisvillage)`  
+
+3. Obstacles (always check constraints before and after defining each action):  
+   - Sandstorm may activate in the dunes → need `activate-sandstorm` (remember: each action choice counts toward depth)  
+   - Guardian awakens in Ruins → use `guardian-dormant`/`guardian-awake` and `awaken-guardian` (keep branching factor in mind)  
+   - Kharun can steal the map if Arya is unarmed → use `rival-unarmed`/`rival-armed`, `disarm-rival`, `steal-map` (ensure 2–3 options per state)  
+
+4. Types & Predicates (constraints still apply—plan operators must enable reaching goal within 5–8 steps):  
+   - Types: `character`, `location`, `item`  
+   - Predicates:  
+     - `(at ?c - character ?l - location)`  
+     - `(has ?c - character ?i - item)`  
+     - `(sandstorm-active)`  
+     - `(guardian-dormant)`, `(guardian-awake)`  
+     - `(rival-unarmed)`, `(rival-armed)`  
+     - `(map-intact)`, `(artifact-retrieved)`  
+     - `(artifact-location ?l - location)`  
+     - `(accessible ?from - location ?to - location)`  
+
+5. Specific actions (after each, mentally verify branching factor 2–3 and cumulative step count ≤8):  
+   - `travel`:  
+     - Preconditions: `(at ?c ?from)`, `(accessible ?from ?to)`, `not (sandstorm-active)`  
+     - Effects: move character  
+     - **Remember:** still have to fit this move into a 5–8 step plan with 2–3 action choices each state  
+   - `activate-sandstorm`:  
+     - Preconditions: none  
+     - Effects: `(sandstorm-active)`  
+     - **Reminder:** this adds depth without changing location—ensure you can still reach goal in remaining steps  
+   - `awaken-guardian`:  
+     - Preconditions: none  
+     - Effects: `(guardian-awake)`, remove `(guardian-dormant)`  
+     - **Check:** does this action maintain 2–3 choices at that state and allow plan length ≤8?  
+   - `retrieve-artifact`:  
+     - Preconditions: `(at arya ruins)`, `artifact-location ruins`, `(guardian-dormant)`  
+     - Effects: `(has arya jeweledscarab)`, `(artifact-retrieved)`  
+     - **Note:** critical step—ensure you can escape to OasisVillage in remaining steps (depth constraint!)  
+   - `disarm-rival`:  
+     - Preconditions: `(at arya ?loc)`, `(at kharun ?loc)`, `(rival-armed)`  
+     - Effects: `(rival-unarmed)`  
+     - **Be sure:** branching factor of 2–3 remains and action count stays within 8  
+   - `steal-map`:  
+     - Preconditions: `(at kharun ?loc)`, `(at arya ?loc)`, `(has arya mapfragmenta)`, `(rival-unarmed)`  
+     - Effects: remove `(has arya mapfragmenta)`, remove `(map-intact)`  
+     - **Caution:** this setback still must allow goal achievement within max depth  
+   - `escape-desert`:  
+     - Preconditions: `(has arya jeweledscarab)`, `(at arya oasisvillage)`  
+     - Effects: none (goal reached)  
+     - **Final check:** confirm total actions ≥5 and ≤8, and at each state there were 2–3 choices  
+
+6. Assemble PDDL with domain and problem sections, confident that every action sequence can satisfy branching factor 2–3 and depth 5–8.

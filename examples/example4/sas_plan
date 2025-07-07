@@ -1,0 +1,7 @@
+(travel seeker elarion fractured-court)
+(intimidate-court seeker fractured-nobles fractured-court)
+(discover-path-to-ruins ancient-ruins fractured-court)
+(travel seeker fractured-court ancient-ruins)
+(confront-false-prophets seeker false-prophets ancient-ruins)
+(retrieve-heart-of-cinders seeker heart-of-cinders false-prophets ancient-ruins)
+; cost = 6 (unit cost)

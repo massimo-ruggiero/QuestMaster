@@ -1,0 +1,34 @@
+# Lore Document: The Relic of the Sunken Temple
+
+## 1. Quest Description
+**Title:** The Relic of the Sunken Temple  
+**Setting:**  
+Beneath the waves off the coast of Thalara lies an ancient submerged temple, home to a powerful relic said to control the tides. When seismic tremors threaten coastal villages with devastating floods, a daring adventurer must dive into the deep, navigate underwater ruins, and reclaim the relic before catastrophe strikes.
+
+### Initial State
+- The protagonist boards a small dive vessel at Thalara Harbor.  
+- The sea is stormy, visibility underwater is poor.  
+- A local scholar warns of aggressive sea creatures guarding the temple’s entrance.
+
+### Goal
+- Retrieve the Tideheart Relic from the Sunken Temple’s inner sanctum and surface safely.
+
+### Possible Obstacles
+1. **Underwater Currents in the Coral Chasm**  
+   – Strong cross-currents may push the diver off course; require stabilizing gear or skillful swimming.  
+2. **Collapsed Passage in the Eastern Hall**  
+   – Blocks direct route; must clear debris (strength), find alternate tunnel (exploration), or use explosives (risking damage).  
+3. **Guardian Eels in the Sanctum**  
+   – Need to distract them (lure), sneak past in crevices (stealth), or confront them (combat).
+
+## 2. Branching Factor
+- **Minimum Actions per State:** 2  
+- **Maximum Actions per State:** 4  
+
+> *At each decision point, the player will choose between two to four actions (e.g., “Deploy an anchor line” / “Investigate a side tunnel” / “Clear rubble by hand” / “Set a timed explosive”).*
+
+## 3. Depth Constraints
+- **Minimum Steps to Goal:** 5  
+- **Maximum Steps to Goal:** 9  
+
+> *The narrative should guide the player through at least five and at most seven critical actions before they secure the relic.*

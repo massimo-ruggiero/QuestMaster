@@ -1,0 +1,33 @@
+# 🗺️ Lore Document: *The Emberfall Conspiracy*
+
+## 📖 Quest Description
+
+In the twilight-ruled kingdom of **Emberfall**, a creeping shadow spreads from the **Ashspire Mountains**, corrupting nature and minds alike. Rumors speak of an ancient artifact — the **Heart of Cinders** — sealed away centuries ago by the Pyromancers' Order, now lost to legend.
+
+You are a **Seeker**, trained in both lore and blade, tasked by the enigmatic **Council of Embers** to retrieve the artifact before the corruption reaches the capital, **Elarion**. Along the way, you must navigate treacherous political factions, ancient ruins warped by dark fire, and a prophecy that might name you either savior or destroyer.
+
+### Obstacles Include:
+- **The Fractured Court**: Competing noble houses offering aid — at a price.
+- **Ashborn Creatures**: Twisted wildlife and former humans consumed by flame.
+- **False Prophets**: Cults who believe the Heart should remain buried — or used.
+- **Moral Choices**: The artifact’s power can purify or destroy. Which will you choose?
+
+## 🌿 World Context
+
+Emberfall is a volcanic region rich in elemental energy. Magic here is volatile and deeply tied to emotion and will. The balance between light and dark is fragile, and ancient powers still linger beneath the scorched earth.
+
+---
+
+## 🔀 Branching Factor
+
+- **Minimum Actions per Narrative State**: 2  
+- **Maximum Actions per Narrative State**: 5  
+
+Each key decision point provides multiple narrative options, with at least two meaningful choices and sometimes as many as five. These branches can influence alliances, unlock unique challenges, or alter the moral tone of the ending.
+
+---
+
+## 🧭 Depth Constraints
+
+- **Minimum Steps to Reach Goal**: 6  
+- **Maximum Steps to Reach Goal**: 12 

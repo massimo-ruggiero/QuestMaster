@@ -1,0 +1,40 @@
+# Lore Document: The Crystal of Ithar
+
+## Quest Description
+
+In the forgotten land of **Ithar**, ancient forces have begun to stir. The **Crystal of Ithar**, a magical relic maintaining the balance between light and shadow, has been stolen by the rogue sorcerer **Malrek**. Without it, darkness spreads across the realm.
+
+The player assumes the role of **Elara**, a young ranger gifted with the Sight, who must retrieve the Crystal before the next eclipse, or the land will fall into eternal night.
+
+### Initial State
+- Elara is in the village of **Thandor**.
+- The **Crystal** is located in **Malrek's Tower**.
+- The path to the tower is blocked by a **collapsed bridge** and a **dark forest** haunted by cursed spirits.
+- Elara has a **bow** but lacks the **light amulet** required to pass safely through the forest.
+
+### Goal
+- Retrieve the **Crystal of Ithar** and return it to **Thandor** before the eclipse.
+
+### Obstacles
+- Bridge must be rebuilt using wood from the forest.
+- Spirits must be banished with the **light amulet**, found in the **Abandoned Temple**.
+- Malrek must be defeated in his tower using a strategy that weakens his power.
+
+### World Context
+Ithar is a land of magic, ruins, and ancient temples. Powerful artifacts are hidden across the land, often protected by magical wards or guardians. Elara’s journey will require exploring, forging alliances, solving puzzles, and surviving dark forces.
+
+---
+
+## Branching Factor
+
+- **Minimum Actions per State:** 2  
+- **Maximum Actions per State:** 4
+
+---
+
+## Depth Constraints
+
+- **Minimum Steps to Goal:** 7  
+- **Maximum Steps to Goal:** 14
+
+---

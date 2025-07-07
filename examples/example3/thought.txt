@@ -1,0 +1,49 @@
+1. **Initial state** (plan must be 5–10 steps long with 2–4 actions available per state)  
+   - Elara is at **Thandor**  
+   - Elara has a **bow** (but no light amulet yet)  
+   - **Crystal_of_Ithar** is at **Malreks_Tower**  
+   - The bridge at **Collapsed_Bridge** is down  
+   - Spirits in **Dark_Forest** are active  
+   - **Light_Amulet** is at **Abandoned_Temple**  
+
+2. **Goal** (must still respect the 5–10 depth and 2–4 branching constraints)  
+   - `(has elara crystal_of_ithar)`  
+   - `(at elara thandor)`  
+
+3. **Obstacles** (always ensure constraints are respected before and after defining actions)  
+   - **Collapsed Bridge** → requires collecting wood (`gather-wood`) + `rebuild-bridge`  
+   - **Cursed Spirits** → requires `light_amulet` + `banish-spirits`  
+   - **Malrek** → must `defeat-malrek` after the bridge is rebuilt and spirits are banished  
+
+4. **Types & Predicates** (operators must enable reaching goal within ≤10 steps)  
+   - **Types**: `character`, `location`, `item`  
+   - **Predicates**:  
+     - `(at ?c - character ?l - location)`  
+     - `(connected ?from - location ?to - location)`  
+     - `(has ?c - character ?i - item)`  
+     - `(item-at ?i - item ?l - location)`  
+     - `(wood_collected)`  
+     - `(bridge_rebuilt)`  
+     - `(spirits_banished)`  
+     - `(malrek_defeated)`  
+
+5. **Specific actions** (always verify 2–4 options per state and total steps ≤10)  
+   - `move`: move along any connected path  
+   - `find-amulet`: retrieve **light_amulet** at the temple  
+   - `banish-spirits`: banish spirits using the amulet  
+   - `gather-wood`: collect wood in the forest (after banishing)  
+   - `rebuild-bridge`: rebuild the bridge using collected wood  
+   - `defeat-malrek`: at the tower, defeat Malrek **and** retrieve the crystal  
+   - `return-to-thandor`: instantly return to Thandor with the crystal  
+
+6. **Assemble PDDL & expected valid plan (10 steps)**  
+   1. `move` Thandor → Abandoned_Temple  
+   2. `find-amulet`  
+   3. `move` Abandoned_Temple → Dark_Forest  
+   4. `banish-spirits`  
+   5. `gather-wood`  
+   6. `move` Dark_Forest → Collapsed_Bridge  
+   7. `rebuild-bridge`  
+   8. `move` Collapsed_Bridge → Malreks_Tower  
+   9. `defeat-malrek`  
+   10. `return-to-thandor`  

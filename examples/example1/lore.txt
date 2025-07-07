@@ -1,0 +1,32 @@
+# Lore Document: The Lost Artifact
+
+## Quest Description
+In the desert kingdom of Zahara, rumors speak of an ancient artifact buried beneath the sands—a jeweled scarab said to grant its bearer control over the winds. A daring explorer must uncover the scarab before a rival treasure hunter does, and escape the desert with the artifact intact.
+
+## Initial State
+– Explorer “Arya” is at OasisVillage.  
+– Arya carries MapFragmentA.  
+– Sandstorm is inactive.  
+– GuardianStatue at Ruins is dormant.  
+– RivalHunter “Kharun” is at CaravanCamp, unarmed.
+
+## Goal
+– Arya possesses JeweledScarab.  
+– Arya is at OasisVillage.
+
+## Obstacles
+1. **Sandstorm**: may activate when crossing the dunes, preventing travel.  
+2. **GuardianStatue**: awakens in the Ruins and blocks access to the burial chamber.  
+3. **RivalHunter**: if encountered unprepared, will steal MapFragmentA.
+
+## Branching Factor
+Min: 2 actions per state  
+Max: 3 actions per state
+
+## Depth Constraints
+Min steps: 5  
+Max steps: 8
+
+## World Background
+The people of Zahara revere the scarab as a symbol of renewal. Legends tell that only someone pure of heart can wield its power; otherwise, the bearer is cursed. The desert holds hidden dangers: quicksand pits, ancient traps in the Ruins, and shifting sands that alter landmarks.  
+

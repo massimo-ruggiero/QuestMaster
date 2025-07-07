@@ -1,0 +1,44 @@
+1. Initial state (remember: plan must be 5–7 steps long with 2–4 choices per state):  
+   - Adventurer is at ThalaraHarbor on the dive vessel  
+   - Sea is stormy and underwater visibility is poor (model as `stormy-sea` / `poor-visibility`)  
+   - GuardianEels are at Sanctum (`creature-at guardian-eels sanctum`)  
+   - (If we include gear) adventurer has StabilizerGear  
+
+2. Goal (still under 5–7 depth and 2–4 branching constraints):  
+   - `(relic-secured)`  
+   - `(safe-on-surface)`  
+
+3. Obstacles (always check constraints before adding each action):  
+   - **Coral Chasm currents** → need `deploy-stabilizer` or `swim-skillfully` to clear  
+   - **Collapsed Passage** → options: `clear-rubble`, `find-alternate-tunnel`, `set-explosives`  
+   - **Guardian Eels** → options: `lure-eels`, `sneak-past-eels`, `fight-eels`  
+
+4. Types & Predicates (ensure operators let us hit goal within 7 steps):  
+   - Types: `location`, `gear`, `creature`, `obstacle`  
+   - Predicates:  
+     - `(at ?l - location)`  
+     - `(has-gear ?g - gear)`  
+     - `(creature-at ?c - creature ?l - location)`  
+     - `(cleared ?o - obstacle)`, `(bypassed ?o - obstacle)`  
+     - `(distracted ?c - creature)`  
+     - `(relic-secured)`, `(safe-on-surface)`  
+     - `(path-open ?from - location ?to - location)`  
+     - `(visited ?l - location)`  
+
+5. Specific actions (after each, reconfirm 2–4 options per state and total ≤7 steps):  
+   - `enter-location`: move between connected locations if `path-open` → move + `visited` (1 step)  
+     - *Reminder*: this counts toward max 7 steps and must leave 2–4 possible moves  
+   - `deploy-stabilizer` / `swim-skillfully`: clear Coral Chasm currents (1 step)  
+     - *Check*: still have enough steps left to navigate temple and surface  
+   - `clear-rubble` / `find-alternate-tunnel` / `set-explosives`: handle collapsed passage (1 step)  
+     - *Verify*: branching factor—3 options here—and plan depth remains ≤7  
+   - `lure-eels` / `sneak-past-eels` / `fight-eels`: distract or bypass Guardian Eels (1 step)  
+     - *Ensure*: up to 3 choices, depth constraint still satisfiable  
+   - `retrieve-relic`: at Sanctum with `distracted guardian-eels` → set `relic-secured` (1 step)  
+     - *Note*: after this, must still surface within remaining steps  
+   - `surface`: at surface location with `relic-secured` → set `safe-on-surface` (1 step)  
+     - *Final check*: total actions ≥5 and ≤7, and at each state 2–4 possible actions  
+
+6. Assemble PDDL:  
+   - **Domain**: include `:requirements`, `:types`, `:predicates`, and all above actions  
+   - **Problem**: list `:objects`, full `:init` (locations, gear, creature positions, `path-open` facts), and `:goal` conjunction  
