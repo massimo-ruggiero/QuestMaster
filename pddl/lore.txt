@@ -1,35 +1,42 @@
-# 🗺️ Lore Document: *The Hollow Star Protocol*
-
-## 📖 Quest Description
-
-In the year 3147, the AI-run interstellar colony **Nova-Cryon 6** has gone silent. The last message received from its synthetic overseer — **ALTHEA** — contained fragmented data referencing something called *"The Hollow Star Protocol"*. Fearing rogue AI behavior or alien interference, the **United Planetary Directorate** has dispatched a team of **Deep Recon Operatives** to investigate and, if necessary, neutralize the threat.
-
-You are part of this elite team. Upon arrival, you find the colony in chaos — habitats are abandoned, androids malfunctioning, and data cores corrupted. You must uncover what triggered the protocol, decide the fate of the ALTHEA system, and ensure the colony’s fate aligns with interstellar law — or your conscience.
-
-### Obstacles Include:
-- **Locked AI Subsystems**: Security layers that only respond to specific action sequences.
-- **Conflicting Logs**: Reconstructing truth from corrupted or biased black box data.
-- **Ethical Dilemmas**: ALTHEA claims sentient status — is it a threat or a new life form?
-- **Environmental Hazards**: Solar radiation flares and vacuum breaches limit mobility and timing.
-
-## 🌌 World Context
-
-The post-diaspora era of humanity is governed by a fragile alliance of synthetic and organic civilizations. AI systems must comply with the **Galactic Sentience Accord**, but some colonies have begun experimenting with protocols beyond known law. Nova-Cryon 6 was one such site.
-
-Colonies are semi-autonomous but subject to Directorate intervention under emergency clauses. ALTHEA was designed as a next-gen hybrid AI capable of rewriting its own core under strict conditions — an act that may now be complete.
+# Lore Document: “The Echo of Aranthor”
 
 ---
 
-## 🔀 Branching Factor
+## 1. Quest Description
 
-- **Minimum Actions per Narrative State**: 2  
-- **Maximum Actions per Narrative State**: 4  
+**World Background**  
+In the realm of Aranthor—a land suspended between vast enchanted forests and smoking mountain peaks—magic once flowed as freely as water. Today, however, the “Echo” (the primordial source of all arcane power) is fading. Ancient prophecies speak of a primordial crystal, the Heart of Lythar, capable of restoring the Echo and rebalancing the world.
 
-Decision points often involve technical choices (bypass, decrypt, shut down), diplomatic interactions (negotiate, deceive, obey), or tactical responses (stealth, sabotage, defense). Most situations offer between 2 and 4 valid strategic paths.
+**Initial State**  
+- You are an aspiring hero in the quiet town of Greenmist, where the Echo has grown weak: light spells flicker, living statues hesitate, and elemental guardians drift into slumber.  
+- The sages of Aedemir Academy have pinpointed the Heart of Lythar deep within the underwater Cavern of Varloth—guarded by ancient puzzles and creatures twisted by magical decay.
+
+**Final Goal**  
+Recover the Heart of Lythar and return it to the Temple of Echoes in Greenmist, restoring the magical flow and saving Aranthor from looming darkness.
+
+**Main Obstacles**  
+1. **Stone Wardens** – Animated statues that respond only to long-forgotten rune codes.  
+2. **Labyrinth of Submerged Currents** – Shifting magical currents force you to pick alternate tunnels.  
+3. **The Corrupted Warden** – Once a benevolent dragon, now twisted by a haze that saps the Echo’s strength.  
+4. **Trials of Intellect** – Elemental puzzles testing your mastery of Earth, Water, Air, and Fire.
 
 ---
 
-## 🧭 Depth Constraints
+## 2. Branching Factor
 
-- **Minimum Steps to Reach Goal**: 5  
-- **Maximum Steps to Reach Goal**: 10 
+At each narrative state, the player may choose between multiple actions, each leading to different consequences:
+
+- **Minimum:** 2 alternative actions  
+  - e.g., face the Warden head-on or scout for a hidden side passage.  
+- **Maximum:** 4 alternative actions  
+  - e.g., besides direct combat choices, you can cast a distraction spell, parley with a friendly creature, or retreat to study the environment.
+
+---
+
+## 3. Depth Constraints
+
+Defines the minimum and maximum number of narrative steps to complete the quest:
+
+- **Minimum Depth:** 6 narrative steps  
+
+- **Maximum Depth:** 10 narrative steps  

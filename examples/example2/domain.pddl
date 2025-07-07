@@ -23,7 +23,6 @@
     (visited ?l - location)
   )
 
-  ;; 1. Embark on the dive vessel
   (:action embark
     :parameters ()
     :precondition (and
@@ -37,7 +36,6 @@
     )
   )
 
-  ;; 2. Clear the Coral Chasm currents
   (:action deploy-stabilizer
     :parameters ()
     :precondition (and
@@ -48,7 +46,6 @@
     :effect (cleared coral-currents)
   )
 
-  ;; 3. Enter the Coral Chasm
   (:action enter-chasm
     :parameters ()
     :precondition (and
@@ -63,7 +60,6 @@
     )
   )
 
-  ;; 4. Traverse the Eastern Hall
   (:action traverse-hall
     :parameters ()
     :precondition (and
@@ -77,7 +73,6 @@
     )
   )
 
-  ;; 5. Clear the Collapsed Passage
   (:action clear-rubble
     :parameters ()
     :precondition (and
@@ -87,7 +82,6 @@
     :effect (cleared collapsed-passage)
   )
 
-  ;; 6. Enter the Sanctum
   (:action enter-sanctum
     :parameters ()
     :precondition (and
@@ -102,7 +96,6 @@
     )
   )
 
-  ;; 7. Deal with the Guardian Eels
   (:action fight-eels
     :parameters ()
     :precondition (and
@@ -113,7 +106,6 @@
     :effect (distracted guardian-eels)
   )
 
-  ;; 8. Retrieve the relic
   (:action retrieve-relic
     :parameters ()
     :precondition (and
@@ -124,7 +116,6 @@
     :effect (relic-secured)
   )
 
-  ;; 9. Surface safely
   (:action surface
     :parameters ()
     :precondition (and

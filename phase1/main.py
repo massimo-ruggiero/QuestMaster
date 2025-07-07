@@ -24,25 +24,22 @@ VALIDATOR_HUMAN_TMPL  = templates['reflective']['validator']['human']
 
 
 def main():
-    lore_agent = LoreAgent(system_template=LORE_SYSTEM_TMPL, 
-                           human_template=LORE_HUMAN_TMPL, 
-                           model="gpt-4.1-nano")
-    lore_agent.generate_lore()
+    #lore_agent = LoreAgent(system_template=LORE_SYSTEM_TMPL, 
+    #                       human_template=LORE_HUMAN_TMPL, 
+    #                       model="gpt-4.1-nano")
+    #lore_agent.generate_lore()
 
-    pddl_agent = PDDLAgent(system_template=PDDL_SYSTEM_TMPL, 
-                           human_template=PDDL_HUMAN_TMPL, 
-                           model="gemini-2.5-pro")
-    pddl_agent.generate_pddl()
+    #pddl_agent = PDDLAgent(system_template=PDDL_SYSTEM_TMPL, 
+    #                       human_template=PDDL_HUMAN_TMPL, 
+    #                       model="gemini-2.5-pro")
+    #pddl_agent.generate_pddl()
 
     reflective_agent = ReflectiveAgent(planner_system_template=PLANNER_SYSTEM_TMPL,
                                        planner_human_template=PLANNER_HUMAN_TMPL,
                                        validator_system_template=VALIDATOR_SYSTEM_TMPL,
                                        validator_human_template=VALIDATOR_HUMAN_TMPL,
                                        model="gpt-4.1-nano")
-
-    #TODO: ogni volta che sistemiamo gli errori del validator (modificando i file) il piano va RIGENERATO.
-    reflective_agent.correct_planner_errors(max_retries=20)
-    reflective_agent.correct_validator_errors(max_retries=20)
+    reflective_agent.check_and_fix_errors(max_retries_planner=10, max_retries_validator=5)
 
 if __name__ == "__main__":
     main()

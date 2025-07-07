@@ -1,16 +1,12 @@
 (define (domain ithar-quest)
   (:requirements :strips :typing :negative-preconditions)
-
-  ;;------------------ TYPES ------------------
   (:types character location item)
 
-  ;;---------------- CONSTANTS ----------------
   (:constants
      thandor abandoned_temple dark_forest
      collapsed_bridge malreks_tower            - location
      bow light_amulet crystal_of_ithar         - item)
 
-  ;;---------------- PREDICATES ---------------
   (:predicates
     (at ?c - character ?l - location)
     (connected ?from - location ?to - location)
@@ -22,7 +18,6 @@
     (malrek_defeated)
   )
 
-  ;;---------------- ACTIONS ------------------
   (:action move
     :parameters (?p - character ?from - location ?to - location)
     :precondition (and (at ?p ?from) (connected ?from ?to))

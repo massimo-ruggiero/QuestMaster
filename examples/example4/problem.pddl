@@ -11,13 +11,11 @@
   (:init
     (at seeker elarion)
 
-    ; Path layout
     (path-exists elarion fractured-court)
     (path-exists fractured-court elarion)
     (path-exists fractured-court ashspire-mountains)
     (path-exists ashspire-mountains fractured-court)
 
-    ; Obstacles and their locations
     (faction-is-at fractured-nobles fractured-court)
     (negotiations-possible fractured-nobles)
 

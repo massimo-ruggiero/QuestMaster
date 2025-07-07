@@ -1,6 +1,0 @@
-(reconstruct-data recon-team blackbox-logs landing-zone)
-(bypass-security-subsystem recon-team security-controls blackbox-logs landing-zone)
-(query-althea-core recon-team security-controls landing-zone)
-(judge-as-sentient recon-team landing-zone)
-(register-sentience recon-team landing-zone)
-; cost = 5 (unit cost)

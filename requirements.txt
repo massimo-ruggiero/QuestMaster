@@ -2,3 +2,4 @@ langchain
 langchain-openai
 pyyaml
 langchain-google-genai
+langgraph
