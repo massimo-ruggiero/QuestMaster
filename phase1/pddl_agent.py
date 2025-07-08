@@ -13,7 +13,7 @@ class PDDLAgent():
 
 
     def generate_pddl(self, lore_document_path: str = "pddl/lore.txt", pddl_path: str = "pddl"):
-        lore_document = load_lore(lore_document_path)
+        lore_document = read_file(lore_document_path)
         prompt = ChatPromptTemplate.from_messages([
             SystemMessagePromptTemplate.from_template(self.system_template),
             HumanMessagePromptTemplate.from_template(self.human_template),

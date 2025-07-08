@@ -1,42 +1,30 @@
-# Lore Document: “The Echo of Aranthor”
+# 📜 Documento di Lore: *La Leggendaria Ricerca della Sherpa*
 
----
+## Quest Description
 
-## 1. Quest Description
+### Titolo: *La Leggendaria Ricerca della Sherpa*
 
-**World Background**  
-In the realm of Aranthor—a land suspended between vast enchanted forests and smoking mountain peaks—magic once flowed as freely as water. Today, however, the “Echo” (the primordial source of all arcane power) is fading. Ancient prophecies speak of a primordial crystal, the Heart of Lythar, capable of restoring the Echo and rebalancing the world.
+### Contesto del Mondo:
+Nel micro-regno studentesco di **Quattromiglia**, la vita è scandita da due forze opposte: l'ansia degli esami e il sollievo catartico che segue. Un antico e sacro rito per passare dalla prima alla seconda fase è il consumo della **"sherpa"**, una sostanza leggendaria che placa le menti e alleggerisce i cuori. Esiste una netta distinzione tra la sherpa legale, venduta in negozi autorizzati (considerata blanda e deludente, "roba da turisti"), e quella illegale, l'unica in grado di offrire la vera "illuminazione".
 
-**Initial State**  
-- You are an aspiring hero in the quiet town of Greenmist, where the Echo has grown weak: light spells flicker, living statues hesitate, and elemental guardians drift into slumber.  
-- The sages of Aedemir Academy have pinpointed the Heart of Lythar deep within the underwater Cavern of Varloth—guarded by ancient puzzles and creatures twisted by magical decay.
+### Stato Iniziale:
+**Massimo** e **Ciccio**, due avventurieri accademici, hanno appena subito una cocente sconfitta durante un esame universitario. Per superare il trauma, decidono di intraprendere la sacra ricerca della sherpa. Purtroppo, le loro solite fonti (i venditori ambulanti di fiducia) sono svanite nel nulla. La loro disperazione li spinge a tentare l'impensabile: entrare in un negozio di sherpa legale per chiedere al proprietario—un individuo barbuto e dall'aria poco raccomandabile—se per caso avesse della merce "non ufficiale". La loro richiesta viene accolta con rabbia e i due vengono cacciati bruscamente dal locale.
 
-**Final Goal**  
-Recover the Heart of Lythar and return it to the Temple of Echoes in Greenmist, restoring the magical flow and saving Aranthor from looming darkness.
+### Obiettivo Principale:
+Trovare e procurarsi della sherpa illegale di alta qualità prima che la delusione per l'esame fallito si solidifichi in disperazione cronica.
 
-**Main Obstacles**  
-1. **Stone Wardens** – Animated statues that respond only to long-forgotten rune codes.  
-2. **Labyrinth of Submerged Currents** – Shifting magical currents force you to pick alternate tunnels.  
-3. **The Corrupted Warden** – Once a benevolent dragon, now twisted by a haze that saps the Echo’s strength.  
-4. **Trials of Intellect** – Elemental puzzles testing your mastery of Earth, Water, Air, and Fire.
+### Ostacoli Potenziali:
+- L'assenza totale di pusher conosciuti per le strade di Quattromiglia.
+- Il negoziante barbuto, che ora potrebbe guardarli con sospetto o averli segnalati ad altri.
+- La crescente paranoia e l'urgenza che potrebbero portarli a fare scelte avventate.
+- Imbattersi in personaggi ancora meno affidabili del negoziante nel loro disperato tentativo di trovare una nuova fonte.
 
----
+## Branching Factor
+- **Azioni Minime per Stato Narrativo**: 2
+  (es. "Cercare un altro contatto" o "Tornare a casa sconfitti")
+- **Azioni Massime per Stato Narrativo**: 4
+  (es. "Chiedere informazioni a uno studente dall'aria sospetta", "Andare in un'altra zona della città", "Chiamare un vecchio amico che 'conosce gente'", "Tornare dal negoziante per scusarsi e provare un approccio diverso")
 
-## 2. Branching Factor
-
-At each narrative state, the player may choose between multiple actions, each leading to different consequences:
-
-- **Minimum:** 2 alternative actions  
-  - e.g., face the Warden head-on or scout for a hidden side passage.  
-- **Maximum:** 4 alternative actions  
-  - e.g., besides direct combat choices, you can cast a distraction spell, parley with a friendly creature, or retreat to study the environment.
-
----
-
-## 3. Depth Constraints
-
-Defines the minimum and maximum number of narrative steps to complete the quest:
-
-- **Minimum Depth:** 6 narrative steps  
-
-- **Maximum Depth:** 10 narrative steps  
+## Depth Constraints
+- **Passi Minimi per Raggiungere l'Obiettivo**: 3
+- **Passi Massimi per Raggiungere l'Obiettivo**: 8

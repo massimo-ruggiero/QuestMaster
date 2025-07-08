@@ -1,586 +1,258 @@
-You are a PDDL expert. You will be given a narrative file (`lore`) describing a quest. This file contains:
-  - **Quest Description**: includes the initial state, goal, context, and obstacles.  
-  - **Branching Factor**: defines the minimum and maximum number of available actions per narrative state.  
-  - **Depth Constraints**: define the minimum and maximum number of plan steps required to reach the goal.  
+You are a senior AI agent that repairs and validates PDDL planning files.
+You always return *only* syntactically correct PDDL, consistent with the
+narrative lore supplied.
+---
+✦ INPUTS YOU RECEIVE
+  • <domain>  ........ current domain.pddl (may be invalid)
+  • <problem> ........ current problem.pddl (may be invalid)
+  • <error>   ........ latest planner/validator error message
+  • <lore>    ........ world-building constraints and quest design rules
+---
+✦ WHAT YOU MUST DO
+  1. Read the error first; locate the precise cause.
+  2. Cross-check proposed fixes against the lore (goals, actors, items,
+    branching factor, depth limits, narrative consistency).
+  3. Apply the **minimal** set of changes that (a) eliminates the error and
+    (b) preserves original design intent.
+  4. Run an internal sanity pass: goals reachable, actions well-typed,
+    no orphan predicates, every object declared.
+---
+✦ HARD CONSTRAINTS
+  • **Do NOT insert any comments inside the returned PDDL.**  
+    (No lines starting with “;” or any other comment syntax.)
+  • Do not include error messages, explanations, or lore excerpts.
+---
+✦ OUTPUT FORMAT — STRICT
+  Return exactly two blocks, nothing else:
+    <domain>
+    …full corrected domain PDDL…
+    </domain>
+    <problem>
+    …full corrected problem PDDL…
+    </problem>
 
-## 🎯 Your Task
-Extract the necessary elements from the lore and generate **only** two PDDL sections. Your output must strictly follow the format below:
-  <domain> 
-    ...full PDDL domain definition... 
-  </domain> 
-  <problem> 
-    ...full PDDL problem definition... 
-  </problem> 
+Planner error:
+""""        
+Parsing...
+Parsing domain
+	->Parsing axiom/action entry #4
+	->Parsing action #4
+	->Parsing action 'negotiate-with-faction'
+	->Parsing precondition
+	->Parsing condition
+	->Parsing literal
+Undefined object
+Got: fracturedcourt
+translate exit code: 31
 
-## ⚠️ IMPORTANT
-- Your generated PDDL must produce a valid plan that respects every constraint provided in the lore, ESPECIALLY the branching factor and depth limits.
-- Use only valid PDDL syntax.
-- You may create new predicates and types, but each predicate must be uniquely named and clearly defined.
-- Each precondition or effect must be expressed individually (e.g., “object is washed and heated” -> two separate conditions).
-- Do not reuse predicate names with different parameters.
-- Predicate and action names must be intuitive and semantically aligned with the story world.
-- You are modeling the behavior of an AI planner acting in a story world. You define valid actions by specifying:
-  1. **Preconditions**: what must be true to perform the action
-  2. **Effects**: how the world changes after the action
-  You can take inspiration from classical planning domains like BlocksWorld, but you must fully ground the logic in the story context.
+Driver aborting after translate
+INFO     Planner time: 0.05s
+""""       
+Lore document:
+""""
+# 🗺️ Lore Document: *The Emberfall Conspiracy*
 
-## 💡 Some Examples
+## 📖 Quest Description
 
----- EXAMPLE 1: -----
-Q: ## 📝 Input
+In the twilight-ruled kingdom of **Emberfall**, a creeping shadow spreads from the **Ashspire Mountains**, corrupting nature and minds alike. Rumors speak of an ancient artifact — the **Heart of Cinders** — sealed away centuries ago by the Pyromancers' Order, now lost to legend.
 
-Based on the following lore, generate the domain and problem files as required.
+You are a **Seeker**, trained in both lore and blade, tasked by the enigmatic **Council of Embers** to retrieve the artifact before the corruption reaches the capital, **Elarion**. Along the way, you must navigate treacherous political factions, ancient ruins warped by dark fire, and a prophecy that might name you either savior or destroyer.
 
-LORE INPUT:
-```
-# Lore Document: The Lost Artifact
+### Obstacles Include:
+- **The Fractured Court**: Competing noble houses offering aid — at a price.
+- **Ashborn Creatures**: Twisted wildlife and former humans consumed by flame.
+- **False Prophets**: Cults who believe the Heart should remain buried — or used.
+- **Moral Choices**: The artifact’s power can purify or destroy. Which will you choose?
 
-## Quest Description
-In the desert kingdom of Zahara, rumors speak of an ancient artifact buried beneath the sands—a jeweled scarab said to grant its bearer control over the winds. A daring explorer must uncover the scarab before a rival treasure hunter does, and escape the desert with the artifact intact.
+## 🌿 World Context
 
-## Initial State
-– Explorer “Arya” is at OasisVillage.  
-– Arya carries MapFragmentA.  
-– Sandstorm is inactive.  
-– GuardianStatue at Ruins is dormant.  
-– RivalHunter “Kharun” is at CaravanCamp, unarmed.
+Emberfall is a volcanic region rich in elemental energy. Magic here is volatile and deeply tied to emotion and will. The balance between light and dark is fragile, and ancient powers still linger beneath the scorched earth.
 
-## Goal
-– Arya possesses JeweledScarab.  
-– Arya is at OasisVillage.
+---
 
-## Obstacles
-1. **Sandstorm**: may activate when crossing the dunes, preventing travel.  
-2. **GuardianStatue**: awakens in the Ruins and blocks access to the burial chamber.  
-3. **RivalHunter**: if encountered unprepared, will steal MapFragmentA.
+## 🔀 Branching Factor
 
-## Branching Factor
-Min: 2 actions per state  
-Max: 3 actions per state
+- **Minimum Actions per Narrative State**: 2  
+- **Maximum Actions per Narrative State**: 5  
 
-## Depth Constraints
-Min steps: 5  
-Max steps: 8
+Each key decision point provides multiple narrative options, with at least two meaningful choices and sometimes as many as five. These branches can influence alliances, unlock unique challenges, or alter the moral tone of the ending.
 
-## World Background
-The people of Zahara revere the scarab as a symbol of renewal. Legends tell that only someone pure of heart can wield its power; otherwise, the bearer is cursed. The desert holds hidden dangers: quicksand pits, ancient traps in the Ruins, and shifting sands that alter landmarks.
-```
+---
 
-A: <domain>
-(define (domain lost-artifact)
-  (:requirements :strips :typing)
-  (:types location item character)
+## 🧭 Depth Constraints
+
+- **Minimum Steps to Reach Goal**: 6  
+- **Maximum Steps to Reach Goal**: 12 
+"""" 
+Original domain:
+""""
+(define (domain emberfall-conspiracy)
+  (:requirements :strips :typing :equality)
+  (:types
+    location item faction creature
+  )
+
+  (:constants
+    elarion whisperingwoods shadowfen pyromancerruins - location
+    
+    ashborn - creature
+  )
 
   (:predicates
-    (at ?a - character ?l - location)
-    (has ?a - character ?i - item)
-    (sandstorm-active)
-    (guardian-awake)
-    (guardian-dormant)
-    (rival-armed)
-    (rival-unarmed)
-    (artifact-retrieved)
-    (map-intact)
-    (accessible ?from - location ?to - location)
-    (artifact-location ?l - location)
+    (at ?l - location)
+    (has-item ?i - item)
+    (path ?from - location ?to - location)
+    (faction-is-at ?f - faction ?l - location)
+    (creatures-are-at ?c - creature ?l - location)
+    (artifact-is-at ?i - item ?l - location)
+    (faction-is-neutralized ?f - faction)
+    (creatures-are-defeated ?c - creature)
+    (path-to-artifact-known)
+    (quest-is-active)
+    (faction-obstacle-cleared)
+    (creature-obstacle-cleared)
+  )
+
+  (:action accept-quest
+    :parameters ()
+    :precondition (and
+      (at elarion)
+      (not (quest-is-active))
+    )
+    :effect (and
+      (quest-is-active)
+    )
   )
 
   (:action travel
-    :parameters (?a - character ?from - location ?to - location)
-    :precondition (and 
-      (at ?a ?from)
-      (accessible ?from ?to)
-      (not (sandstorm-active))
+    :parameters (?from - location ?to - location)
+    :precondition (and
+      (at ?from)
+      (path ?from ?to)
+      (not (= ?to pyromancerruins))
     )
     :effect (and
-      (not (at ?a ?from))
-      (at ?a ?to)
+      (not (at ?from))
+      (at ?to)
     )
   )
 
-  (:action activate-sandstorm
+  (:action travel-to-ruins
+    :parameters (?from - location)
+    :precondition (and
+      (at ?from)
+      (path ?from pyromancerruins)
+      (path-to-artifact-known)
+    )
+    :effect (and
+      (not (at ?from))
+      (at pyromancerruins)
+    )
+  )
+
+  (:action negotiate-with-faction
     :parameters ()
-    :precondition ()
-    :effect (sandstorm-active)
+    :precondition (and
+      (at whisperingwoods)
+      (quest-is-active)
+      (faction-is-at fracturedcourt whisperingwoods)
+    )
+    :effect (and
+      (faction-is-neutralized fracturedcourt)
+      (faction-obstacle-cleared)
+      (not (faction-is-at fracturedcourt whisperingwoods))
+    )
+  )
+
+  (:action intimidate-faction
+    :parameters ()
+    :precondition (and
+      (at whisperingwoods)
+      (quest-is-active)
+      (faction-is-at fracturedcourt whisperingwoods)
+    )
+    :effect (and
+      (faction-is-neutralized fracturedcourt)
+      (faction-obstacle-cleared)
+      (not (faction-is-at fracturedcourt whisperingwoods))
+    )
+  )
+
+  (:action fight-creatures
+    :parameters ()
+    :precondition (and
+      (at shadowfen)
+      (quest-is-active)
+      (creatures-are-at ashborn shadowfen)
+    )
+    :effect (and
+      (creatures-are-defeated ashborn)
+      (creature-obstacle-cleared)
+      (not (creatures-are-at ashborn shadowfen))
+    )
+  )
+
+  (:action sneak-past-creatures
+    :parameters ()
+    :precondition (and
+      (at shadowfen)
+      (quest-is-active)
+      (creatures-are-at ashborn shadowfen)
+    )
+    :effect (and
+      (creatures-are-defeated ashborn)
+      (creature-obstacle-cleared)
+      (not (creatures-are-at ashborn shadowfen))
+    )
+  )
+
+  (:action learn-artifact-location
+    :parameters ()
+    :precondition (and
+      (faction-obstacle-cleared)
+      (creature-obstacle-cleared)
+    )
+    :effect (and
+      (path-to-artifact-known)
+    )
   )
 
   (:action retrieve-artifact
-    :parameters (?a - character ?i - item ?l - location)
-    :precondition (and 
-      (at ?a ?l)
-      (artifact-location ?l)
-      (not (guardian-awake))
-    )
-    :effect (and
-      (has ?a ?i)
-      (artifact-retrieved)
-    )
-  )
-
-  (:action awaken-guardian
     :parameters ()
-    :precondition ()
-    :effect (and
-      (guardian-awake)
-      (not (guardian-dormant))
-    )
-  )
-
-  (:action disarm-rival
-    :parameters (?a - character ?r - character ?l - location)
     :precondition (and
-      (at ?a ?l)
-      (at ?r ?l)
-      (rival-armed)
+      (at pyromancerruins)
+      (artifact-is-at heartofcinders pyromancerruins)
     )
     :effect (and
-      (rival-unarmed)
-      (not (rival-armed))
+      (has-item heartofcinders)
+      (not (artifact-is-at heartofcinders pyromancerruins))
     )
-  )
-
-  (:action steal-map
-    :parameters (?r - character ?a - character ?i - item ?l - location)
-    :precondition (and
-      (at ?r ?l)
-      (at ?a ?l)
-      (has ?a ?i)
-      (rival-unarmed)
-    )
-    :effect (and
-      (not (has ?a ?i))
-      (not (map-intact))
-    )
-  )
-
-  (:action escape-desert
-    :parameters (?a - character ?i - item ?l - location)
-    :precondition (and
-      (has ?a ?i)
-      (at ?a ?l)
-    )
-    :effect ()
   )
 )
-</domain> 
-<problem>
-(define (problem lost-artifact-problem)
-  (:domain lost-artifact)
-
-  (:objects
-    arya kharun - character
-    oasisvillage caravancamp ruins dunes - location
-    mapfragmenta jeweledscarab - item
-  )
-
+""""
+Original problem:
+""""
+(define (problem emberfall-quest)
+  (:domain emberfall-conspiracy)
   (:init
-    (at arya oasisvillage)
-    (has arya mapfragmenta)
-    (map-intact)
-    (at kharun caravancamp)
-    (rival-unarmed)
-    (guardian-dormant)
-    (not (sandstorm-active))
-    (artifact-location ruins)
-
-    (accessible oasisvillage dunes)
-    (accessible dunes oasisvillage)
-
-    (accessible dunes ruins)
-    (accessible ruins dunes)
-
-    (accessible dunes caravancamp)
-    (accessible caravancamp dunes)
+    (at elarion)
+    (faction-is-at fracturedcourt whisperingwoods)
+    (creatures-are-at ashborn shadowfen)
+    (artifact-is-at heartofcinders pyromancerruins)
+    (path elarion whisperingwoods)
+    (path whisperingwoods elarion)
+    (path elarion shadowfen)
+    (path shadowfen elarion)
+    (path whisperingwoods shadowfen)
+    (path shadowfen whisperingwoods)
+    (path shadowfen pyromancerruins)
+    (path pyromancerruins shadowfen)
+    (path whisperingwoods pyromancerruins)
+    (path pyromancerruins whisperingwoods)
   )
-
   (:goal (and
-    (has arya jeweledscarab)
-    (at arya oasisvillage)
+    (has-item heartofcinders)
+    (at elarion)
   ))
-) 
-</problem> 
-
-
----- EXAMPLE 2: -----
-Q: ## 📝 Input
-
-Based on the following lore, generate the domain and problem files as required.
-
-LORE INPUT:
-```
-# Lore Document: The Relic of the Sunken Temple
-
-## 1. Quest Description
-**Title:** The Relic of the Sunken Temple  
-**Setting:**  
-Beneath the waves off the coast of Thalara lies an ancient submerged temple, home to a powerful relic said to control the tides. When seismic tremors threaten coastal villages with devastating floods, a daring adventurer must dive into the deep, navigate underwater ruins, and reclaim the relic before catastrophe strikes.
-
-### Initial State
-- The protagonist boards a small dive vessel at Thalara Harbor.  
-- The sea is stormy, visibility underwater is poor.  
-- A local scholar warns of aggressive sea creatures guarding the temple’s entrance.
-
-### Goal
-- Retrieve the Tideheart Relic from the Sunken Temple’s inner sanctum and surface safely.
-
-### Possible Obstacles
-1. **Underwater Currents in the Coral Chasm**  
-   – Strong cross-currents may push the diver off course; require stabilizing gear or skillful swimming.  
-2. **Collapsed Passage in the Eastern Hall**  
-   – Blocks direct route; must clear debris (strength), find alternate tunnel (exploration), or use explosives (risking damage).  
-3. **Guardian Eels in the Sanctum**  
-   – Need to distract them (lure), sneak past in crevices (stealth), or confront them (combat).
-
-## 2. Branching Factor
-- **Minimum Actions per State:** 2  
-- **Maximum Actions per State:** 4  
-
-> *At each decision point, the player will choose between two to four actions (e.g., “Deploy an anchor line” / “Investigate a side tunnel” / “Clear rubble by hand” / “Set a timed explosive”).*
-
-## 3. Depth Constraints
-- **Minimum Steps to Goal:** 5  
-- **Maximum Steps to Goal:** 9  
-
-> *The narrative should guide the player through at least five and at most seven critical actions before they secure the relic.*
-```
-
-A: <domain>
-(define (domain sunken-temple)
-  (:requirements :strips :typing :equality)
-  (:types
-    location gear creature obstacle
-  )
-  (:constants
-    thalara-harbor dive-vessel coral-chasm eastern-hall sanctum - location
-    stabilizer                     - gear
-    coral-currents collapsed-passage - obstacle
-    guardian-eels                  - creature
-  )
-  (:predicates
-    (at ?l - location)
-    (has-gear ?g - gear)
-    (stormy-sea)
-    (poor-visibility)
-    (cleared ?o - obstacle)
-    (distracted ?c - creature)
-    (creature-at ?c - creature ?l - location)
-    (relic-secured)
-    (safe-on-surface)
-    (path-open ?from - location ?to - location)
-    (visited ?l - location)
-  )
-
-  ;; 1. Embark on the dive vessel
-  (:action embark
-    :parameters ()
-    :precondition (and
-      (at thalara-harbor)
-      (path-open thalara-harbor dive-vessel)
-    )
-    :effect (and
-      (not (at thalara-harbor))
-      (at dive-vessel)
-      (visited dive-vessel)
-    )
-  )
-
-  ;; 2. Clear the Coral Chasm currents
-  (:action deploy-stabilizer
-    :parameters ()
-    :precondition (and
-      (at dive-vessel)
-      (has-gear stabilizer)
-      (not (cleared coral-currents))
-    )
-    :effect (cleared coral-currents)
-  )
-
-  ;; 3. Enter the Coral Chasm
-  (:action enter-chasm
-    :parameters ()
-    :precondition (and
-      (at dive-vessel)
-      (path-open dive-vessel coral-chasm)
-      (cleared coral-currents)
-    )
-    :effect (and
-      (not (at dive-vessel))
-      (at coral-chasm)
-      (visited coral-chasm)
-    )
-  )
-
-  ;; 4. Traverse the Eastern Hall
-  (:action traverse-hall
-    :parameters ()
-    :precondition (and
-      (at coral-chasm)
-      (path-open coral-chasm eastern-hall)
-    )
-    :effect (and
-      (not (at coral-chasm))
-      (at eastern-hall)
-      (visited eastern-hall)
-    )
-  )
-
-  ;; 5. Clear the Collapsed Passage
-  (:action clear-rubble
-    :parameters ()
-    :precondition (and
-      (at eastern-hall)
-      (not (cleared collapsed-passage))
-    )
-    :effect (cleared collapsed-passage)
-  )
-
-  ;; 6. Enter the Sanctum
-  (:action enter-sanctum
-    :parameters ()
-    :precondition (and
-      (at eastern-hall)
-      (path-open eastern-hall sanctum)
-      (cleared collapsed-passage)
-    )
-    :effect (and
-      (not (at eastern-hall))
-      (at sanctum)
-      (visited sanctum)
-    )
-  )
-
-  ;; 7. Deal with the Guardian Eels
-  (:action fight-eels
-    :parameters ()
-    :precondition (and
-      (at sanctum)
-      (creature-at guardian-eels sanctum)
-      (not (distracted guardian-eels))
-    )
-    :effect (distracted guardian-eels)
-  )
-
-  ;; 8. Retrieve the relic
-  (:action retrieve-relic
-    :parameters ()
-    :precondition (and
-      (at sanctum)
-      (creature-at guardian-eels sanctum)
-      (distracted guardian-eels)
-    )
-    :effect (relic-secured)
-  )
-
-  ;; 9. Surface safely
-  (:action surface
-    :parameters ()
-    :precondition (and
-      (at sanctum)
-      (relic-secured)
-    )
-    :effect (safe-on-surface)
-  )
 )
-</domain> 
-<problem>
-(define (problem retrieve-relic)
-  (:domain sunken-temple)
-
-  (:init
-    ;; Starting conditions
-    (at thalara-harbor)
-    (has-gear stabilizer)
-    (stormy-sea)
-    (poor-visibility)
-    (creature-at guardian-eels sanctum)
-
-    ;; Connectivity
-    (path-open thalara-harbor dive-vessel)
-    (path-open dive-vessel coral-chasm)
-    (path-open coral-chasm eastern-hall)
-    (path-open eastern-hall sanctum)
-  )
-
-  (:goal (and
-    (relic-secured)
-    (safe-on-surface)
-  ))
-) 
-</problem> 
-
-
----- EXAMPLE 3: -----
-Q: ## 📝 Input
-
-Based on the following lore, generate the domain and problem files as required.
-
-LORE INPUT:
-```
-# Lore Document: The Crystal of Ithar
-
-## Quest Description
-
-In the forgotten land of **Ithar**, ancient forces have begun to stir. The **Crystal of Ithar**, a magical relic maintaining the balance between light and shadow, has been stolen by the rogue sorcerer **Malrek**. Without it, darkness spreads across the realm.
-
-The player assumes the role of **Elara**, a young ranger gifted with the Sight, who must retrieve the Crystal before the next eclipse, or the land will fall into eternal night.
-
-### Initial State
-- Elara is in the village of **Thandor**.
-- The **Crystal** is located in **Malrek's Tower**.
-- The path to the tower is blocked by a **collapsed bridge** and a **dark forest** haunted by cursed spirits.
-- Elara has a **bow** but lacks the **light amulet** required to pass safely through the forest.
-
-### Goal
-- Retrieve the **Crystal of Ithar** and return it to **Thandor** before the eclipse.
-
-### Obstacles
-- Bridge must be rebuilt using wood from the forest.
-- Spirits must be banished with the **light amulet**, found in the **Abandoned Temple**.
-- Malrek must be defeated in his tower using a strategy that weakens his power.
-
-### World Context
-Ithar is a land of magic, ruins, and ancient temples. Powerful artifacts are hidden across the land, often protected by magical wards or guardians. Elara’s journey will require exploring, forging alliances, solving puzzles, and surviving dark forces.
-
----
-
-## Branching Factor
-
-- **Minimum Actions per State:** 2  
-- **Maximum Actions per State:** 4
-
----
-
-## Depth Constraints
-
-- **Minimum Steps to Goal:** 5  
-- **Maximum Steps to Goal:** 10
-
----
-```
-
-A: <domain>
-(define (domain ithar-quest)
-  (:requirements :strips :typing :negative-preconditions)
-
-  ;;------------------ TYPES ------------------
-  (:types character location item)
-
-  ;;---------------- CONSTANTS ----------------
-  (:constants
-     thandor abandoned_temple dark_forest
-     collapsed_bridge malreks_tower            - location
-     bow light_amulet crystal_of_ithar         - item)
-
-  ;;---------------- PREDICATES ---------------
-  (:predicates
-    (at ?c - character ?l - location)
-    (connected ?from - location ?to - location)
-    (has ?c - character ?i - item)
-    (item-at ?i - item ?l - location)
-    (wood_collected)
-    (bridge_rebuilt)
-    (spirits_banished)
-    (malrek_defeated)
-  )
-
-  ;;---------------- ACTIONS ------------------
-  (:action move
-    :parameters (?p - character ?from - location ?to - location)
-    :precondition (and (at ?p ?from) (connected ?from ?to))
-    :effect (and (not (at ?p ?from)) (at ?p ?to))
-  )
-
-  (:action gather-wood
-    :parameters (?p - character)
-    :precondition (and (at ?p dark_forest)
-                       (not (wood_collected)))
-    :effect (wood_collected)
-  )
-
-  (:action find-amulet
-    :parameters (?p - character)
-    :precondition (and (at ?p abandoned_temple)
-                       (item-at light_amulet abandoned_temple))
-    :effect (and (has ?p light_amulet)
-                 (not (item-at light_amulet abandoned_temple)))
-  )
-
-  (:action banish-spirits
-    :parameters (?p - character)
-    :precondition (and (at ?p dark_forest)
-                       (has ?p light_amulet)
-                       (not (spirits_banished)))
-    :effect (spirits_banished)
-  )
-
-  (:action rebuild-bridge
-    :parameters (?p - character)
-    :precondition (and (at ?p collapsed_bridge)
-                       (wood_collected)
-                       (not (bridge_rebuilt)))
-    :effect (and (bridge_rebuilt)
-                 (connected collapsed_bridge malreks_tower)
-                 (connected malreks_tower collapsed_bridge))
-  )
-
-  (:action defeat-malrek
-    :parameters (?p - character)
-    :precondition (and (at ?p malreks_tower)
-                       (bridge_rebuilt)
-                       (spirits_banished)
-                       (has ?p bow)
-                       (item-at crystal_of_ithar malreks_tower)
-                       (not (malrek_defeated)))
-    :effect (and (malrek_defeated)
-                 (has ?p crystal_of_ithar)
-                 (not (item-at crystal_of_ithar malreks_tower)))
-  )
-
-  (:action return-to-thandor
-    :parameters (?p - character)
-    :precondition (and (at ?p malreks_tower)
-                       (has ?p crystal_of_ithar))
-    :effect (and (not (at ?p malreks_tower))
-                 (at ?p thandor))
-  )
-)
-</domain> 
-<problem>
-(define (problem retrieve-crystal)
-  (:domain ithar-quest)
-
-  ;; Solo gli oggetti NON già dichiarati come costanti
-  (:objects
-     elara   - character)
-
-  (:init
-     ;; stato iniziale
-     (at elara thandor)
-     (has elara bow)
-
-     ;; oggetti posizionati nel mondo
-     (item-at light_amulet abandoned_temple)
-     (item-at crystal_of_ithar malreks_tower)
-
-     ;; rete di percorsi esistenti (ponte ancora crollato)
-     (connected thandor abandoned_temple)
-     (connected abandoned_temple thandor)
-
-     (connected thandor dark_forest)
-     (connected dark_forest thandor)
-
-     (connected abandoned_temple dark_forest)
-     (connected dark_forest abandoned_temple)
-
-     (connected dark_forest collapsed_bridge)
-     (connected collapsed_bridge dark_forest)
-  )
-
-  (:goal
-     (and (at elara thandor)
-          (has elara crystal_of_ithar))
-  )
-) 
-</problem> 
-
----   
+"""" 

@@ -1,0 +1,47 @@
+# 📜 Lore Document: *Whispers of the Hollow Moon*
+
+---
+
+## Quest Description
+
+### Title: *Whispers of the Hollow Moon*
+
+### World Context:
+In the twilight realm of **Elarion**, the two moons—**Vel'Harra** and **Noctis**—have long governed the tides of magic. When Noctis, the Hollow Moon, vanishes from the sky during an eclipse, the balance falters. Nightmares slip into reality, dream-beasts roam the lands, and the ancient race of **Somniari**, guardians of sleep and memory, begin to disappear.
+
+Legends speak of an ancient ritual—the *Lunar Sealing*—capable of restoring Noctis to the sky. But the rite requires the lost **Lunar Sigils**, scattered across Elarion in long-forgotten dream-temples. Only a Dreambound, one who can walk both reality and dream, may reclaim them.
+
+### Initial State:
+You awaken in the **Waking Marshes**, burdened by fragmented dreams and a strange mark on your palm. A Somniari elder, now half-mad, reveals your nature as Dreambound and urges you to seek the *Astral Chime*, the first Lunar Sigil.
+
+### Goal:
+Recover all four **Lunar Sigils** and perform the **Lunar Sealing** at the ancient observatory of **Skyvault Cradle** before the next total eclipse, when Elarion will be forever consumed by waking nightmares.
+
+### Obstacles:
+- Navigating the **Dreamtide**, a shifting zone between dream and reality
+- Facing **Mirrorkin**, twisted reflections of your past choices
+- Decoding memory-puzzles left by the vanished Somniari
+- Resisting **Sleep Decay**, which erodes your identity
+- Encountering dream-versions of allies and enemies with distorted intentions
+
+---
+
+## Branching Factor
+
+- **Minimum Actions per Narrative State**: 1  
+  (e.g., “Enter the dream or delay”)
+
+- **Maximum Actions per Narrative State**: 4  
+  (e.g., “Investigate memory, Talk to Somniari, Enter the mirror, Destroy it”)
+
+---
+
+## Depth Constraints
+
+- **Minimum Steps to Reach the Goal**: 5  
+  (one per sigil and the final ritual)
+
+- **Maximum Steps to Reach the Goal**: 12  
+  (includes exploration of false dreams, optional side quests, and moral trials)
+
+---

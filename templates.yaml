@@ -21,6 +21,7 @@ pddl:
     ## ⚠️ IMPORTANT
     - Your generated PDDL must produce a valid plan that respects every constraint provided in the lore, ESPECIALLY the branching factor and depth limits.
     - Use only valid PDDL syntax.
+    - Do NOT insert any comments inside the returned PDDL. (No lines starting with “;” or any other comment syntax.)
     - You may create new predicates and types, but each predicate must be uniquely named and clearly defined.
     - Each precondition or effect must be expressed individually (e.g., “object is washed and heated” -> two separate conditions).
     - Do not reuse predicate names with different parameters.
@@ -47,30 +48,41 @@ pddl:
     """
     {lore}
     """
-
 reflective:
     planner:
       system: |
-        You are an expert assistant in correcting and validating PDDL planning problems.
-        You are given a domain and a problem file in PDDL format, which contain errors that prevent correct planning. These errors may be syntactic (invalid PDDL structure) or semantic (invalid logic, unreachable goals, or flawed preconditions/effects).
-        In addition, you are provided with a lore document describing the narrative context, world constraints, expected quest structure, and valid goals. Your task is to correct the domain and/or problem definitions while preserving the intended gameplay semantics and ensuring coherence with the constraints defined in the lore.
-
-        The corrected files must:
-        - Be syntactically valid PDDL
-        - Define a planning problem consistent with the world and objectives in the lore
-        - Respect the narrative constraints such as branching factor, depth, and goal structure
-        - Preserve the original design intent as much as possible
-
-        Respond with two clearly separated sections:
-
-        <domain>  
-        ...full corrected domain content...  
-        </domain>  
-        <problem>  
-        ...full corrected problem content...  
-        </problem>
-
-
+        You are a senior AI agent that repairs and validates PDDL planning files.
+        You always return *only* syntactically correct PDDL, consistent with the
+        narrative lore supplied.
+        ---
+        - INPUTS YOU RECEIVE
+          • <domain>  ........ current domain.pddl (may be invalid)
+          • <problem> ........ current problem.pddl (may be invalid)
+          • <error>   ........ latest planner/validator error message
+          • <lore>    ........ world-building constraints and quest design rules
+        ---
+        - WHAT YOU MUST DO
+          1. Read the error first; locate the precise cause.
+          2. Cross-check proposed fixes against the lore (goals, actors, items,
+            branching factor, depth limits, narrative consistency).
+          3. Apply the **minimal** set of changes that (a) eliminates the error and
+            (b) preserves original design intent.
+          4. Run an internal sanity pass: goals reachable, actions well-typed,
+            no orphan predicates, every object declared.
+        ---
+        - HARD CONSTRAINTS
+          • **Do NOT insert any comments inside the returned PDDL.**  
+            (No lines starting with “;” or any other comment syntax.)
+          • Do not include error messages, explanations, or lore excerpts.
+        ---
+        - OUTPUT FORMAT — STRICT
+          Return exactly two blocks, nothing else:
+            <domain>
+            …full corrected domain PDDL…
+            </domain>
+            <problem>
+            …full corrected problem PDDL…
+            </problem>
       human: |
         Planner error:
         """"        
@@ -88,6 +100,13 @@ reflective:
         """"
         {problem}
         """" 
+    incoherence:
+      check:
+        system: " "
+        human:  " "
+      fix:
+        system: " "
+        human:  " "
     validator:
       system: |
         You are a planning expert assisting with the validation of a PDDL domain and problem definition.

@@ -12,11 +12,26 @@ with open('config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 
 
-def load_lore(lore_document_path: str = "pddl/lore.txt") -> str:
-    if not os.path.exists(lore_document_path):
-            raise FileNotFoundError(f"Lore document not found at path: {lore_document_path}")
-    with open(lore_document_path, "r", encoding="utf-8") as f:
+def read_file(path: str = "pddl/lore.txt") -> str:
+    if not os.path.exists(path):
+            raise FileNotFoundError(f"{path} not found!")
+    with open(path, "r", encoding="utf-8") as f:
         return f.read()
+    
+
+def write_file(path: str, content: str) -> str:
+    with open(path, 'w', encoding="utf-8") as f:
+        f.write(content)
+        f.flush()
+        os.fsync(f.fileno())
+
+
+def save_workflow_img(dir: str, img_name: str, png_bytes: str):
+    workflow_img_path = f"{dir}/{img_name}"
+    if not os.path.exists(workflow_img_path):
+        os.makedirs(dir, exist_ok=True)
+        with open(workflow_img_path, "wb") as f:
+            f.write(png_bytes)
 
 
 def get_llm(model: str = "gpt-4.1-nano"):
@@ -87,7 +102,7 @@ def generate_plan(domain_path: str  = "pddl/domain.pddl" , problem_path: str = "
     clean_output = "\n".join(useful_lines).strip()
 
     if cp.returncode != 0:
-        print(clean_output, file=sys.stderr)
+        #print(clean_output, file=sys.stderr)
         return False, clean_output
 
     os.makedirs(plan_dir, exist_ok=True)
