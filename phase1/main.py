@@ -33,10 +33,10 @@ def main():
     #                       model="gpt-4.1-nano")
     #lore_agent.generate_lore()
 
-    pddl_agent = PDDLAgent(system_template=PDDL_SYSTEM_TMPL, 
-                           human_template=PDDL_HUMAN_TMPL, 
-                           model="gemini-2.5-pro")
-    pddl_agent.generate_pddl()
+    #pddl_agent = PDDLAgent(system_template=PDDL_SYSTEM_TMPL, 
+    #                       human_template=PDDL_HUMAN_TMPL, 
+    #                       model="gemini-2.5-pro")
+    #pddl_agent.generate_pddl()
 
     reflective_agent = ReflectiveAgent(planner_system_template=PLANNER_SYSTEM_TMPL,
                                        planner_human_template=PLANNER_HUMAN_TMPL,

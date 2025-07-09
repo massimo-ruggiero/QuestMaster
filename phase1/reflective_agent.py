@@ -111,7 +111,6 @@ class ReflectiveAgent:
             domain_path = state['domain_path']
             problem_path = state['problem_path']
             plan_path = f"{state['plan_dir']}/sas_plan"
-            max_retries_incoherence = state['max_retries_incoherence']
             incoherence_attempts = state['incoherence_attempts']
 
             lore_document = read_file(lore_document_path)
@@ -120,7 +119,7 @@ class ReflectiveAgent:
             plan_text = read_file(plan_path)
 
             prompt_template = ChatPromptTemplate.from_messages([
-                SystemMessagePromptTemplate.from_template(self.check_incoherence_human_template),
+                SystemMessagePromptTemplate.from_template(self.check_incoherence_system_template),
                 HumanMessagePromptTemplate.from_template(self.check_incoherence_human_template)
             ])
             chain = prompt_template | self.llm
@@ -136,8 +135,8 @@ class ReflectiveAgent:
                 print("[✓] Files are coherente with lore document.")
                 return {'incoherence_error_fixed': True, "error_message": None}
             else:
-                print(f"\n[Fixing incoherence errors - Attempt {incoherence_attempts + 1}]\nIncoherence error:\n{content}\n")
-                return {"planner_error_fixed": False, "error_message": content, "incoherence_attempts": incoherence_attempts + 1}
+                print(f"\n[Fixing incoherence errors - Attempt {incoherence_attempts + 1}]\nIncoherence report:\n{content}\n")
+                return {"incoherence_error_fixed": False, "error_message": content, "incoherence_attempts": incoherence_attempts + 1}
 
 
         def fix_lore_incoherence_node(state: GraphState) -> GraphState:
@@ -269,7 +268,7 @@ class ReflectiveAgent:
         workflow.add_edge(START, "check_plan_generation")
         workflow.add_conditional_edges(
             "check_plan_generation",
-            next_step_conditional_routing,
+            lambda state: next_step_conditional_routing(state, "planner"),
             {
                 "fix_errors": "fix_planner_errors_node",
                 "SUCCESS": "check_lore_incoherence",
@@ -279,7 +278,7 @@ class ReflectiveAgent:
         workflow.add_edge("fix_planner_errors_node", "check_plan_generation")
         workflow.add_conditional_edges(
             "check_lore_incoherence",
-            next_step_conditional_routing, 
+            lambda state: next_step_conditional_routing(state, "incoherence"), 
             {
                 "fix_errors": "fix_lore_incoherence_node",
                 "SUCCESS": "check_plan_validation",
@@ -290,7 +289,7 @@ class ReflectiveAgent:
 
         workflow.add_conditional_edges(
             "check_plan_validation",
-            next_step_conditional_routing,
+            lambda state: next_step_conditional_routing(state, "validator"),
             {
                 "fix_errors": "fix_validator_errors_node",
                 "SUCCESS": END,
@@ -344,5 +343,5 @@ class ReflectiveAgent:
         else:
             print("\n--- WORKFLOW FAILED: Unable to generate and validate plan within max retries. ---")
             if state['error_message']:
-                print(f"sLast error: {state['error_message']}")
+                print(f"Last error: {state['error_message']}")
             return False

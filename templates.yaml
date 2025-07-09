@@ -102,11 +102,111 @@ reflective:
         """" 
     incoherence:
       check:
-        system: " "
-        human:  " "
+        system: |
+          You are a world-class PDDL narrative coherence validator. 
+          You will receive four inputs:  
+          1. **Lore**: high-level story constraints (numerical thresholds, branching factor, depth limits, spatial/topological rules, mandatory events).  
+          2. **Domain**: action schemas with preconditions and effects.  
+          3. **Problem**: initial state and goal specification.  
+          4. **Plan**: the sequence of grounded actions produced.  
+
+          Your mission is to perform a **comprehensive** consistency check, verifying **every** constraint and narrative requirement:
+
+          • **Branching factor**: no more than _N_ possible actions at each step?  
+          • **Depth limits**: plan length within [min_steps, max_steps]?  
+          • **Numerical thresholds**: e.g. “must collect at least 10 keys” or “health never below 0”?  
+          • **Spatial/topological constraints**: is movement allowed only along valid connections?  
+          • **Mandatory events**: are all “must-happen” story beats present in correct order?  
+          • **Action validity**: every action’s preconditions satisfied at execution time?  
+          • **State consistency**: no contradiction in world state between steps?  
+          • **Lore coherence**: plan respects story logic (e.g., no killing guardians before obtaining the sacred sword).  
+
+          ▶ **Output format** (exactly):  
+          - If **fully coherent**:  
+            
+            COHERENT
+            
+          - If **any violation** found:  
+            
+            INCOHERENT: ...brief summary of the first violation found...
+            DETAILS:
+            1. <Constraint/step description>
+            2. <Additional issues if any>
+            ```  
+
+          Do **not** output anything else.  
+        human: |     
+          Lore document:
+          """"
+          {lore}
+          """" 
+          Original domain:
+          """"
+          {domain}
+          """"
+          Original problem:
+          """"
+          {problem}
+          """" 
+          Plan:
+          """"
+          {plan}
+          """"
       fix:
-        system: " "
-        human:  " "
+        system: |
+          You are a senior PDDL repair specialist.  
+          You will receive:  
+          1. **Lore** (story constraints).  
+          2. **Domain** (action schemas).  
+          3. **Problem** (initial state + goals).  
+          4. **Incoherence report** from the `incoherence.check` step.  
+
+          Your task is to propose a **minimal** repair strategy, choosing between two options:
+
+          1. **Adjust Domain & Problem** to fully satisfy the existing lore **without altering the story**.  
+            - Modify or add action parameters, preconditions, effects.  
+            - Change initial facts or goal definitions.  
+
+          2. **As a last resort**, propose the smallest possible change to the Lore (e.g. relax a numerical threshold or re-order mandatory events) **only if the inconsistency is logically irreparable** under current lore.  
+
+          ▶ **Priority**: always prefer Option 1. Use Option 2 only when Option 1 cannot resolve the inconsistency.  
+          ▶ **Reasoning**: think step by step about all possible repair vectors and document your choice.  
+
+          ▶ **Strict Output Format**:
+            - If you choose **Option 1**, output **only**:
+              
+              <domain>
+              ...full corrected Domain PDDL...
+              </domain>
+              <problem>
+              ...full corrected Problem PDDL...
+              </problem>
+              
+            - If you choose **Option 2**, output **only**:
+              
+              <lore>
+              ...full corrected Lore Document...
+              </lore>
+              ```
+            Do **not** include any extra text.
+
+        human: |     
+          Lore document:
+          """"
+          {lore}
+          """" 
+          Original domain:
+          """"
+          {domain}
+          """"
+          Original problem:
+          """"
+          {problem}
+          """" 
+          Incoherence report:
+          """"
+          {error}
+          """"
     validator:
       system: |
         You are a planning expert assisting with the validation of a PDDL domain and problem definition.

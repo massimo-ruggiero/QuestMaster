@@ -27,7 +27,7 @@ def write_file(path: str, content: str) -> str:
 
 
 def save_workflow_img(dir: str, img_name: str, png_bytes: str):
-    workflow_img_path = f"{dir}/{img_name}"
+    workflow_img_path = f"{dir}/{img_name}.png"
     if not os.path.exists(workflow_img_path):
         os.makedirs(dir, exist_ok=True)
         with open(workflow_img_path, "wb") as f:
