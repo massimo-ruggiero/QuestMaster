@@ -78,6 +78,27 @@ def generative_system_template(template: str, examples_path: str = "examples") -
     return filled_template
 
 
+
+def fill_lore_system_template(template: str, examples_path: str = "examples") -> str:
+    def read_example(example_name: str) -> str:
+        example_dir = os.path.join(examples_path, example_name)
+        try:
+            with open(os.path.join(example_dir, "lore.txt"), "r", encoding="utf-8") as f:
+                lore = f.read().strip()
+        except FileNotFoundError as e:
+            raise ValueError(f"Missing file in {example_name}: {e.filename}")
+        return lore
+
+    example1_content = read_example("example1")
+    example2_content = read_example("example2")
+
+    filled_template = template.replace("{example1}", example1_content)\
+                              .replace("{example2}", example2_content)
+    return filled_template
+
+
+
+
 def generate_plan(domain_path: str  = "pddl/domain.pddl" , problem_path: str = "pddl/problem.pddl", plan_dir: str = "pddl") -> Tuple[bool, Optional[str]]:
     plan_path = os.path.join(plan_dir, "sas_plan")
     if os.path.exists(plan_path):

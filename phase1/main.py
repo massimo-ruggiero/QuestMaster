@@ -9,8 +9,7 @@ with open('templates.yaml', 'r') as file:
     templates = yaml.safe_load(file)
 
 # Lore Agent Templates
-LORE_SYSTEM_TMPL = templates['lore']['system']
-LORE_HUMAN_TMPL = templates['lore']['human']
+LORE_SYSTEM_TMPL = fill_lore_system_template(templates['lore']['system'])
 
 # PDDL Agent Templates
 PDDL_SYSTEM_TMPL = generative_system_template (templates['pddl']['system'])
@@ -28,10 +27,9 @@ VALIDATOR_HUMAN_TMPL  = templates['reflective']['validator']['human']
 
 
 def main():
-    #lore_agent = LoreAgent(system_template=LORE_SYSTEM_TMPL, 
-    #                       human_template=LORE_HUMAN_TMPL, 
-    #                       model="gpt-4.1-nano")
-    #lore_agent.generate_lore()
+    lore_agent = LoreAgent(system_template=LORE_SYSTEM_TMPL, 
+                            model="gpt-4.1-nano")
+    lore_agent.run()
 
     #pddl_agent = PDDLAgent(system_template=PDDL_SYSTEM_TMPL, 
     #                       human_template=PDDL_HUMAN_TMPL, 
