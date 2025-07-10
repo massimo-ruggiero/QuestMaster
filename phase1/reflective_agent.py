@@ -314,7 +314,7 @@ class ReflectiveAgent:
                        max_retries_incoherence: int = 3,
                        max_retries_validator: int = 3) -> bool:
         
-        print(f"--- STARTING ERROR CORRECTION WORKFLOW ---")
+        print("\n--- STARTING ERROR CORRECTION WORKFLOW ---")
 
         initial_state: GraphState = {
             "domain_path": domain_path,
@@ -335,7 +335,7 @@ class ReflectiveAgent:
             "error_message": None
         }
 
-        state = self.workflow.invoke(initial_state)
+        state = self.workflow.invoke(initial_state, {"recursion_limit": 100})
 
         if state['planner_error_fixed'] and state['incoherence_error_fixed'] and state['validator_error_fixed']:
             print("\n--- WORKFLOW COMPLETED SUCCESSFULLY: Plan generated and validated! ---")

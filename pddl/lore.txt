@@ -1,38 +1,53 @@
-# 🏰 Lore Document: *Shadows of the Iron Citadel*
+# Lore Document: La Conquista delle Stelle Perdute
 
-<lore>
-## Quest Description
+## 1. Quest Description
+**Titolo:** La Conquista delle Stelle Perdute  
+**Setting:**  
+Nella galassia di Zenthara, un antico impero interstellare è stato distrutto, lasciando dietro di sé una miriade di pianeti abbandonati e misteriosi. I leggendari "Cristalli di Luce" sono stati dispersi tra questi mondi, e si dice che chiunque li riunisca possa risvegliare il potere dell'impero perduto. Un audace esploratore, accompagnato da un gruppo di eccentrici alleati, deve affrontare le insidie di pianeti dimenticati e nemici spietati per riportare l'armonia nell'universo.
 
-### Title: *Shadows of the Iron Citadel*
+## 2. Stato Iniziale
+- Il protagonista, "Zara", è a bordo della sua nave spaziale, la "Stella Errante".  
+- Zara ha una mappa stellare incompleta.  
+- La nave ha risorse limitate e un motore in fase di riparazione.  
+- Un misterioso avversario, "Lord Vex", è in cerca dei Cristalli di Luce per i suoi scopi malvagi.
 
-### World Context  
-In the war-torn realm of **Kharzon**, the Iron Citadel stands astride the Ashen Vale as both fortress and prison. Forged by long-dead technomancers, its walls pulse with arcane runes that suppress all magic within. Now, a fatal instability in the Citadel’s core threatens to unleash a cataclysmic pulse, one that could rend the very fabric of Kharzon’s reality.
+## 3. Obiettivo
+- Zara deve raccogliere tutti i Cristalli di Luce.  
+- Zara deve fermare Lord Vex prima che riesca a riunirli.
 
-Ancient texts speak of the **Echo of Creation**, a primordial shard hidden in the Citadel’s deepest vault. Only by realigning the core with this Echo can the Citadel be saved—and the realm spared.
+## 4. Ostacoli
+1. **Pianeti Pericolosi**: Ogni pianeta ha le sue insidie, come tempeste di sabbia, creature feroci e trappole antiche.  
+2. **Cacciatori di Tesori**: Altri esploratori cercano i Cristalli e potrebbero allearsi o tradire Zara.  
+3. **Lord Vex**: Un potente avversario che utilizza la magia oscura per ostacolare Zara e i suoi alleati.
 
-### Initial State  
-Under cover of a howling thunderstorm, you and your allies approach the Citadel’s outer bailey. The gates lie sealed by rune-locked wards, and sentinels of wraithsteel patrol the battlements. Your mission: infiltrate the fortress, find the Echo, and recalibrate the core before dawn.
+## 5. Branching Factor
+- **Min:** 2 azioni per stato  
+- **Max:** 4 azioni per stato  
 
-### Goal  
-Retrieve the **Echo of Creation** and recalibrate the Citadel’s core, preventing the incoming Resonance Rift from annihilating Kharzon.
+> *Esempi di scelte: "Esplora la caverna" / "Contatta un alleato" / "Attiva il motore" / "Fuggi dal pianeta".*
 
-### Obstacles  
-- **Rune-Locked Gates**: Ancient seals requiring cryptic sigil-decoding or brute force  
-- **Wraithsteel Sentinels**: Haunted constructs of metal and spirit sworn to protect the Citadel  
-- **Labyrinth of Echoes**: A shifting network of mirrored corridors that warp perception and time  
-- **Resonance Warp**: The core’s unstable field bleeds into reality, causing hallucinations and temporal loops  
-- **The Iron Warden**: A fallen hero bound as the fortress’s immortal guardian  
-</lore>
+## 6. Depth Constraints
+- **Min Steps: 6**  
+  **Step Sequences (Min Depth):**  
+  1. Partenza dalla Stazione Spaziale di Zenthara  
+  2. Esplorazione del Pianeta di Giada e recupero del primo Cristallo  
+  3. Incontro con un cacciatore di tesori e decisione di allearsi o combattere  
+  4. Navigazione attraverso la Nebulosa di Ombra  
+  5. Confronto con Lord Vex su un pianeta desolato  
+  6. Riunione dei Cristalli e risveglio del potere dell'impero  
 
-## Branching Factor
-- **Minimum Actions per Narrative State**: 1  
-  - (e.g., “Attempt a stealth bypass of the rune-lock”)
+- **Max Steps: 10**  
+  **Step Sequences (Max Depth):**  
+  1. Preparazione e raccolta di risorse alla Stazione Spaziale  
+  2. Partenza verso il Pianeta di Giada  
+  3. Esplorazione di antiche rovine e recupero del primo Cristallo  
+  4. Incontro con un cacciatore di tesori e decisione di allearsi  
+  5. Viaggio verso il Pianeta di Fuoco e superamento di tempeste di lava  
+  6. Recupero del secondo Cristallo e scontro con creature feroci  
+  7. Navigazione attraverso la Nebulosa di Ombra e attivazione del motore  
+  8. Confronto con Lord Vex su un pianeta desolato  
+  9. Battaglia finale per il controllo dei Cristalli  
+  10. Riunione dei Cristalli e risveglio del potere dell'impero  
 
-- **Maximum Actions per Narrative State**: 4  
-  - (e.g., “Study a rune fragment”, “Distract a sentinel with illusion”, “Map the gauntlet’s safe path”, “Forge a temporary arcane key”)
-
-## Depth Constraints
-- **Minimum Steps to Reach the Goal**: 7  
-
-- **Maximum Steps to Reach the Goal**: 10  
-  - Includes optional side-quests: recover a fallen mentor’s notes, rescue trapped prisoners, secure allies in the Citadel  
+## 7. Background del Mondo
+La galassia di Zenthara è un luogo di meraviglie e pericoli. I Cristalli di Luce sono antichi artefatti che una volta alimentavano l'impero, e si dice che chi li possiede possa controllare il destino delle stelle. I pianeti abbandonati sono pieni di segreti e insidie, e le leggende narrano di antiche civiltà che hanno lasciato dietro di sé enigmi e trappole per proteggere i loro tesori.

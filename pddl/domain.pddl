@@ -1,159 +1,152 @@
-(define (domain shadows-of-the-iron-citadel)
-  (:requirements :strips :typing)
+(define (domain la-conquista-delle-stelle-perdute)
+  (:requirements :strips :typing :equality)
   (:types
-    character location item
+    character ship location crystal hazard
   )
 
   (:constants
-    outer-bailey gatehouse vault core-chamber - location
-    echo-of-creation - item
+    zara - character
+    stella-errante - ship
+    zenthara-station jade-planet fire-planet desolate-planet - location
+    crystal-of-jade crystal-of-fire - crystal
+    sand-storms lava-creatures - hazard
   )
 
   (:predicates
-    (at ?c - character ?l - location)
-    (has ?c - character ?i - item)
-    (gate-is-sealed)
-    (gate-is-open)
-    (sentinels-are-active)
-    (sentinels-are-bypassed)
-    (warden-is-active)
-    (warden-is-pacified)
-    (core-is-unstable)
-    (core-is-recalibrated)
-    (echo-is-in-vault)
-    (has-sigil-fragment)
-    (sigil-is-studied)
-    (prepared-for-brute-force)
-    (diversion-is-created)
+    (at-ship ?s - ship ?l - location)
+    (engine-needs-repair ?s - ship)
+    (engine-repaired ?s - ship)
+    (ship-has-resources ?s - ship)
+    (crystal-is-at ?cr - crystal ?l - location)
+    (character-has-crystal ?c - character ?cr - crystal)
+    (vex-has-crystal ?cr - crystal)
+    (hazard-is-at ?h - hazard ?l - location)
+    (hazard-is-overcome ?h - hazard)
+    (hunter-is-unencountered)
+    (hunter-is-encountered)
+    (is-allied-with-hunter)
+    (vex-is-active)
+    (vex-is-defeated)
+    (vex-is-at ?l - location)
+    (power-is-awakened)
+    (path-is-known ?from - location ?to - location)
+    (nebula-path-is-known ?from - location ?to - location)
+    (all-crystals-reunited)
+    (planet-is-safe ?l - location)
   )
 
-  (:action find-sigil-fragment
-    :parameters (?c - character)
+  (:action prepare-for-expedition
+    :parameters (?s - ship)
     :precondition (and
-      (at ?c outer-bailey)
-      (gate-is-sealed)
+      (at-ship ?s zenthara-station)
+      (engine-needs-repair ?s)
+      (not (ship-has-resources ?s))
     )
     :effect (and
-      (has-sigil-fragment)
-    )
-  )
-
-  (:action study-sigil-fragment
-    :parameters (?c - character)
-    :precondition (and
-      (at ?c outer-bailey)
-      (has-sigil-fragment)
-    )
-    :effect (and
-      (sigil-is-studied)
+      (not (engine-needs-repair ?s))
+      (engine-repaired ?s)
+      (ship-has-resources ?s)
     )
   )
 
-  (:action decode-gate-and-enter
-    :parameters (?c - character)
+  (:action emergency-repair
+    :parameters (?s - ship)
     :precondition (and
-      (at ?c outer-bailey)
-      (gate-is-sealed)
-      (sigil-is-studied)
+      (at-ship ?s zenthara-station)
+      (engine-needs-repair ?s)
     )
     :effect (and
-      (not (at ?c outer-bailey))
-      (at ?c gatehouse)
-      (not (gate-is-sealed))
-      (gate-is-open)
+      (not (engine-needs-repair ?s))
+      (engine-repaired ?s)
     )
   )
 
-  (:action prepare-brute-force
-    :parameters (?c - character)
+  (:action travel
+    :parameters (?s - ship ?from - location ?to - location)
     :precondition (and
-      (at ?c outer-bailey)
-      (gate-is-sealed)
+      (at-ship ?s ?from)
+      (engine-repaired ?s)
+      (path-is-known ?from ?to)
     )
     :effect (and
-      (prepared-for-brute-force)
+      (not (at-ship ?s ?from))
+      (at-ship ?s ?to)
     )
   )
 
-  (:action force-gate-and-enter
-    :parameters (?c - character)
+  (:action explore-planet-and-retrieve-crystal
+    :parameters (?c - character ?s - ship ?cr - crystal ?h - hazard ?l - location)
     :precondition (and
-      (at ?c outer-bailey)
-      (gate-is-sealed)
-      (prepared-for-brute-force)
+      (at-ship ?s ?l)
+      (ship-has-resources ?s)
+      (crystal-is-at ?cr ?l)
+      (hazard-is-at ?h ?l)
+      (not (hazard-is-overcome ?h))
     )
     :effect (and
-      (not (at ?c outer-bailey))
-      (at ?c gatehouse)
-      (not (gate-is-sealed))
-      (gate-is-open)
+      (character-has-crystal ?c ?cr)
+      (not (crystal-is-at ?cr ?l))
+      (hazard-is-overcome ?h)
+      (planet-is-safe ?l)
     )
   )
 
-  (:action create-diversion
-    :parameters (?c - character)
+  (:action encounter-and-ally-with-hunter
+    :parameters (?s - ship)
     :precondition (and
-      (at ?c gatehouse)
-      (sentinels-are-active)
+      (at-ship ?s jade-planet)
+      (hunter-is-unencountered)
     )
     :effect (and
-      (diversion-is-created)
+      (not (hunter-is-unencountered))
+      (hunter-is-encountered)
+      (is-allied-with-hunter)
+      (path-is-known jade-planet fire-planet)
+      (path-is-known fire-planet jade-planet)
+      (nebula-path-is-known fire-planet desolate-planet)
     )
   )
 
-  (:action sneak-past-sentinels-and-navigate
-    :parameters (?c - character)
+  (:action navigate-nebula
+    :parameters (?s - ship ?from - location ?to - location)
     :precondition (and
-      (at ?c gatehouse)
-      (sentinels-are-active)
-      (diversion-is-created)
+      (at-ship ?s ?from)
+      (engine-repaired ?s)
+      (is-allied-with-hunter)
+      (nebula-path-is-known ?from ?to)
     )
     :effect (and
-      (not (at ?c gatehouse))
-      (at ?c vault)
-      (not (sentinels-are-active))
-      (sentinels-are-bypassed)
+      (not (at-ship ?s ?from))
+      (at-ship ?s ?to)
     )
   )
 
-  (:action retrieve-echo
-    :parameters (?c - character)
+  (:action confront-lord-vex
+    :parameters (?c - character ?s - ship ?l - location)
     :precondition (and
-      (at ?c vault)
-      (echo-is-in-vault)
+      (at-ship ?s ?l)
+      (vex-is-at ?l)
+      (vex-is-active)
+      (character-has-crystal ?c crystal-of-jade)
+      (character-has-crystal ?c crystal-of-fire)
     )
     :effect (and
-      (has ?c echo-of-creation)
-      (not (echo-is-in-vault))
+      (not (vex-is-active))
+      (vex-is-defeated)
     )
   )
 
-  (:action pacify-warden-and-enter-core
-    :parameters (?c - character)
+  (:action reunite-crystals-and-awaken-power
+    :parameters (?c - character ?cr1 - crystal ?cr2 - crystal)
     :precondition (and
-      (at ?c vault)
-      (warden-is-active)
-      (has ?c echo-of-creation)
+      (vex-is-defeated)
+      (character-has-crystal ?c ?cr1)
+      (character-has-crystal ?c ?cr2)
+      (not (= ?cr1 ?cr2))
     )
     :effect (and
-      (not (at ?c vault))
-      (at ?c core-chamber)
-      (not (warden-is-active))
-      (warden-is-pacified)
-    )
-  )
-
-  (:action recalibrate-core
-    :parameters (?c - character)
-    :precondition (and
-      (at ?c core-chamber)
-      (core-is-unstable)
-      (warden-is-pacified)
-      (has ?c echo-of-creation)
-    )
-    :effect (and
-      (not (core-is-unstable))
-      (core-is-recalibrated)
+      (all-crystals-reunited)
+      (power-is-awakened)
     )
   )
 )

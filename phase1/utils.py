@@ -79,7 +79,7 @@ def generative_system_template(template: str, examples_path: str = "examples") -
 
 
 
-def fill_lore_system_template(template: str, examples_path: str = "examples") -> str:
+def fill_lore_system_template(template: str, examples_path: str = "examples/lore") -> str:
     def read_example(example_name: str) -> str:
         example_dir = os.path.join(examples_path, example_name)
         try:

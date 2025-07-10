@@ -6,7 +6,6 @@ from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
-import yaml
 
 
 class State(TypedDict):
@@ -103,15 +102,3 @@ class LoreAgent:
         sys_msg = SystemMessage(content=self.system_template)
         initial_state: State = {"messages": [sys_msg]}
         self.workflow.invoke(initial_state)
-
-
-def main():
-    with open('templates.yaml', 'r') as file:
-        templates = yaml.safe_load(file)
-    LORE_SYSTEM_TMPL = fill_lore_system_template(templates['lore']['system'])
-    agent: LoreAgent = LoreAgent(system_template=LORE_SYSTEM_TMPL)
-     
-    agent.run()
-
-if __name__ == "__main__":
-    main()

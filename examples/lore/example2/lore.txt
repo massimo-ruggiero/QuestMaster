@@ -1,0 +1,52 @@
+# Lore Document: The Relic of the Sunken Temple
+
+## 1. Quest Description
+**Title:** The Relic of the Sunken Temple  
+**Setting:**  
+Beneath the waves off the coast of Thalara lies an ancient submerged temple, home to a powerful relic said to control the tides. When seismic tremors threaten coastal villages with devastating floods, a daring adventurer must dive into the deep, navigate underwater ruins, and reclaim the relic before catastrophe strikes.
+
+## 2. Initial State
+- The protagonist boards a small dive vessel at Thalara Harbor.  
+- The sea is stormy, visibility underwater is poor.  
+- A local scholar warns of aggressive sea creatures guarding the temple’s entrance.
+
+## 3. Goal
+- Retrieve the Tideheart Relic from the Sunken Temple’s inner sanctum.  
+- Surface safely at Thalara Harbor before the next high tide.
+
+## 4. Possible Obstacles
+1. **Underwater Currents in the Coral Chasm**  
+   – Strong cross-currents may push the diver off course; require stabilizing gear or skillful swimming.  
+2. **Collapsed Passage in the Eastern Hall**  
+   – Blocks direct route; must clear debris (strength), find alternate tunnel (exploration), or use explosives (risking damage).  
+3. **Guardian Eels in the Sanctum**  
+   – Need to distract them (lure), sneak past in crevices (stealth), or confront them (combat).
+
+## 5. Branching Factor
+- **Min Actions per State:** 2  
+- **Max Actions per State:** 4  
+
+> *E.g., “Deploy an anchor line” / “Investigate a side tunnel” / “Clear rubble by hand” / “Set a timed explosive.”*
+
+## 6. Depth Constraints
+- **Min Steps: 5**  
+  **Step Sequences (Min Depth):**  
+  1. Board dive vessel and consult the scholar  
+  2. Navigate through Coral Chasm, brace against currents  
+  3. Clear or bypass collapsed Eastern Hall  
+  4. Sneak past or distract Guardian Eels in the Sanctum  
+  5. Retrieve Tideheart Relic and ascend to surface  
+
+- **Max Steps: 9**  
+  **Step Sequences (Max Depth):**  
+  1. Gather intel and equip specialized diving gear  
+  2. Board dive vessel and chart course to the temple  
+  3. Fight cross-currents in the Coral Chasm  
+  4. Discover hidden grotto for temporary shelter  
+  5. Clear debris in Eastern Hall or find secret tunnel  
+  6. Illuminate dark corridors and map the ruins  
+  7. Distract Guardian Eels or engage in underwater skirmish  
+  8. Solve tide-control mechanism puzzle in inner sanctum  
+  9. Retrieve Tideheart Relic and race back to the surface  
+
+---
