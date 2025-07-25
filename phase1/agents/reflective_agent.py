@@ -3,6 +3,8 @@ from langchain.prompts import (ChatPromptTemplate,
                                SystemMessagePromptTemplate, 
                                HumanMessagePromptTemplate)
 from utils import *
+from queue import Queue
+from threading import Thread
 from langgraph.graph import StateGraph, START, END
 import re
 import os               
@@ -50,6 +52,9 @@ class ReflectiveAgent:
         self.llm = get_llm(model)
         self.workflow = self._build_workflow()
 
+        self.workflow_thread = None
+        self.output_queue = Queue()
+
 
     def _build_workflow(self):
 
@@ -62,9 +67,11 @@ class ReflectiveAgent:
             
             generated, error_message = generate_plan(domain_path, problem_path, plan_dir)
             if generated:
+                self.output_queue.put({"event":"status","message":"Plan successfully generated."})
                 print("[✓] Files are correct and plan has been generated.")
                 return {"planner_error_fixed": True, "error_message": None}
             else:
+                self.output_queue.put({"event":"status","message":"Fixing PDDL files..."})
                 print(f"\n[Fixing planner errors - Attempt {planner_attempts + 1}]\nPlanner error:\n{error_message}\n")
                 return {"planner_error_fixed": False, "error_message": error_message, "planner_attempts": planner_attempts + 1}
 
@@ -98,8 +105,10 @@ class ReflectiveAgent:
                 fixed_problem_pddl = problem_match.group(1).strip()
                 write_file(domain_path, fixed_domain_pddl)
                 write_file(problem_path, fixed_problem_pddl)
+                self.output_queue.put({"event":"status","message":"PDDL files has been fixed by the agent."})
                 print("[✓] Files has been fixed by the agent.\n")
             else:
+                self.output_queue.put({"event":"status","message":"Parsing error."})
                 print("[✗] Impossibile parsing files from the agent's output.")
 
             return {}
@@ -132,9 +141,11 @@ class ReflectiveAgent:
             content = response.content
 
             if content.strip().upper() == "COHERENT":
+                self.output_queue.put({"event":"status","message":"Consistency check passed."})
                 print("[✓] Files are coherente with lore document.")
                 return {'incoherence_error_fixed': True, "error_message": None}
             else:
+                self.output_queue.put({"event":"status","message":"Fixing incoherence errors..."})
                 print(f"\n[Fixing incoherence errors - Attempt {incoherence_attempts + 1}]\nIncoherence report:\n{content}\n")
                 return {"incoherence_error_fixed": False, "error_message": content, "incoherence_attempts": incoherence_attempts + 1}
 
@@ -174,14 +185,17 @@ class ReflectiveAgent:
                 fixed_problem_pddl = problem_match.group(1).strip()
                 write_file(domain_path, fixed_domain_pddl)
                 write_file(problem_path, fixed_problem_pddl)
+                self.output_queue.put({"event":"status","message":"PDDL files has been fixed by the agent."})
                 print("[✓] domain.pddl and problem.pddl have been fixed by the agent to make them coherent with the lore.\n")
                 return {"planner_attempts": 0}
             elif lore_match:
                 fixed_lore_document = lore_match.group(1).strip()
                 write_file(lore_document_path, fixed_lore_document)
-                print("[✓] Lore documetn has been updated.\n")
+                self.output_queue.put({"event":"status","message":"Lore document has been updated."})
+                print("[✓] Lore document has been updated.\n")
                 return {"planner_attempts": 0}
             else:
+                self.output_queue.put({"event":"status","message":"Parsing error..."})
                 print("[✗] Impossibile parsing files from the agent's output.")
                 return {"incoherence_error_fixed": False}
 
@@ -195,9 +209,11 @@ class ReflectiveAgent:
             
             valid, error_message = validate_plan(domain_path, problem_path, plan_path)
             if valid:
+                self.output_queue.put({"event":"status","message":"Plan validated successfully."})
                 print("[✓] Plan validated successfully")
                 return {"validator_error_fixed": True, "error_message": None}
             else:
+                self.output_queue.put({"event":"status","message":"Fixing validator errors..."})
                 print(f"\n[Fixing validator errors - Attempt {validator_attempts + 1}]\nPlanner error:\n{error_message}\n")
                 return {"validator_error_fixed": False, "error_message": error_message, "validator_attempts": validator_attempts + 1}
             
@@ -238,8 +254,10 @@ class ReflectiveAgent:
                 write_file(domain_path, fixed_domain_pddl)
                 write_file(problem_path, fixed_problem_pddl)
 
+                self.output_queue.put({"event":"status","message":"PDDL files has been fixed by the agent."})
                 print("[✓] Files has been fixed by the agent.\n")
             else:
+                self.output_queue.put({"event":"status","message":"Parsing error..."})
                 print("[✗] Impossibile parsing files from the agent's output.")
 
             return {"planner_attempts": 0, "incoherence_attempts": 0}
@@ -305,14 +323,14 @@ class ReflectiveAgent:
         return compiled_workflow
         
 
-    def check_and_fix_errors(self,
+    def _check_and_fix_errors(self,
                        domain_path: str = "pddl/domain.pddl",
                        problem_path: str = "pddl/problem.pddl",
                        plan_dir: str = "pddl",
                        lore_document_path: str = "pddl/lore.txt",
-                       max_retries_planner: int = 3,
-                       max_retries_incoherence: int = 3,
-                       max_retries_validator: int = 3) -> bool:
+                       max_retries_planner: int = 10,
+                       max_retries_incoherence: int = 10,
+                       max_retries_validator: int = 5) -> bool:
         
         print("\n--- STARTING ERROR CORRECTION WORKFLOW ---")
 
@@ -338,10 +356,43 @@ class ReflectiveAgent:
         state = self.workflow.invoke(initial_state, {"recursion_limit": 100})
 
         if state['planner_error_fixed'] and state['incoherence_error_fixed'] and state['validator_error_fixed']:
+            self.output_queue.put({"event":"success","message":"Plan has been generated and validated succesfully."})
             print("\n--- WORKFLOW COMPLETED SUCCESSFULLY: Plan generated and validated! ---")
             return True
         else:
+            self.output_queue.put({"event":"fail","message":"Unable to generate and validate plan within max retries."})
             print("\n--- WORKFLOW FAILED: Unable to generate and validate plan within max retries. ---")
             if state['error_message']:
                 print(f"Last error: {state['error_message']}")
             return False
+        
+    
+    def run(self,
+            domain_path: str = "pddl/domain.pddl",
+            problem_path: str = "pddl/problem.pddl",
+            plan_dir: str = "pddl",
+            lore_document_path: str = "pddl/lore.txt",
+            max_retries_planner: int = 10,
+            max_retries_incoherence: int = 1,
+            max_retries_validator: int = 5):
+        
+        self.workflow_thread = Thread(
+            target=self._check_and_fix_errors,
+            args=(
+                domain_path,
+                problem_path,
+                plan_dir,
+                lore_document_path,
+                max_retries_planner,
+                max_retries_incoherence,
+                max_retries_validator
+            )
+        )
+        self.workflow_thread.daemon = True
+        self.workflow_thread.start()
+
+        while True:
+            msg = self.output_queue.get()
+            yield msg
+            if msg.get("event") == "success" or msg.get("event") == "fail":
+                break

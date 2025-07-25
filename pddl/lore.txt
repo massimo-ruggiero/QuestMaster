@@ -1,53 +1,53 @@
-# Lore Document: La Conquista delle Stelle Perdute
+# Lore Document: La Spada di Luce
 
 ## 1. Quest Description
-**Titolo:** La Conquista delle Stelle Perdute  
+**Titolo:** La Spada di Luce  
 **Setting:**  
-Nella galassia di Zenthara, un antico impero interstellare è stato distrutto, lasciando dietro di sé una miriade di pianeti abbandonati e misteriosi. I leggendari "Cristalli di Luce" sono stati dispersi tra questi mondi, e si dice che chiunque li riunisca possa risvegliare il potere dell'impero perduto. Un audace esploratore, accompagnato da un gruppo di eccentrici alleati, deve affrontare le insidie di pianeti dimenticati e nemici spietati per riportare l'armonia nell'universo.
+Nel regno di Eldoria, un'epoca di oscurità si avvicina. Un potente stregone, Malakar, ha rubato la Spada di Luce, un artefatto sacro in grado di mantenere l'equilibrio tra il bene e il male. Un giovane cavaliere, Sir Cedric, deve intraprendere un pericoloso viaggio per recuperare la spada e salvare il regno dalla distruzione.
 
-## 2. Stato Iniziale
-- Il protagonista, "Zara", è a bordo della sua nave spaziale, la "Stella Errante".  
-- Zara ha una mappa stellare incompleta.  
-- La nave ha risorse limitate e un motore in fase di riparazione.  
-- Un misterioso avversario, "Lord Vex", è in cerca dei Cristalli di Luce per i suoi scopi malvagi.
+## 2. Initial State
+- Sir Cedric si trova nel villaggio di Lumina, pronto a partire.  
+- Ha con sé la Mappa del Regno e un Amuleto Protettivo.  
+- La foresta di Tenebris è avvolta da una nebbia magica.  
+- Malakar ha scatenato creature oscure per proteggere la sua fortezza.
 
-## 3. Obiettivo
-- Zara deve raccogliere tutti i Cristalli di Luce.  
-- Zara deve fermare Lord Vex prima che riesca a riunirli.
+## 3. Goal
+- Recuperare la Spada di Luce dalla fortezza di Malakar.  
+- Tornare a Lumina e ripristinare la pace nel regno.
 
-## 4. Ostacoli
-1. **Pianeti Pericolosi**: Ogni pianeta ha le sue insidie, come tempeste di sabbia, creature feroci e trappole antiche.  
-2. **Cacciatori di Tesori**: Altri esploratori cercano i Cristalli e potrebbero allearsi o tradire Zara.  
-3. **Lord Vex**: Un potente avversario che utilizza la magia oscura per ostacolare Zara e i suoi alleati.
+## 4. Possible Obstacles
+1. **Nebbia Magica della Foresta di Tenebris**  
+   – Rende difficile orientarsi; Sir Cedric deve trovare un modo per dissiparla (magia, oggetti speciali).  
+2. **Creature Oscure**  
+   – Varie creature, come lupi mannari e ombre, attaccano il cavaliere; deve affrontarle in combattimento o trovare un modo per evitarle.  
+3. **Trappole nella Fortezza di Malakar**  
+   – La fortezza è piena di trappole mortali; Sir Cedric deve risolvere enigmi o usare abilità per superarle.
 
 ## 5. Branching Factor
-- **Min:** 2 azioni per stato  
-- **Max:** 4 azioni per stato  
+- **Min Actions per State:** 2  
+- **Max Actions per State:** 4  
 
-> *Esempi di scelte: "Esplora la caverna" / "Contatta un alleato" / "Attiva il motore" / "Fuggi dal pianeta".*
+> *E.g., “Usare l'amuleto per dissipare la nebbia” / “Attaccare le creature oscure” / “Cercare un passaggio segreto” / “Disattivare una trappola.”*
 
 ## 6. Depth Constraints
-- **Min Steps: 6**  
+- **Min Steps: 5**  
   **Step Sequences (Min Depth):**  
-  1. Partenza dalla Stazione Spaziale di Zenthara  
-  2. Esplorazione del Pianeta di Giada e recupero del primo Cristallo  
-  3. Incontro con un cacciatore di tesori e decisione di allearsi o combattere  
-  4. Navigazione attraverso la Nebulosa di Ombra  
-  5. Confronto con Lord Vex su un pianeta desolato  
-  6. Riunione dei Cristalli e risveglio del potere dell'impero  
+  1. Prepararsi e partire da Lumina  
+  2. Entrare nella Foresta di Tenebris e affrontare la nebbia  
+  3. Combattere contro le creature oscure  
+  4. Raggiungere la fortezza di Malakar  
+  5. Recuperare la Spada di Luce e tornare a Lumina  
 
-- **Max Steps: 10**  
+- **Max Steps: 8**  
   **Step Sequences (Max Depth):**  
-  1. Preparazione e raccolta di risorse alla Stazione Spaziale  
-  2. Partenza verso il Pianeta di Giada  
-  3. Esplorazione di antiche rovine e recupero del primo Cristallo  
-  4. Incontro con un cacciatore di tesori e decisione di allearsi  
-  5. Viaggio verso il Pianeta di Fuoco e superamento di tempeste di lava  
-  6. Recupero del secondo Cristallo e scontro con creature feroci  
-  7. Navigazione attraverso la Nebulosa di Ombra e attivazione del motore  
-  8. Confronto con Lord Vex su un pianeta desolato  
-  9. Battaglia finale per il controllo dei Cristalli  
-  10. Riunione dei Cristalli e risveglio del potere dell'impero  
+  1. Consultare gli anziani del villaggio per informazioni  
+  2. Preparare l'equipaggiamento e partire da Lumina  
+  3. Navigare attraverso la Foresta di Tenebris, dissipando la nebbia  
+  4. Affrontare e sconfiggere le creature oscure  
+  5. Scoprire un passaggio segreto nella fortezza  
+  6. Risolvere enigmi per disattivare le trappole  
+  7. Confrontare Malakar in un duello finale  
+  8. Recuperare la Spada di Luce e tornare a Lumina per celebrare la vittoria  
 
-## 7. Background del Mondo
-La galassia di Zenthara è un luogo di meraviglie e pericoli. I Cristalli di Luce sono antichi artefatti che una volta alimentavano l'impero, e si dice che chi li possiede possa controllare il destino delle stelle. I pianeti abbandonati sono pieni di segreti e insidie, e le leggende narrano di antiche civiltà che hanno lasciato dietro di sé enigmi e trappole per proteggere i loro tesori.
+## World Background
+Eldoria è un regno ricco di leggende e magia. La Spada di Luce è considerata un simbolo di speranza e giustizia, custodita da generazioni di cavalieri. La foresta di Tenebris è temuta da tutti, poiché si dice che chi vi entra possa non tornare mai più. La lotta tra il bene e il male è una costante nella storia di Eldoria, e il destino del regno è ora nelle mani di Sir Cedric.

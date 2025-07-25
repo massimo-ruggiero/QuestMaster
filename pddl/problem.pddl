@@ -1,29 +1,25 @@
-(define (problem lost-stars-quest)
-  (:domain la-conquista-delle-stelle-perdute)
-  (:init
-    (at-ship stella-errante zenthara-station)
-    (engine-needs-repair stella-errante)
-    (not (ship-has-resources stella-errante))
-    (crystal-is-at crystal-of-jade jade-planet)
-    (crystal-is-at crystal-of-fire fire-planet)
-    (hazard-is-at sand-storms jade-planet)
-    (hazard-is-at lava-creatures fire-planet)
-    (hunter-is-unencountered)
-    (not (is-allied-with-hunter))
-    (vex-is-active)
-    (vex-is-at desolate-planet)
-    (planet-is-safe zenthara-station)
-    (planet-is-safe desolate-planet)
-    (path-is-known zenthara-station jade-planet)
-    (path-is-known jade-planet zenthara-station)
-    (path-is-known zenthara-station fire-planet)
-    (path-is-known fire-planet zenthara-station)
-    (nebula-path-is-known jade-planet desolate-planet)
-    (path-is-known desolate-planet jade-planet)
+(define (problem spada-di-luce-quest)
+  (:domain la-spada-di-luce)
+  (:objects
+    sir-cedric - character
+    lumina foresta-tenebris fortezza-malakar - location
+    mappa-regno amuleto-protettivo spada-luce - item
   )
+
+  (:init
+    (at sir-cedric lumina)
+    (has sir-cedric mappa-regno)
+    (has sir-cedric amuleto-protettivo)
+    (fog-active)
+    (creatures-active)
+    (traps-active)
+    (malakar-active)
+    (sword-is-at-fortress)
+  )
+
   (:goal (and
-    (all-crystals-reunited)
-    (vex-is-defeated)
-    (power-is-awakened)
+    (at sir-cedric lumina)
+    (has sir-cedric spada-luce)
+    (peace-restored)
   ))
 )

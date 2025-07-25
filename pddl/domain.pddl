@@ -1,152 +1,216 @@
-(define (domain la-conquista-delle-stelle-perdute)
-  (:requirements :strips :typing :equality)
+(define (domain la-spada-di-luce)
+  (:requirements :strips :typing)
   (:types
-    character ship location crystal hazard
-  )
-
-  (:constants
-    zara - character
-    stella-errante - ship
-    zenthara-station jade-planet fire-planet desolate-planet - location
-    crystal-of-jade crystal-of-fire - crystal
-    sand-storms lava-creatures - hazard
+    character location item
   )
 
   (:predicates
-    (at-ship ?s - ship ?l - location)
-    (engine-needs-repair ?s - ship)
-    (engine-repaired ?s - ship)
-    (ship-has-resources ?s - ship)
-    (crystal-is-at ?cr - crystal ?l - location)
-    (character-has-crystal ?c - character ?cr - crystal)
-    (vex-has-crystal ?cr - crystal)
-    (hazard-is-at ?h - hazard ?l - location)
-    (hazard-is-overcome ?h - hazard)
-    (hunter-is-unencountered)
-    (hunter-is-encountered)
-    (is-allied-with-hunter)
-    (vex-is-active)
-    (vex-is-defeated)
-    (vex-is-at ?l - location)
-    (power-is-awakened)
-    (path-is-known ?from - location ?to - location)
-    (nebula-path-is-known ?from - location ?to - location)
-    (all-crystals-reunited)
-    (planet-is-safe ?l - location)
+    (at ?c - character ?l - location)
+    (has ?c - character ?i - item)
+    (fog-active)
+    (creatures-active)
+    (traps-active)
+    (malakar-active)
+    (sword-is-at-fortress)
+    (fog-dispelled)
+    (creatures-defeated)
+    (traps-disarmed)
+    (malakar-defeated)
+    (path-to-fortress-open)
+    (peace-restored)
+    (consulted-elders)
+    (equipment-prepared)
+    (area-scouted)
+    (found-loot)
   )
 
-  (:action prepare-for-expedition
-    :parameters (?s - ship)
+  (:action travel-to-forest
+    :parameters (?c - character ?from - location ?to - location)
     :precondition (and
-      (at-ship ?s zenthara-station)
-      (engine-needs-repair ?s)
-      (not (ship-has-resources ?s))
+      (at ?c ?from)
     )
     :effect (and
-      (not (engine-needs-repair ?s))
-      (engine-repaired ?s)
-      (ship-has-resources ?s)
+      (not (at ?c ?from))
+      (at ?c ?to)
     )
   )
 
-  (:action emergency-repair
-    :parameters (?s - ship)
+  (:action consult-elders
+    :parameters (?c - character ?l - location)
     :precondition (and
-      (at-ship ?s zenthara-station)
-      (engine-needs-repair ?s)
+      (at ?c ?l)
+      (not (consulted-elders))
     )
     :effect (and
-      (not (engine-needs-repair ?s))
-      (engine-repaired ?s)
+      (consulted-elders)
     )
   )
 
-  (:action travel
-    :parameters (?s - ship ?from - location ?to - location)
+  (:action prepare-equipment
+    :parameters (?c - character ?l - location)
     :precondition (and
-      (at-ship ?s ?from)
-      (engine-repaired ?s)
-      (path-is-known ?from ?to)
+      (at ?c ?l)
+      (not (equipment-prepared))
     )
     :effect (and
-      (not (at-ship ?s ?from))
-      (at-ship ?s ?to)
+      (equipment-prepared)
     )
   )
 
-  (:action explore-planet-and-retrieve-crystal
-    :parameters (?c - character ?s - ship ?cr - crystal ?h - hazard ?l - location)
+  (:action dispel-fog-with-amulet
+    :parameters (?c - character ?l - location ?i - item)
     :precondition (and
-      (at-ship ?s ?l)
-      (ship-has-resources ?s)
-      (crystal-is-at ?cr ?l)
-      (hazard-is-at ?h ?l)
-      (not (hazard-is-overcome ?h))
+      (at ?c ?l)
+      (has ?c ?i)
+      (fog-active)
     )
     :effect (and
-      (character-has-crystal ?c ?cr)
-      (not (crystal-is-at ?cr ?l))
-      (hazard-is-overcome ?h)
-      (planet-is-safe ?l)
+      (not (fog-active))
+      (fog-dispelled)
     )
   )
 
-  (:action encounter-and-ally-with-hunter
-    :parameters (?s - ship)
+  (:action fight-creatures
+    :parameters (?c - character ?l - location)
     :precondition (and
-      (at-ship ?s jade-planet)
-      (hunter-is-unencountered)
+      (at ?c ?l)
+      (creatures-active)
     )
     :effect (and
-      (not (hunter-is-unencountered))
-      (hunter-is-encountered)
-      (is-allied-with-hunter)
-      (path-is-known jade-planet fire-planet)
-      (path-is-known fire-planet jade-planet)
-      (nebula-path-is-known fire-planet desolate-planet)
+      (not (creatures-active))
+      (creatures-defeated)
     )
   )
 
-  (:action navigate-nebula
-    :parameters (?s - ship ?from - location ?to - location)
+  (:action sneak-past-creatures
+    :parameters (?c - character ?l - location)
     :precondition (and
-      (at-ship ?s ?from)
-      (engine-repaired ?s)
-      (is-allied-with-hunter)
-      (nebula-path-is-known ?from ?to)
+      (at ?c ?l)
+      (creatures-active)
     )
     :effect (and
-      (not (at-ship ?s ?from))
-      (at-ship ?s ?to)
+      (not (creatures-active))
+      (creatures-defeated)
     )
   )
 
-  (:action confront-lord-vex
-    :parameters (?c - character ?s - ship ?l - location)
+  (:action open-path-to-fortress
+    :parameters (?c - character ?l - location)
     :precondition (and
-      (at-ship ?s ?l)
-      (vex-is-at ?l)
-      (vex-is-active)
-      (character-has-crystal ?c crystal-of-jade)
-      (character-has-crystal ?c crystal-of-fire)
+      (at ?c ?l)
+      (fog-dispelled)
+      (creatures-defeated)
     )
     :effect (and
-      (not (vex-is-active))
-      (vex-is-defeated)
+      (path-to-fortress-open)
     )
   )
 
-  (:action reunite-crystals-and-awaken-power
-    :parameters (?c - character ?cr1 - crystal ?cr2 - crystal)
+  (:action travel-to-fortress
+    :parameters (?c - character ?from - location ?to - location)
     :precondition (and
-      (vex-is-defeated)
-      (character-has-crystal ?c ?cr1)
-      (character-has-crystal ?c ?cr2)
-      (not (= ?cr1 ?cr2))
+      (at ?c ?from)
+      (path-to-fortress-open)
     )
     :effect (and
-      (all-crystals-reunited)
-      (power-is-awakened)
+      (not (at ?c ?from))
+      (at ?c ?to)
+    )
+  )
+
+  (:action disarm-traps
+    :parameters (?c - character ?l - location)
+    :precondition (and
+      (at ?c ?l)
+      (traps-active)
+    )
+    :effect (and
+      (not (traps-active))
+      (traps-disarmed)
+    )
+  )
+
+  (:action find-secret-passage
+    :parameters (?c - character ?l - location)
+    :precondition (and
+      (at ?c ?l)
+      (traps-active)
+    )
+    :effect (and
+      (not (traps-active))
+      (traps-disarmed)
+    )
+  )
+
+  (:action duel-malakar
+    :parameters (?c - character ?l - location)
+    :precondition (and
+      (at ?c ?l)
+      (traps-disarmed)
+      (malakar-active)
+    )
+    :effect (and
+      (not (malakar-active))
+      (malakar-defeated)
+    )
+  )
+
+  (:action search-for-loot
+    :parameters (?c - character ?l - location)
+    :precondition (and
+      (at ?c ?l)
+      (traps-disarmed)
+      (not (found-loot))
+    )
+    :effect (and
+      (found-loot)
+    )
+  )
+
+  (:action retrieve-sword
+    :parameters (?c - character ?i - item ?l - location)
+    :precondition (and
+      (at ?c ?l)
+      (malakar-defeated)
+      (sword-is-at-fortress)
+    )
+    :effect (and
+      (has ?c ?i)
+      (not (sword-is-at-fortress))
+    )
+  )
+
+  (:action return-to-lumina-with-sword
+    :parameters (?c - character ?i - item ?from - location ?to - location)
+    :precondition (and
+      (has ?c ?i)
+      (at ?c ?from)
+    )
+    :effect (and
+      (not (at ?c ?from))
+      (at ?c ?to)
+      (peace-restored)
+    )
+  )
+
+  (:action conquer-fortress-and-return-victorious
+    :parameters (?c - character ?i - item ?from - location ?to - location)
+    :precondition (and
+      (at ?c ?from)
+      (traps-active)
+      (malakar-active)
+      (sword-is-at-fortress)
+    )
+    :effect (and
+      (not (at ?c ?from))
+      (at ?c ?to)
+      (not (traps-active))
+      (traps-disarmed)
+      (not (malakar-active))
+      (malakar-defeated)
+      (not (sword-is-at-fortress))
+      (has ?c ?i)
+      (peace-restored)
     )
   )
 )

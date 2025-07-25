@@ -1,53 +1,11 @@
-from pddl_agent import PDDLAgent
-from reflective_agent import ReflectiveAgent
-from lore_agent import LoreAgent
-from utils import *
-import yaml
+from flask import Flask
+from endpoints import init_endpoints
 
+def create_app():
+    app = Flask(__name__)
+    init_endpoints(app)
+    return app
 
-with open('templates.yaml', 'r') as file:
-    templates = yaml.safe_load(file)
-
-# Lore Agent Templates
-LORE_SYSTEM_TMPL = fill_lore_system_template(templates['lore']['system'])
-
-# PDDL Agent Templates
-PDDL_SYSTEM_TMPL = generative_system_template (templates['pddl']['system'])
-PDDL_HUMAN_TMPL  = templates['pddl']['human']
-
-# Reflective Agent Templates
-PLANNER_SYSTEM_TMPL  = templates['reflective']['planner']['system']
-PLANNER_HUMAN_TMPL  = templates['reflective']['planner']['human']
-CHECK_INCOHERENCE_SYSTEM_TMPL  = templates['reflective']['incoherence']['check']['system']
-CHECK_INCOHERENCE_HUMAN_TMPL  = templates['reflective']['incoherence']['check']['human']
-FIX_INCOHERENCE_SYSTEM_TMPL  = templates['reflective']['incoherence']['fix']['system']
-FIX_INCOHERENCE_HUMAN_TMPL  = templates['reflective']['incoherence']['fix']['human']
-VALIDATOR_SYSTEM_TMPL  = templates['reflective']['validator']['system']
-VALIDATOR_HUMAN_TMPL  = templates['reflective']['validator']['human']
-
-
-def main():
-    #lore_agent = LoreAgent(system_template=LORE_SYSTEM_TMPL, 
-    #                        model="gpt-4o-mini")
-    #lore_agent.run()
-
-    #pddl_agent = PDDLAgent(system_template=PDDL_SYSTEM_TMPL, 
-    #                       human_template=PDDL_HUMAN_TMPL, 
-    #                       model="gemini-2.5-pro")
-    #pddl_agent.generate_pddl()
-
-    reflective_agent = ReflectiveAgent(planner_system_template=PLANNER_SYSTEM_TMPL,
-                                       planner_human_template=PLANNER_HUMAN_TMPL,
-                                       check_incoherence_system_template=CHECK_INCOHERENCE_SYSTEM_TMPL,
-                                       check_incoherence_human_template=CHECK_INCOHERENCE_HUMAN_TMPL,
-                                       fix_incoherence_system_template=FIX_INCOHERENCE_SYSTEM_TMPL,
-                                       fix_incoherence_human_template=FIX_INCOHERENCE_HUMAN_TMPL,
-                                       validator_system_template=VALIDATOR_SYSTEM_TMPL,
-                                       validator_human_template=VALIDATOR_HUMAN_TMPL,
-                                       model="gemini-2.5-pro")
-    reflective_agent.check_and_fix_errors(max_retries_planner=10, 
-                                          max_retries_incoherence = 10, 
-                                          max_retries_validator=5)
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    app = create_app()
+    app.run(host="0.0.0.0", port=5001, debug=True)

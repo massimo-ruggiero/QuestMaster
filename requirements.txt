@@ -3,3 +3,7 @@ langchain-openai
 pyyaml
 langchain-google-genai
 langgraph
+flask
+flask-cors
+langchain-community
+pddlsim
