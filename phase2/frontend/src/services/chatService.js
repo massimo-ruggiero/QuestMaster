@@ -1,3 +1,5 @@
+// chatService.js
+
 // Configurazione API
 const API_BASE_URL = 'http://localhost:5001';
 
@@ -74,16 +76,30 @@ class ChatService {
 
   async restartChat() {
     try {
-      // Prima fermiamo la chat corrente
-      await this.stopChat();
+      const response = await fetch(`${API_BASE_URL}/restart_chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      this.isInitialized = true;
       
-      // Poi la riavviamo
-      return await this.startChat();
+      return {
+        success: true,
+        message: data.response,
+        action: data.action
+      };
     } catch (error) {
       console.error('Errore durante il restart della chat:', error);
       return {
         success: false,
-        message: 'Errore durante il restart della chat.',
+        message: 'Errore durante il restart della chat. Assicurati che il server Flask sia avviato.',
         action: 'error'
       };
     }
@@ -109,6 +125,38 @@ class ChatService {
     }
   }
 
+  // NUOVO METODO: Salva il Lore
+  async saveLore() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/save_lore`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Se il backend si aspetta un body (anche vuoto)
+        // body: JSON.stringify({})
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: data.response, // Il backend dovrebbe restituire un messaggio di successo
+        action: data.action // Potrebbe essere 'saved' o simile
+      };
+    } catch (error) {
+      console.error('Errore durante il salvataggio del lore:', error);
+      return {
+        success: false,
+        message: 'Errore durante il salvataggio del lore.',
+        action: 'error'
+      };
+    }
+  }
+
   async getStatus() {
     try {
       const response = await fetch(`${API_BASE_URL}/get_status`);
@@ -131,7 +179,6 @@ class ChatService {
     }
   }
 
-  // Nuovo metodo per il process_stream
   async processStream() {
     try {
       const response = await fetch(`${API_BASE_URL}/process_stream`, {
@@ -153,6 +200,5 @@ class ChatService {
   }
 }
 
-// Esporta un'istanza singleton
 export const chatService = new ChatService();
 export default chatService;

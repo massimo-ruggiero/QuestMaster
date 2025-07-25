@@ -1,0 +1,82 @@
+/* Stili per il layout generale dell'applicazione */
+.app-container {
+  min-height: 100vh;
+}
+
+/* Stile per il pattern a mattoni di sfondo */
+.brick-pattern {
+  background-color: var(--primary-green);
+  background-image:
+    /* Bordi orizzontali delle mattonelle */
+    repeating-linear-gradient(
+      0deg,
+      rgba(139, 155, 107, 0.8) 0px,
+      rgba(139, 155, 107, 0.8) 1px,
+      transparent 1px,
+      transparent 24px
+    ),
+    /* Bordi verticali delle mattonelle */
+    repeating-linear-gradient(
+      90deg,
+      rgba(139, 155, 107, 0.8) 0px,
+      rgba(139, 155, 107, 0.8) 1px,
+      transparent 1px,
+      transparent 48px
+    ),
+    /* Ombreggiatura interna delle mattonelle */
+    repeating-linear-gradient(
+      0deg,
+      rgba(44, 62, 26, 0.1) 0px,
+      rgba(44, 62, 26, 0.1) 12px,
+      transparent 12px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(44, 62, 26, 0.1) 0px,
+      rgba(44, 62, 26, 0.1) 24px,
+      transparent 24px,
+      transparent 48px
+    );
+  background-size: 24px 24px, 48px 48px, 24px 24px, 48px 48px;
+  background-position: 0 0, 0 0, 0 0, 24px 12px;
+}
+
+/* Contenitore per il popup di errore globale */
+.error-popup-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+/* Stile per il popup di errore in stile retro */
+.retro-error-popup {
+  background-color: #ff6b6b;
+  color: var(--retro-white);
+  border: 3px solid var(--retro-black);
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow:
+    3px 3px 0px var(--retro-black),
+    inset 1px 1px 0px rgba(255, 255, 255, 0.3);
+  animation: slideUpFade 3s ease-in-out;
+}
+
+/* Animazione per il popup di errore */
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

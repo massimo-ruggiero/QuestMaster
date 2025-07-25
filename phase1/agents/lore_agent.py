@@ -14,6 +14,8 @@ from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
 class State(TypedDict):
     messages: Annotated[list, add_messages]
+    exit: bool
+    save: bool
 
 
 class LoreAgent:
@@ -37,10 +39,12 @@ class LoreAgent:
         def input_node(state: State) -> State:
             user_input = self.input_queue.get()
             if user_input is None:  
-                return state
+                return {"exit": True, "save": False}
+            elif user_input == "SAVE_TRIGGER":
+                return {"exit": False, "save": True}
             usr = HumanMessage(content=user_input)
             new_messages = state["messages"] + [usr]
-            return {"messages": new_messages}
+            return {"messages": new_messages, "exit": False, "save": False}
 
 
         def chat_node(state: State) -> State:
@@ -51,19 +55,7 @@ class LoreAgent:
                 "action": "continue"
             })
             new_messages = state["messages"] + [ai]
-            return {"messages": new_messages}
-
-
-        def next_step_conditional_routing(state: State) -> str:
-            text = state["messages"][-1].content.strip().lower()
-            
-            if any(k in text for k in ["salva", "salva lore", "salvare lore", "save lore", "soddisfatto", "conferma"]):
-                return "save_lore"
-            
-            if any(k in text for k in ["quit", "exit", "esci", "chiudi", "termina", "fine"]):
-                return "exit_chat"
-            
-            return "ask_refine"
+            return {"messages": new_messages, "exit": False}
 
 
         def save_node(state: State) -> State:
@@ -75,6 +67,7 @@ class LoreAgent:
                     if match:
                         lore_text = match.group(1).strip()
                         break
+
             if not lore_text:
                 print("Assistant: Nessun messaggio contiene un blocco <lore>.")
                 return
@@ -87,30 +80,29 @@ class LoreAgent:
             })
             self.is_running = False
             return state
-
         
-        def exit_node(state: State) -> State:
-            self.output_queue.put({
-                "message": "Arrivederci!",
-                "action": "exit"
-            })
-            self.is_running = False
-            return state
+
+        def next_step_conditional_routing(state: State) -> str:
+            if state.get("save", False):
+                return "save_lore"
+            elif state.get("exit", False):
+                return "exit"
+            else:
+                return "continue"
+
 
         workflow.add_node("input", input_node)
         workflow.add_node("chat", chat_node)
         workflow.add_node("save", save_node)
-        workflow.add_node("exit", exit_node)
 
         workflow.add_edge(START, "input")
         workflow.add_conditional_edges(
             "input",
             next_step_conditional_routing,
-            {"save_lore": "save","exit_chat": "exit", "ask_refine": "chat"}
+            {"save_lore": "save","continue": "chat", "exit": END}
         )
         workflow.add_edge("chat", "input")
         workflow.add_edge("save", END)
-        workflow.add_edge("exit", END)
 
         compiled_workflow = workflow.compile()
 
@@ -125,7 +117,11 @@ class LoreAgent:
     def _run_workflow(self):
         try:
             sys_msg = SystemMessage(content=self.system_template)
-            initial_state: State = {"messages": [sys_msg]}
+            initial_state: State = {
+                "messages": [sys_msg],
+                "exit": False, 
+                "save": False
+            }
             
             self.output_queue.put({
                 "message": "Chat inizializzata. Dimmi cosa hai in mente per il lore.",
@@ -163,10 +159,27 @@ class LoreAgent:
         return response
     
 
+    def save_lore(self):
+        if not self.is_running:
+            raise ValueError("Chat non attiva. Chiama start_chat() prima.")
+        self.input_queue.put("SAVE_TRIGGER")
+        response = self.output_queue.get()
+        return response
+    
+
     def stop_chat(self):
         if self.is_running:
             self.input_queue.put(None)  
             self.is_running = False
+            if self.workflow_thread and self.workflow_thread.is_alive():
+                self.workflow_thread.join(timeout=5.0)
+                if self.workflow_thread.is_alive():
+                    print("Warning: Thread non terminato correttamente")
+
+    
+    def restart_chat(self):
+        self.stop_chat()
+        return self.start_chat()
     
 
     def is_active(self) -> bool:

@@ -16,6 +16,7 @@ def init_endpoints(app):
             action   = resp["action"]
         )
 
+
     @app.route('/send_message', methods=['POST'])
     def send_message():
         if not lore_agent.is_active():
@@ -36,14 +37,47 @@ def init_endpoints(app):
         except Exception as e:
             return jsonify(error=str(e)), 500
 
+
     @app.route('/stop_chat', methods=['POST'])
     def stop_chat():
         if not lore_agent.is_active():
-            return jsonify(error="Nessuna chat attiva"), 400
+            return jsonify(error="Nessuna chat attiva."), 400
 
         lore_agent.stop_chat()
-        return jsonify(status="success", message="Chat fermata")
+        return jsonify(status="success", message="Chat interrotta.")
     
+
+    @app.route('/save_lore', methods=['POST'])
+    def save_lore():
+        if not lore_agent.is_active():
+            return jsonify(error="Nessuna chat attiva, impossibile salvare il lore."), 400
+        try:
+            resp = lore_agent.save_lore()
+            return jsonify(
+                status   = "success",
+                response = resp["message"],
+                action   = resp["action"]
+            ) 
+        except Exception as e:
+            return jsonify(error=str(e)), 500
+        
+
+    @app.route('/restart_chat', methods=['POST'])
+    def restart_chat():
+        try:
+            resp = lore_agent.restart_chat()
+            return jsonify(
+                status="success",
+                message="Chat riavviata con successo",
+                response=resp["message"],
+                action=resp["action"]
+            )
+        except Exception as e:
+            return jsonify(
+                status="error",
+                message=f"Errore durante il riavvio: {str(e)}"
+            ), 500
+
     # —————— PDDLAgent and ReflectiveAgents endpoints ——————
     @app.route('/process_stream', methods=['POST'])
     def process_stream():

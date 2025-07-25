@@ -373,7 +373,7 @@ class ReflectiveAgent:
             plan_dir: str = "pddl",
             lore_document_path: str = "pddl/lore.txt",
             max_retries_planner: int = 10,
-            max_retries_incoherence: int = 1,
+            max_retries_incoherence: int = 10,
             max_retries_validator: int = 5):
         
         self.workflow_thread = Thread(

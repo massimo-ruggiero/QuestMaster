@@ -1,216 +1,135 @@
-(define (domain la-spada-di-luce)
-  (:requirements :strips :typing)
+(define (domain shattered-kingdom)
+  (:requirements :strips :typing :equality)
   (:types
-    character location item
+    hero sorcerer - character
+    faction
+    location
+    fragment
   )
 
   (:predicates
-    (at ?c - character ?l - location)
-    (has ?c - character ?i - item)
-    (fog-active)
-    (creatures-active)
-    (traps-active)
-    (malakar-active)
-    (sword-is-at-fortress)
-    (fog-dispelled)
-    (creatures-defeated)
-    (traps-disarmed)
-    (malakar-defeated)
-    (path-to-fortress-open)
-    (peace-restored)
-    (consulted-elders)
-    (equipment-prepared)
-    (area-scouted)
-    (found-loot)
+    (at ?h - hero ?l - location)
+    (sorcerer-at ?s - sorcerer ?l - location)
+    (faction-at ?f - faction ?l - location)
+    (has-fragment ?h - hero ?frag - fragment)
+    (faction-holds-fragment ?f - faction ?frag - fragment)
+    (connected ?from - location ?to - location)
+    (path-is-stormy ?from - location ?to - location)
+    (path-has-bandits ?from - location ?to - location)
+    (faction-is-distrustful ?f - faction)
+    (malakar-is-active)
+    (malakar-is-defeated)
+    (crystal-is-restored)
+    (information-is-gathered)
+    (allies-are-recruited)
+    (scouted-location ?l - location)
+    (is-village ?l - location)
   )
 
-  (:action travel-to-forest
-    :parameters (?c - character ?from - location ?to - location)
+  (:action gather-information
+    :parameters (?h - hero ?l - location)
     :precondition (and
-      (at ?c ?from)
+      (at ?h ?l)
+      (is-village ?l)
+      (not (information-is-gathered))
     )
     :effect (and
-      (not (at ?c ?from))
-      (at ?c ?to)
-    )
-  )
-
-  (:action consult-elders
-    :parameters (?c - character ?l - location)
-    :precondition (and
-      (at ?c ?l)
-      (not (consulted-elders))
-    )
-    :effect (and
-      (consulted-elders)
+      (information-is-gathered)
     )
   )
 
-  (:action prepare-equipment
-    :parameters (?c - character ?l - location)
+  (:action recruit-allies
+    :parameters (?h - hero ?l - location)
     :precondition (and
-      (at ?c ?l)
-      (not (equipment-prepared))
+      (at ?h ?l)
+      (is-village ?l)
+      (not (allies-are-recruited))
     )
     :effect (and
-      (equipment-prepared)
+      (allies-are-recruited)
     )
   )
 
-  (:action dispel-fog-with-amulet
-    :parameters (?c - character ?l - location ?i - item)
+  (:action travel
+    :parameters (?h - hero ?from - location ?to - location)
     :precondition (and
-      (at ?c ?l)
-      (has ?c ?i)
-      (fog-active)
+      (at ?h ?from)
+      (connected ?from ?to)
+      (information-is-gathered)
+      (not (path-is-stormy ?from ?to))
+      (not (path-has-bandits ?from ?to))
     )
     :effect (and
-      (not (fog-active))
-      (fog-dispelled)
+      (not (at ?h ?from))
+      (at ?h ?to)
     )
   )
 
-  (:action fight-creatures
-    :parameters (?c - character ?l - location)
+  (:action calm-stormy-path
+    :parameters (?h - hero ?from - location ?to - location)
     :precondition (and
-      (at ?c ?l)
-      (creatures-active)
+      (at ?h ?from)
+      (path-is-stormy ?from ?to)
     )
     :effect (and
-      (not (creatures-active))
-      (creatures-defeated)
+      (not (path-is-stormy ?from ?to))
     )
   )
 
-  (:action sneak-past-creatures
-    :parameters (?c - character ?l - location)
+  (:action defeat-bandits-on-path
+    :parameters (?h - hero ?from - location ?to - location)
     :precondition (and
-      (at ?c ?l)
-      (creatures-active)
+      (at ?h ?from)
+      (path-has-bandits ?from ?to)
     )
     :effect (and
-      (not (creatures-active))
-      (creatures-defeated)
+      (not (path-has-bandits ?from ?to))
     )
   )
 
-  (:action open-path-to-fortress
-    :parameters (?c - character ?l - location)
+  (:action complete-faction-trial
+    :parameters (?h - hero ?f - faction ?frag - fragment ?l - location)
     :precondition (and
-      (at ?c ?l)
-      (fog-dispelled)
-      (creatures-defeated)
+      (at ?h ?l)
+      (faction-at ?f ?l)
+      (faction-is-distrustful ?f)
+      (faction-holds-fragment ?f ?frag)
     )
     :effect (and
-      (path-to-fortress-open)
+      (not (faction-is-distrustful ?f))
+      (not (faction-holds-fragment ?f ?frag))
+      (has-fragment ?h ?frag)
     )
   )
 
-  (:action travel-to-fortress
-    :parameters (?c - character ?from - location ?to - location)
+  (:action scout-for-hidden-paths
+    :parameters (?h - hero ?l - location)
     :precondition (and
-      (at ?c ?from)
-      (path-to-fortress-open)
+      (at ?h ?l)
+      (not (scouted-location ?l))
     )
     :effect (and
-      (not (at ?c ?from))
-      (at ?c ?to)
+      (scouted-location ?l)
     )
   )
 
-  (:action disarm-traps
-    :parameters (?c - character ?l - location)
+  (:action confront-malakar-and-restore-crystal
+    :parameters (?h - hero ?s - sorcerer ?l - location ?f1 - fragment ?f2 - fragment ?f3 - fragment)
     :precondition (and
-      (at ?c ?l)
-      (traps-active)
+      (at ?h ?l)
+      (sorcerer-at ?s ?l)
+      (malakar-is-active)
+      (has-fragment ?h ?f1)
+      (has-fragment ?h ?f2)
+      (has-fragment ?h ?f3)
+      (not (= ?f1 ?f2))
+      (not (= ?f1 ?f3))
+      (not (= ?f2 ?f3))
     )
     :effect (and
-      (not (traps-active))
-      (traps-disarmed)
-    )
-  )
-
-  (:action find-secret-passage
-    :parameters (?c - character ?l - location)
-    :precondition (and
-      (at ?c ?l)
-      (traps-active)
-    )
-    :effect (and
-      (not (traps-active))
-      (traps-disarmed)
-    )
-  )
-
-  (:action duel-malakar
-    :parameters (?c - character ?l - location)
-    :precondition (and
-      (at ?c ?l)
-      (traps-disarmed)
-      (malakar-active)
-    )
-    :effect (and
-      (not (malakar-active))
-      (malakar-defeated)
-    )
-  )
-
-  (:action search-for-loot
-    :parameters (?c - character ?l - location)
-    :precondition (and
-      (at ?c ?l)
-      (traps-disarmed)
-      (not (found-loot))
-    )
-    :effect (and
-      (found-loot)
-    )
-  )
-
-  (:action retrieve-sword
-    :parameters (?c - character ?i - item ?l - location)
-    :precondition (and
-      (at ?c ?l)
-      (malakar-defeated)
-      (sword-is-at-fortress)
-    )
-    :effect (and
-      (has ?c ?i)
-      (not (sword-is-at-fortress))
-    )
-  )
-
-  (:action return-to-lumina-with-sword
-    :parameters (?c - character ?i - item ?from - location ?to - location)
-    :precondition (and
-      (has ?c ?i)
-      (at ?c ?from)
-    )
-    :effect (and
-      (not (at ?c ?from))
-      (at ?c ?to)
-      (peace-restored)
-    )
-  )
-
-  (:action conquer-fortress-and-return-victorious
-    :parameters (?c - character ?i - item ?from - location ?to - location)
-    :precondition (and
-      (at ?c ?from)
-      (traps-active)
-      (malakar-active)
-      (sword-is-at-fortress)
-    )
-    :effect (and
-      (not (at ?c ?from))
-      (at ?c ?to)
-      (not (traps-active))
-      (traps-disarmed)
-      (not (malakar-active))
-      (malakar-defeated)
-      (not (sword-is-at-fortress))
-      (has ?c ?i)
-      (peace-restored)
+      (not (malakar-is-active))
+      (malakar-is-defeated)
+      (crystal-is-restored)
     )
   )
 )

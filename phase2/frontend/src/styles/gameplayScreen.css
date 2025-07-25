@@ -1,0 +1,117 @@
+/* Stili specifici per la schermata di gameplay (GameplayScreen) */
+.gameplay-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  padding-top: 0rem; /* o 0, a piacere */
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+}
+
+.gameplay-window {
+  width: 100%;
+  max-width: 64rem;
+  margin-bottom: 1rem; /* Regolato per più spazio */
+}
+
+.gameplay-content {
+  padding: 2rem;
+}
+
+.gameplay-viewport {
+  background-color: var(--retro-black);
+  border: 4px solid var(--retro-black);
+  padding: 8px;
+  box-shadow:
+    inset 2px 2px 0px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 0px rgba(255, 255, 255, 0.1);
+}
+
+.gameplay-screen-inner {
+  height: 24rem; /* Allargamento del riquadro “Gameplay Preview” */
+  min-height: 24rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--primary-green); /* Stile di sfondo interno */
+  border: 2px solid var(--dark-green); /* Bordo interno */
+  box-shadow:
+    inset 1px 1px 0px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* Stili per l'area di visualizzazione del gameplay */
+.gameplay-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 4rem;
+}
+
+.actions-window {
+  width: 100%;
+  max-width: 64rem;
+}
+
+.actions-content {
+  padding: 1.5rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.actions-grid::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .actions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.actions-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-button {
+  padding: 0.5rem 1rem;
+}
+
+.nav-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.page-indicator {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+/* Nascondere scrollbar per l'area azioni gameplay (backup) */
+.overflow-auto::-webkit-scrollbar,
+.actions-container::-webkit-scrollbar {
+  display: none;
+}
+
+.actions-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}

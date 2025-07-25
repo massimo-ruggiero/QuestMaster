@@ -1,0 +1,51 @@
+/* Importa le variabili e i font globalmente */
+@import './_variables.css';
+
+/* Stili universali */
+* {
+  font-family: 'Courier Prime', monospace;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Stili per il corpo della pagina */
+body {
+  background-color: var(--primary-green);
+  color: var(--retro-black);
+  overflow: hidden; /* Previene lo scroll della pagina principale */
+}
+
+/* Reset dei margini e padding per html e body */
+html, body {
+  margin: 0;
+  padding: 0;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Classe per il rendering pixelato (ridondante con * ma utile per specificità) */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Stili personalizzati per la scrollbar (Webkit) */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--retro-white);
+  border: 1px solid var(--retro-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-green);
+  border: 1px solid var(--retro-black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-green);
+}

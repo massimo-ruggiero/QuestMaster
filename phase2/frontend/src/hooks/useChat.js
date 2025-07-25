@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
+// useChat.js
+import { useState, useCallback } from 'react';
 import chatService from '../services/chatService';
 
 export const useChat = () => {
@@ -6,11 +7,10 @@ export const useChat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState(null);
+  const [isRestarting, setIsRestarting] = useState(false);
+  const [afterSaveOnlyRestart, setAfterSaveOnlyRestart] = useState(false);
 
-  // Inizializza la chat quando il hook viene montato
   const initializeChat = useCallback(async () => {
-    if (isInitialized) return;
-    
     setIsLoading(true);
     setError(null);
 
@@ -19,8 +19,7 @@ export const useChat = () => {
       
       if (result.success) {
         setIsInitialized(true);
-        // Aggiungi il messaggio iniziale del bot
-        setChatMessages([{
+        setChatMessages(prevMessages => [...prevMessages, {
           text: result.message,
           isBot: true,
           action: result.action,
@@ -35,13 +34,11 @@ export const useChat = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isInitialized]);
+  }, []);
 
-  // Invia un messaggio
   const sendMessage = useCallback(async (messageText) => {
     if (!messageText.trim() || isLoading || !isInitialized) return;
 
-    // Aggiungi il messaggio dell'utente immediatamente
     const userMessage = {
       text: messageText.trim(),
       isBot: false,
@@ -56,22 +53,21 @@ export const useChat = () => {
       const result = await chatService.sendMessage(messageText.trim());
       
       if (result.success) {
-        // Aggiungi la risposta del bot
         const botMessage = {
           text: result.message,
           isBot: true,
           action: result.action,
           timestamp: new Date()
         };
-
         setChatMessages(prev => [...prev, botMessage]);
 
-        // Se l'azione è "save" o "exit", potresti voler fare qualcosa di speciale
+        // La logica 'save' qui NON viene più usata per il salvataggio diretto
+        // ma può essere un feedback se il backend segnala un'azione 'save'
         if (result.action === 'save') {
-          console.log('Lore salvato con successo!');
+          console.log('Backend ha segnalato un\'azione di salvataggio.');
+          // Non impostiamo afterSaveOnlyRestart qui, lo faremo dopo la chiamata esplicita a saveLore
         } else if (result.action === 'exit') {
           console.log('Chat terminata dall\'utente');
-          setIsInitialized(false);
         }
       } else {
         setError(result.message);
@@ -84,31 +80,83 @@ export const useChat = () => {
     }
   }, [isLoading, isInitialized]);
 
-  // Ferma la chat
   const stopChat = useCallback(async () => {
     try {
       await chatService.stopChat();
       setIsInitialized(false);
-      setChatMessages([]);
       setError(null);
     } catch (err) {
       console.error('Errore durante la chiusura della chat:', err);
     }
   }, []);
 
-  // Resetta lo stato di errore
   const clearError = useCallback(() => {
     setError(null);
   }, []);
 
-  // Resetta la chat
   const restartChat = useCallback(async () => {
-    await stopChat();
-    await initializeChat();
-  }, [stopChat, initializeChat]);
+    if (isLoading || isRestarting) return;
+
+    setIsRestarting(true);
+    setError(null);
+    setAfterSaveOnlyRestart(false);
+    setChatMessages([]);
+
+    try {
+      const result = await chatService.restartChat();
+      if (result.success) {
+        setIsInitialized(true);
+        setChatMessages(prevMessages => [...prevMessages, {
+          text: result.message,
+          isBot: true,
+          action: result.action,
+          timestamp: new Date()
+        }]);
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      setError('Errore durante il riavvio della chat');
+      console.error('Errore riavvio:', err);
+    } finally {
+      setIsRestarting(false);
+      setIsLoading(false);
+    }
+  }, [isLoading, isRestarting, setChatMessages]);
+
+  // NUOVA FUNZIONE: Salva il Lore
+  const saveLore = useCallback(async () => {
+    if (isLoading || isRestarting || afterSaveOnlyRestart) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await chatService.saveLore();
+      if (result.success) {
+        setAfterSaveOnlyRestart(true); // Imposta lo stato per disabilitare tutto tranne il riavvio
+        setChatMessages(prev => [...prev, {
+          text: result.message, // Messaggio di conferma salvataggio dal backend
+          isBot: true,
+          action: result.action,
+          timestamp: new Date()
+        }]);
+        console.log('Lore salvato con successo dal backend!');
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      setError('Errore durante il salvataggio del lore');
+      console.error('Errore salvataggio lore:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isLoading, isRestarting, afterSaveOnlyRestart, setChatMessages]);
+
 
   return {
     chatMessages,
+    setChatMessages,
     isLoading,
     isInitialized,
     error,
@@ -116,6 +164,11 @@ export const useChat = () => {
     sendMessage,
     stopChat,
     clearError,
-    restartChat
+    isRestarting,
+    setIsRestarting,
+    afterSaveOnlyRestart,
+    setAfterSaveOnlyRestart,
+    restartChat,
+    saveLore, // Espone la nuova funzione saveLore
   };
 };

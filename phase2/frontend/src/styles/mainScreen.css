@@ -1,0 +1,102 @@
+/* Stili specifici per la schermata principale (MainScreen) */
+.main-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+}
+
+.upload-window {
+  width: 100%;
+  max-width: 32rem;
+}
+
+.retro-drop-zone {
+  border: 3px dashed var(--dark-green);
+  background-color: rgba(196, 212, 163, 0.3);
+  padding: 48px 24px;
+  text-align: center;
+  transition: all 0.2s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.retro-drop-zone.drag-over {
+  background-color: rgba(196, 212, 163, 0.6);
+  border-color: var(--secondary-green);
+  transform: scale(1.02);
+}
+
+.retro-drop-zone.has-file {
+  background-color: rgba(139, 155, 107, 0.3);
+  border-color: var(--secondary-green);
+  border-style: solid;
+}
+
+.upload-content {
+  padding: 2rem;
+}
+
+.upload-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem auto;
+}
+
+.upload-main-text {
+  text-align: center;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.upload-sub-text {
+  text-align: center;
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+.file-loaded {
+  text-align: center;
+}
+
+.file-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.file-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.remove-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.continue-button {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+/* Stili per il pulsante continua disabilitato */
+.continue-button:disabled {
+  background: #ccc;
+  color: #666;
+  border-color: #bbb;
+  cursor: not-allowed;
+}
+
+.continue-button:disabled:hover {
+  background: #ccc;
+  transform: none;
+}

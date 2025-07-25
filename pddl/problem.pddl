@@ -1,25 +1,44 @@
-(define (problem spada-di-luce-quest)
-  (:domain la-spada-di-luce)
+(define (problem shattered-kingdom-quest)
+  (:domain shattered-kingdom)
   (:objects
-    sir-cedric - character
-    lumina foresta-tenebris fortezza-malakar - location
-    mappa-regno amuleto-protettivo spada-luce - item
+    elara - hero
+    malakar - sorcerer
+    elves dwarves - faction
+    windhaven forestofwhispers cursedmarsh dwarvenstronghold fortressofshadows - location
+    crystalfragment elvenfragment dwarvenfragment - fragment
   )
 
   (:init
-    (at sir-cedric lumina)
-    (has sir-cedric mappa-regno)
-    (has sir-cedric amuleto-protettivo)
-    (fog-active)
-    (creatures-active)
-    (traps-active)
-    (malakar-active)
-    (sword-is-at-fortress)
+    (at elara windhaven)
+    (is-village windhaven)
+    (has-fragment elara crystalfragment)
+    (sorcerer-at malakar fortressofshadows)
+    (malakar-is-active)
+
+    (faction-at elves forestofwhispers)
+    (faction-at dwarves dwarvenstronghold)
+
+    (faction-holds-fragment elves elvenfragment)
+    (faction-holds-fragment dwarves dwarvenfragment)
+
+    (faction-is-distrustful elves)
+    (faction-is-distrustful dwarves)
+
+    (connected windhaven forestofwhispers)
+    (connected forestofwhispers windhaven)
+    (connected forestofwhispers cursedmarsh)
+    (connected cursedmarsh forestofwhispers)
+    (connected cursedmarsh dwarvenstronghold)
+    (connected dwarvenstronghold cursedmarsh)
+    (connected dwarvenstronghold fortressofshadows)
+    (connected fortressofshadows dwarvenstronghold)
+
+    (path-is-stormy windhaven forestofwhispers)
+    (path-has-bandits cursedmarsh dwarvenstronghold)
   )
 
   (:goal (and
-    (at sir-cedric lumina)
-    (has sir-cedric spada-luce)
-    (peace-restored)
+    (malakar-is-defeated)
+    (crystal-is-restored)
   ))
 )

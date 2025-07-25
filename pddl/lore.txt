@@ -1,53 +1,53 @@
-# Lore Document: La Spada di Luce
+# Lore Document: The Shattered Kingdom
 
-## 1. Quest Description
-**Titolo:** La Spada di Luce  
+## Quest Description
+**Title:** The Shattered Kingdom  
 **Setting:**  
-Nel regno di Eldoria, un'epoca di oscurità si avvicina. Un potente stregone, Malakar, ha rubato la Spada di Luce, un artefatto sacro in grado di mantenere l'equilibrio tra il bene e il male. Un giovane cavaliere, Sir Cedric, deve intraprendere un pericoloso viaggio per recuperare la spada e salvare il regno dalla distruzione.
+In the realm of Eldoria, a once-unified kingdom has been torn apart by a dark sorcerer who shattered the Crystal of Unity, the source of peace and harmony. The land is now divided into warring factions, each vying for power. A brave hero must embark on a quest to restore the Crystal and reunite the kingdom before it falls into eternal chaos.
 
-## 2. Initial State
-- Sir Cedric si trova nel villaggio di Lumina, pronto a partire.  
-- Ha con sé la Mappa del Regno e un Amuleto Protettivo.  
-- La foresta di Tenebris è avvolta da una nebbia magica.  
-- Malakar ha scatenato creature oscure per proteggere la sua fortezza.
+## Initial State
+- The protagonist, “Elara,” is in the village of Windhaven.  
+- Elara possesses a Fragment of the Crystal, a piece of the shattered artifact.  
+- The skies are darkened by magical storms, and bandits roam the roads.  
+- The sorcerer, “Malakar,” resides in the Fortress of Shadows, gathering strength.
 
-## 3. Goal
-- Recuperare la Spada di Luce dalla fortezza di Malakar.  
-- Tornare a Lumina e ripristinare la pace nel regno.
+## Goal
+- Elara must collect the remaining Crystal Fragments from the factions and restore the Crystal of Unity.  
+- Elara needs to confront Malakar and defeat him to bring peace back to Eldoria.
 
-## 4. Possible Obstacles
-1. **Nebbia Magica della Foresta di Tenebris**  
-   – Rende difficile orientarsi; Sir Cedric deve trovare un modo per dissiparla (magia, oggetti speciali).  
-2. **Creature Oscure**  
-   – Varie creature, come lupi mannari e ombre, attaccano il cavaliere; deve affrontarle in combattimento o trovare un modo per evitarle.  
-3. **Trappole nella Fortezza di Malakar**  
-   – La fortezza è piena di trappole mortali; Sir Cedric deve risolvere enigmi o usare abilità per superarle.
+## Obstacles
+1. **Warring Factions**: Each faction has its own leader and agenda; Elara must navigate their politics to gain their trust.  
+2. **Magical Storms**: These storms can hinder travel and obscure paths; Elara may need to find a way to calm them.  
+3. **Malakar’s Minions**: Dark creatures patrol the land, seeking to thwart Elara’s progress; she must either fight or outsmart them.
 
-## 5. Branching Factor
+## Branching Factor
 - **Min Actions per State:** 2  
 - **Max Actions per State:** 4  
 
-> *E.g., “Usare l'amuleto per dissipare la nebbia” / “Attaccare le creature oscure” / “Cercare un passaggio segreto” / “Disattivare una trappola.”*
+> *E.g., “Negotiate with the faction leader” / “Scout for hidden paths” / “Engage in combat with bandits” / “Use magic to calm the storm.”*
 
-## 6. Depth Constraints
-- **Min Steps: 5**  
+## Depth Constraints
+- **Min Steps: 6**  
   **Step Sequences (Min Depth):**  
-  1. Prepararsi e partire da Lumina  
-  2. Entrare nella Foresta di Tenebris e affrontare la nebbia  
-  3. Combattere contro le creature oscure  
-  4. Raggiungere la fortezza di Malakar  
-  5. Recuperare la Spada di Luce e tornare a Lumina  
+  1. Gather information in Windhaven about the factions.  
+  2. Travel to the Forest of Whispers to meet the Elven faction.  
+  3. Retrieve the Elven Crystal Fragment after passing their trials.  
+  4. Navigate through the Cursed Marsh to reach the Dwarven faction.  
+  5. Obtain the Dwarven Crystal Fragment by solving their riddle.  
+  6. Confront Malakar in the Fortress of Shadows and restore the Crystal.
 
-- **Max Steps: 8**  
+- **Max Steps: 10**  
   **Step Sequences (Max Depth):**  
-  1. Consultare gli anziani del villaggio per informazioni  
-  2. Preparare l'equipaggiamento e partire da Lumina  
-  3. Navigare attraverso la Foresta di Tenebris, dissipando la nebbia  
-  4. Affrontare e sconfiggere le creature oscure  
-  5. Scoprire un passaggio segreto nella fortezza  
-  6. Risolvere enigmi per disattivare le trappole  
-  7. Confrontare Malakar in un duello finale  
-  8. Recuperare la Spada di Luce e tornare a Lumina per celebrare la vittoria  
+  1. Meet with the village elder in Windhaven for guidance.  
+  2. Gather supplies and allies for the journey.  
+  3. Travel to the Forest of Whispers and negotiate with the Elven faction.  
+  4. Complete a series of challenges to earn the Elven Crystal Fragment.  
+  5. Explore the ruins of an ancient temple for clues about the Crystal.  
+  6. Navigate the Cursed Marsh and face off against swamp creatures.  
+  7. Engage in a political debate with the Dwarven faction leader.  
+  8. Solve the Dwarven riddle to obtain their Crystal Fragment.  
+  9. Gather all fragments and prepare for the final confrontation.  
+  10. Battle Malakar and restore the Crystal of Unity to its rightful place.
 
 ## World Background
-Eldoria è un regno ricco di leggende e magia. La Spada di Luce è considerata un simbolo di speranza e giustizia, custodita da generazioni di cavalieri. La foresta di Tenebris è temuta da tutti, poiché si dice che chi vi entra possa non tornare mai più. La lotta tra il bene e il male è una costante nella storia di Eldoria, e il destino del regno è ora nelle mani di Sir Cedric.
+Eldoria is a land rich in magic and history, where the Crystal of Unity was once revered as a symbol of peace. The factions—Elves, Dwarves, and Humans—each have their own cultures and grievances, but they all share a common history tied to the Crystal. The land is filled with mythical creatures, ancient ruins, and powerful artifacts, making it a place of both wonder and danger.

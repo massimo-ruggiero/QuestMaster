@@ -1,152 +1,54 @@
+// Chat.jsx
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { MessageSquare, BookOpen, Loader2, AlertCircle } from 'lucide-react';
-// Implementazione inline del hook useChat per compatibilità
-const useChat = () => {
-  const [chatMessages, setChatMessages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [error, setError] = useState(null);
+import { MessageSquare, BookOpen, Loader2, AlertCircle, Plus } from 'lucide-react';
+import { useChat } from '../hooks/useChat';
 
-  const initializeChat = useCallback(async () => {
-    if (isInitialized) return;
-    
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('http://localhost:5001/start_chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setIsInitialized(true);
-      setChatMessages([{
-        text: data.response,
-        isBot: true,
-        action: data.action,
-        timestamp: new Date()
-      }]);
-    } catch (err) {
-      setError('Errore durante l\'inizializzazione della chat');
-      console.error('Errore inizializzazione:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isInitialized]);
-
-  const sendMessage = useCallback(async (messageText) => {
-    if (!messageText.trim() || isLoading || !isInitialized) return;
-
-    const userMessage = {
-      text: messageText.trim(),
-      isBot: false,
-      timestamp: new Date()
-    };
-
-    setChatMessages(prev => [...prev, userMessage]);
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('http://localhost:5001/send_message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: messageText.trim() })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      const botMessage = {
-        text: data.response,
-        isBot: true,
-        action: data.action,
-        timestamp: new Date()
-      };
-
-      setChatMessages(prev => [...prev, botMessage]);
-    } catch (err) {
-      setError('Errore durante l\'invio del messaggio');
-      console.error('Errore invio messaggio:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isLoading, isInitialized]);
-
-  const stopChat = useCallback(async () => {
-    try {
-      await fetch('http://localhost:5001/stop_chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      setIsInitialized(false);
-      setChatMessages([]);
-      setError(null);
-    } catch (err) {
-      console.error('Errore durante la chiusura della chat:', err);
-    }
-  }, []);
-
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
-
-  return {
-    chatMessages,
-    isLoading,
-    isInitialized,
-    error,
-    initializeChat,
-    sendMessage,
-    stopChat,
-    clearError
-  };
-};
-
+/**
+ * Componente Chat per l'interazione con il Lore Assistant.
+ * Gestisce l'input dell'utente, la visualizzazione dei messaggi,
+ * l'invio di comandi al backend (come "salva lore" e riavvio chat),
+ * e l'integrazione con il custom hook `useChat`.
+ *
+ * @param {Object} props - Le proprietà del componente.
+ * @param {boolean} props.showChat - Indica se la finestra della chat deve essere visibile.
+ * @param {Function} props.setShowChat - Funzione per impostare la visibilità della chat.
+ * @param {Function} props.onLoreSaved - Callback chiamato quando il lore viene salvato con successo.
+ */
 const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
   const [chatInput, setChatInput] = useState('');
   const messagesEndRef = useRef(null);
-  
+
   const {
     chatMessages,
+    setChatMessages,
     isLoading,
     isInitialized,
     error,
     initializeChat,
     sendMessage,
     stopChat,
-    clearError
+    clearError,
+    isRestarting,
+    setIsRestarting,
+    afterSaveOnlyRestart,
+    setAfterSaveOnlyRestart,
+    restartChat,
+    saveLore, // IMPORTA la nuova funzione saveLore
   } = useChat();
 
-  // Verifica se l'ultimo messaggio del bot contiene tag <lore>
   const hasLoreInLastMessage = useCallback(() => {
     if (chatMessages.length === 0) return false;
-    
+
     const lastBotMessage = [...chatMessages]
       .reverse()
       .find(msg => msg.isBot);
-    
+
     if (!lastBotMessage) return false;
-    
+
     const loreRegex = /<lore>[\s\S]*?<\/lore>/i;
     return loreRegex.test(lastBotMessage.text);
   }, [chatMessages]);
 
-  // Auto scroll ai nuovi messaggi
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -155,20 +57,24 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
     scrollToBottom();
   }, [chatMessages]);
 
-  // Inizializza la chat quando viene aperta
   useEffect(() => {
-    if (showChat && !isInitialized && !isLoading) {
+    console.log("Chat Messages Updated:", chatMessages);
+  }, [chatMessages]);
+
+
+  useEffect(() => {
+    if (showChat && !isInitialized && !isLoading && !isRestarting) {
       initializeChat();
     }
-  }, [showChat, isInitialized, isLoading, initializeChat]);
+  }, [showChat, isInitialized, isLoading, initializeChat, isRestarting]);
 
   const handleSendMessage = useCallback(async () => {
-    if (!chatInput.trim() || isLoading) return;
-    
+    if (!chatInput.trim() || isLoading || isRestarting || afterSaveOnlyRestart) return;
+
     const messageText = chatInput.trim();
     setChatInput('');
     await sendMessage(messageText);
-  }, [chatInput, isLoading, sendMessage]);
+  }, [chatInput, isLoading, sendMessage, isRestarting, afterSaveOnlyRestart]);
 
   const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -179,38 +85,39 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
 
   const handleCloseChat = useCallback(() => {
     setShowChat(false);
-    // Opzionalmente ferma la chat quando viene chiusa
-    // stopChat();
   }, [setShowChat]);
 
+  /**
+   * Gestisce il salvataggio del lore chiamando direttamente la funzione `saveLore` dal hook.
+   * Il backend è ora responsabile di estrarre e salvare il lore.
+   */
   const handleSaveLore = useCallback(async () => {
-    if (isLoading || !hasLoreInLastMessage()) return;
-    
-    try {
-      await sendMessage('salva lore');
-      
-      // Attendi un momento per assicurarsi che il salvataggio sia completato
-      setTimeout(async () => {
-        try {
-          // Carica automaticamente il file lore.txt
-          const response = await fetch('/pddl/lore.txt');
-          if (response.ok) {
-            // Notifica il componente parent che il lore è stato salvato
-            if (onLoreSaved) {
-              onLoreSaved('lore.txt');
-            }
-          }
-        } catch (error) {
-          console.error('Errore nel caricamento automatico del file:', error);
-        }
-      }, 1000);
-      
-    } catch (error) {
-      console.error('Errore durante il salvataggio:', error);
-    }
-  }, [isLoading, hasLoreInLastMessage, sendMessage, onLoreSaved]);
+    // Non salvare se il sistema è occupato, non c'è lore, in riavvio o dopo il salvataggio
+    if (isLoading || !hasLoreInLastMessage() || isRestarting || afterSaveOnlyRestart) return;
 
-  // Componente per il messaggio di errore
+    try {
+      await saveLore(); // CHIAMA LA NUOVA FUNZIONE saveLore DAL HOOK
+      // Una volta che saveLore() è completato con successo (o fallito),
+      // il suo stato `afterSaveOnlyRestart` sarà aggiornato.
+      
+      // Se vuoi comunque notificare il componente parent dopo il tentativo di salvataggio
+      // (indipendentemente dal risultato del caricamento frontend del file, che ora non facciamo più qui)
+      if (onLoreSaved) {
+        // Puoi passare un indicatore di successo o il nome del file se lo conosci
+        onLoreSaved('lore.txt'); // Assumendo che il nome del file sia sempre 'lore.txt'
+      }
+
+    } catch (error) {
+      console.error('Errore durante il salvataggio del lore (frontend):', error);
+      // L'errore sarà già gestito dal useChat, qui solo un log aggiuntivo.
+    }
+  }, [isLoading, hasLoreInLastMessage, isRestarting, afterSaveOnlyRestart, onLoreSaved, saveLore]); // Aggiungi saveLore alle dipendenze
+
+  const handleRestartChat = useCallback(async () => {
+    if (isRestarting) return;
+    await restartChat();
+  }, [isRestarting, restartChat]);
+
   const ErrorMessage = ({ message, onClose }) => (
     <div className="chat-error">
       <div className="error-content">
@@ -221,7 +128,6 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
     </div>
   );
 
-  // Indicatore di typing quando il bot sta "pensando"
   const TypingIndicator = () => (
     <div className="chat-message bot">
       <div className="chat-bubble typing">
@@ -252,6 +158,7 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
   }
 
   const canSave = hasLoreInLastMessage();
+  const canRestart = (isInitialized && !isLoading && !isRestarting) || afterSaveOnlyRestart;
 
   return (
     <div className="retro-window chat-window">
@@ -269,20 +176,20 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
           </button>
         </div>
       </div>
-      
+
       <div className="chat-content">
         {error && (
-          <ErrorMessage 
-            message={error} 
+          <ErrorMessage
+            message={error}
             onClose={clearError}
           />
         )}
-        
+
         <div className="chat-messages">
-          {!isInitialized && isLoading ? (
+          {(isRestarting || (!isInitialized && isLoading)) ? (
             <div className="chat-initializing">
               <Loader2 className="loading-spinner" />
-              <span>Inizializzazione Lore Assistant...</span>
+              <span>{isRestarting ? "Riavvio Lore Assistant..." : "Inizializzazione Lore Assistant..."}</span>
             </div>
           ) : (
             <>
@@ -290,22 +197,18 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
                 <div key={i} className={`chat-message ${msg.isBot ? 'bot' : 'user'}`}>
                   <div className="chat-bubble">
                     {msg.text}
-                    {msg.action === 'save' && (
-                      <div className="message-tag save-tag">💾 Lore salvato</div>
-                    )}
-                    {msg.action === 'exit' && (
-                      <div className="message-tag exit-tag">👋 Fine chat</div>
-                    )}
+                    {msg.action === 'save'}
+                    {msg.action === 'exit'}
                   </div>
                 </div>
               ))}
-              
-              {isLoading && <TypingIndicator />}
+
+              {isLoading && !isRestarting && <TypingIndicator />}
               <div ref={messagesEndRef} />
             </>
           )}
         </div>
-        
+
         <div className="chat-controls">
           <input
             type="text"
@@ -314,16 +217,16 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
             onKeyPress={handleKeyPress}
             className="retro-input chat-input"
             placeholder={
-              isInitialized 
-                ? "Scrivi un messaggio..." 
+              isInitialized && !isRestarting
+                ? "Scrivi un messaggio..."
                 : "Inizializzazione in corso..."
             }
-            disabled={!isInitialized || isLoading}
+            disabled={!isInitialized || isLoading || isRestarting || afterSaveOnlyRestart}
           />
           <button
             onClick={handleSendMessage}
             className="retro-button send-button"
-            disabled={!isInitialized || isLoading || !chatInput.trim()}
+            disabled={!isInitialized || isLoading || !chatInput.trim() || isRestarting || afterSaveOnlyRestart}
           >
             {isLoading ? (
               <Loader2 className="send-icon loading" />
@@ -331,13 +234,21 @@ const Chat = ({ showChat, setShowChat, onLoreSaved }) => {
               <MessageSquare className="send-icon" />
             )}
           </button>
-          <button 
+          <button
             onClick={handleSaveLore}
-            className={`retro-button save-button ${canSave ? 'save-enabled' : 'save-disabled'}`}
-            disabled={!isInitialized || isLoading || !canSave}
-            title={canSave ? "Salva il lore corrente" : "Nessun lore da salvare nel messaggio corrente"}
+            className={`retro-button send-button ${canSave && !afterSaveOnlyRestart ? 'send-enabled' : 'send-disabled'}`}
+            disabled={!isInitialized || isLoading || !canSave || isRestarting || afterSaveOnlyRestart}
+            title={canSave && !afterSaveOnlyRestart ? "Salva il lore corrente" : "Nessuno lore da salvare nel messaggio corrente o azione non disponibile"}
           >
             💾 Salva
+          </button>
+          <button
+            onClick={handleRestartChat}
+            className={`retro-button send-button ${canRestart ? 'send-enabled' : 'send-disabled'}`}
+            disabled={!canRestart}
+            title={canRestart ? "Riavvia la chat" : "Impossibile riavviare la chat"}
+          >
+            <Plus className="send-icon" />
           </button>
         </div>
       </div>
