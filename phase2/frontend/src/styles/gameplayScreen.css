@@ -115,3 +115,338 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
+
+/* Contenitore principale per la schermata di gioco */
+.gameplay-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--retro-dark-bg);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Finestra di gioco principale */
+.gameplay-window {
+    width: 90%;
+    max-width: 800px; /* Larghezza massima per la finestra di gioco */
+    margin-bottom: 20px;
+    background-color: var(--retro-window-bg);
+    border: 2px solid var(--retro-border-color);
+    box-shadow: 4px 4px 0 var(--retro-shadow-color);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Barra del titolo della finestra */
+.retro-title-bar {
+    background-color: var(--retro-title-bar-bg);
+    color: var(--retro-text-color);
+    padding: 8px 15px;
+    font-size: 1rem;
+    border-bottom: 2px solid var(--retro-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.retro-title-bar .title-text {
+    flex-grow: 1;
+    text-align: center; /* Centra il titolo */
+}
+
+/* Contenuto della finestra di gioco */
+.gameplay-content {
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Nasconde overflow se l'immagine è troppo grande */
+}
+
+.gameplay-viewport {
+    width: 100%;
+    /* Rimuovi: padding-bottom: 57.14%; */ /* Non più necessario */
+    /* Rimuovi: position: relative; */    /* Non più necessario qui */
+    background-color: var(--retro-dark-bg);
+    border: 1px solid var(--retro-border-color-light);
+    box-sizing: border-box;
+    overflow: hidden; /* Importante per contenere l'immagine */
+    min-height: 250px; /* Esempio: assicurati che non si riduca troppo */
+    display: flex; /* Aggiungi display flex per centrare .gameplay-screen-inner */
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+
+/* Modifiche a .gameplay-screen-inner */
+.gameplay-screen-inner {
+    position: relative; /* Questo diventa il contenitore di riferimento */
+    width: 100%; /* Occupa tutta la larghezza del viewport */
+    aspect-ratio: 1792 / 1024; /* Calcolato come Larghezza / Altezza */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Cruciale per tagliare l'immagine se object-fit: cover */
+}
+
+/* Modifiche a .image-and-state-container */
+.image-and-state-container {
+    position: relative;
+    width: 100%;
+    height: 100%; /* Riempi l'altezza di .gameplay-screen-inner */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modifiche a .gameplay-image */
+.gameplay-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+    transition: filter 0.3s ease-in-out;
+}
+
+
+/* Overlay per il testo dello stato */
+.state-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0); /* Inizialmente trasparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Inizialmente invisibile */
+    transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Animazione */
+    pointer-events: none; /* Permette il click sull'immagine sottostante */
+    text-align: center;
+    padding: 20px; /* Padding per il testo */
+    box-sizing: border-box;
+}
+
+/* Effetto hover sul contenitore */
+.image-and-state-container:hover .gameplay-image {
+    filter: brightness(30%); /* Scurisce l'immagine */
+}
+
+.image-and-state-container:hover .state-overlay {
+    background-color: rgba(0, 0, 0, 0.6); /* Sfondo semi-trasparente nero */
+    opacity: 1; /* Rende visibile l'overlay */
+}
+
+.game-state-text {
+    font-size: 1.2em; /* Dimensione del testo per lo stato */
+    color: white; /* Testo bianco */
+    text-shadow: 2px 2px 0 var(--retro-shadow-color); /* Ombra per il testo */
+    user-select: none; /* Impedisce la selezione del testo */
+}
+
+
+/* Overlay di caricamento */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Più scuro durante il caricamento */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    color: var(--retro-text-color);
+    font-size: 1.2em;
+}
+
+.loading-spinner {
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+    color: var(--retro-accent-color);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Messaggio di errore */
+.error-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--retro-red);
+    color: white;
+    padding: 15px 20px;
+    border: 2px solid var(--retro-red-dark);
+    box-shadow: 4px 4px 0 var(--retro-shadow-color);
+    text-align: center;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.error-icon {
+    color: white;
+}
+
+/* Finestra delle azioni */
+.actions-window {
+    width: 90%;
+    max-width: 800px;
+    background-color: var(--retro-window-bg);
+    border: 2px solid var(--retro-border-color);
+    box-shadow: 4px 4px 0 var(--retro-shadow-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.actions-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Rendi le colonne adattive */
+    gap: 10px;
+    width: 100%;
+    padding: 5px; /* Un po' di padding interno */
+    box-sizing: border-box;
+}
+
+.retro-text-action {
+    background-color: var(--retro-button-bg);
+    color: var(--retro-button-text-color);
+    border: 2px solid var(--retro-button-border-color);
+    box-shadow: 2px 2px 0 var(--retro-button-shadow-color);
+    padding: 10px 15px;
+    font-size: 0.9em;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease;
+    white-space: nowrap; /* Evita che il testo si spezzi su più righe */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Aggiunge puntini di sospensione se il testo è troppo lungo */
+}
+
+.retro-text-action:hover:not(:disabled) {
+    background-color: var(--retro-button-hover-bg);
+    box-shadow: 3px 3px 0 var(--retro-button-hover-shadow-color);
+}
+
+.retro-text-action:active:not(:disabled) {
+    background-color: var(--retro-button-active-bg);
+    box-shadow: 1px 1px 0 var(--retro-button-shadow-color);
+    transform: translate(1px, 1px);
+}
+
+.retro-text-action:disabled {
+    background-color: var(--retro-button-disabled-bg);
+    color: var(--retro-button-disabled-text-color);
+    border-color: var(--retro-button-disabled-border-color);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.actions-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.nav-button {
+    background-color: var(--retro-button-bg);
+    color: var(--retro-button-text-color);
+    border: 2px solid var(--retro-button-border-color);
+    box-shadow: 2px 2px 0 var(--retro-button-shadow-color);
+    padding: 8px 12px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button:hover:not(:disabled) {
+    background-color: var(--retro-button-hover-bg);
+    box-shadow: 3px 3px 0 var(--retro-button-hover-shadow-color);
+}
+
+.nav-button:active:not(:disabled) {
+    background-color: var(--retro-button-active-bg);
+    box-shadow: 1px 1px 0 var(--retro-button-shadow-color);
+    transform: translate(1px, 1px);
+}
+
+.nav-button:disabled {
+    background-color: var(--retro-button-disabled-bg);
+    color: var(--retro-button-disabled-text-color);
+    border-color: var(--retro-button-disabled-border-color);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.nav-icon {
+    width: 1em; /* Assicura che le icone siano della giusta dimensione */
+    height: 1em;
+}
+
+.page-indicator {
+    color: var(--retro-text-color);
+    font-size: 0.9em;
+}
+
+.no-actions-message {
+    color: var(--retro-text-color);
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+}
+
+/* Pulsante INDIETRO */
+.back-button {
+    background-color: var(--retro-red); /* Un colore rosso retrò */
+    color: white;
+    border: 2px solid var(--retro-red-dark);
+    box-shadow: 3px 3px 0 var(--retro-red-shadow);
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease;
+    margin-top: 20px;
+}
+
+.back-button:hover {
+    background-color: var(--retro-red-dark);
+    box-shadow: 4px 4px 0 var(--retro-red-shadow);
+}
+
+.back-button:active {
+    background-color: var(--retro-red-active);
+    box-shadow: 1px 1px 0 var(--retro-red-shadow);
+    transform: translate(2px, 2px);
+}

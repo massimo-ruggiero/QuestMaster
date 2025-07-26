@@ -2,6 +2,33 @@ from flask import request, jsonify, Response, stream_with_context
 from flask_cors import CORS
 import json
 from config import lore_agent, pddl_agent, reflective_agent 
+import time
+
+
+def _mock_start_game_response():
+    time.sleep(1)
+    return {
+        "state": "Sei all'ingresso di una vecchia cripta. Una nebbia densa ti avvolge. Un'avventura ti aspetta!",
+        "actions": {
+            "0": "Entra nella cripta (Mock)",
+            "1": "Cerca oggetti (Mock)",
+            "2": "Torna indietro (Mock)"
+        },
+        "image_url": "https://placehold.co/1792x1024/000000/FFFFFF?text=Start+Game+Mock",
+    }
+
+def _mock_send_action_response(action_id):
+    time.sleep(1)
+    return {
+        "state": f"Hai eseguito l'azione '{action_id}'. Il tuo viaggio continua. Ogni passo nasconde un segreto...",
+        "actions": {
+            "0": "Vai avanti (Mock)",
+            "1": "Guarda a terra (Mock)",
+            "2": "Controlla la mappa (Mock)"
+        },
+        "image_url": "https://placehold.co/1792x1024/555555/FFFFFF?text=Next+Turn+Mock",
+    }
+
 
 def init_endpoints(app):
     CORS(app)
@@ -110,3 +137,35 @@ def init_endpoints(app):
             stream_with_context(event_stream()),
             mimetype='text/event-stream'
         )
+    
+    # —————— GameAgent endpoints ——————
+    @app.route('/start_game', methods=['POST'])
+    def start_game():
+        resp = _mock_start_game_response()
+
+        return jsonify(
+            status="success",
+            state=resp["state"],
+            actions=resp["actions"],
+            image_url=resp["image_url"],
+        )
+   
+
+    @app.route('/send_action', methods=['POST'])
+    def send_action():
+        data = request.get_json() or {}
+        action_id = data.get('id', '').strip() 
+
+        if not action_id:
+            return jsonify(error="ID azione non fornito."), 400
+
+        try:
+            resp = _mock_send_action_response(action_id)
+            return jsonify(
+                status="success",
+                state=resp["state"],
+                actions=resp["actions"],
+                image_url=resp["image_url"],
+            )
+        except Exception as e:
+            return jsonify(error=str(e)), 500
