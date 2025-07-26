@@ -1,6 +1,7 @@
 from typing import Tuple, Optional
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
 import subprocess
 import shutil
 import os
@@ -51,6 +52,12 @@ def get_llm(model: str = "gpt-4.1-nano"):
         )
     else:
         raise ValueError(f"Unsupported model: {model}")
+
+def get_image_model(model: str = "dall-e-3", size: str ="1024x1024", quality: str ="standard"):
+    return DallEAPIWrapper(api_key= config.get('OPENAI_API_KEY_M', ""), 
+                           model= model, 
+                           size= size, 
+                           quality= quality)
 
 
 def generative_system_template(template: str, examples_path: str = "examples") -> str:

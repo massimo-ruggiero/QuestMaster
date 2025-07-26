@@ -1,7 +1,7 @@
 from flask import request, jsonify, Response, stream_with_context
 from flask_cors import CORS
 import json
-from config import lore_agent, pddl_agent, reflective_agent 
+from config import lore_agent, pddl_agent, reflective_agent , game_agent
 import time
 
 
@@ -140,32 +140,40 @@ def init_endpoints(app):
     
     # —————— GameAgent endpoints ——————
     @app.route('/start_game', methods=['POST'])
-    def start_game():
-        resp = _mock_start_game_response()
-
+    def run_game():
+        resp = game_agent.start_game()
         return jsonify(
-            status="success",
-            state=resp["state"],
-            actions=resp["actions"],
-            image_url=resp["image_url"],
+            status   = "success",
+            response = resp["state"],
+            actions   = resp["actions"],
+            image_url   = resp["image_url"]
         )
    
 
     @app.route('/send_action', methods=['POST'])
     def send_action():
-        data = request.get_json() or {}
-        action_id = data.get('id', '').strip() 
+        if not game_agent.is_active():
+            return jsonify(error="Gioco non attivo. Chiama /start_game prima"), 400
 
-        if not action_id:
-            return jsonify(error="ID azione non fornito."), 400
+        data = request.get_json() or {}
+        msg  = data.get('id','').strip()
+        if not msg:
+            return jsonify(error="Messaggio vuoto"), 400
 
         try:
-            resp = _mock_send_action_response(action_id)
+            resp = game_agent.send_action(msg)
             return jsonify(
-                status="success",
-                state=resp["state"],
-                actions=resp["actions"],
-                image_url=resp["image_url"],
+                status   = "success",
+                response = resp["state"],
+                actions   = resp["actions"],
+                image_url   = resp["image_url"]
+
             )
         except Exception as e:
             return jsonify(error=str(e)), 500
+
+    
+        
+
+
+        

@@ -1,18 +1,17 @@
-import os
-import yaml
-from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
+from utils import get_image_model
 
-with open('config.yaml', 'r') as file:
-    config = yaml.safe_load(file)
+class ImageAgent:
+    def __init__(self, style_description: str, system_template: str ):
+        self.style_description = style_description
+        self.system_template = system_template
+        self.model = get_image_model()
 
-os.environ["OPENAI_API_KEY"] = config.get('OPENAI_API_KEY_M', "")
+    def _build_prompt(self, user_input: str) -> str:
+        return self.system_template.format(
+            input=user_input,
+            style=self.style_description
+        )
 
-dalle = DallEAPIWrapper(model="dall-e-3", size="1792x1024", quality="standard") 
-
-prompt_immagine = "Un paesaggio montano con un lago cristallino all'alba, stile impressionista"
-
-print(f"Sto generando un'immagine per: '{prompt_immagine}'...")
-
-image_url = dalle.run(prompt_immagine)
-
-print(f"\nImmagine generata con successo!\nURL dell'immagine (temporaneo): {image_url}")
+    def get_image_url(self, user_input: str) -> str:
+        prompt = self._build_prompt(user_input)
+        return self.model.run(prompt)

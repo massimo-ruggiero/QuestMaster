@@ -3,6 +3,8 @@ from utils import generative_system_template, fill_lore_system_template
 from agents.pddl_agent import PDDLAgent
 from agents.reflective_agent import ReflectiveAgent
 from agents.lore_agent import LoreAgent
+from agents.game_agent import GameAgent
+from agents.image_agent import ImageAgent
 
 with open('templates.yaml', 'r') as f:
     tpl = yaml.safe_load(f)
@@ -16,6 +18,15 @@ PDDL_HUMAN_TPL  = tpl['pddl']['human']
 
 # Reflective
 REF = tpl['reflective']
+
+# Game
+GAME_SYSTEM_TPL = tpl['game']['system']
+GAME_HUMAN_TPL  = tpl['game']['human']
+
+# Image
+IMAGE_SYSTEM_TPL = tpl['image']['system']
+IMAGE_STYLE_TPL  = tpl['image']['style']
+
 
 
 pddl_agent = PDDLAgent(
@@ -41,3 +52,14 @@ lore_agent = LoreAgent(
     model="gpt-4o-mini",
     pddl_path="pddl"
 )
+
+image_agent = ImageAgent(style_description= IMAGE_STYLE_TPL,
+                         system_template= IMAGE_SYSTEM_TPL,
+                         
+
+)
+
+game_agent = GameAgent(system_template=GAME_SYSTEM_TPL,
+                      human_template=GAME_HUMAN_TPL,
+                      image_agent= image_agent
+                      )
