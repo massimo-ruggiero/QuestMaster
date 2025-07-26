@@ -54,9 +54,7 @@ lore_agent = LoreAgent(
 )
 
 image_agent = ImageAgent(style_description= IMAGE_STYLE_TPL,
-                         system_template= IMAGE_SYSTEM_TPL,
-                         
-
+                         system_template= IMAGE_SYSTEM_TPL 
 )
 
 game_agent = GameAgent(system_template=GAME_SYSTEM_TPL,

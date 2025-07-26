@@ -1,53 +1,44 @@
-# Lore Document: The Shattered Kingdom
+# Lore Document: Le Mucche Intergalattiche
 
 ## Quest Description
-**Title:** The Shattered Kingdom  
-**Setting:**  
-In the realm of Eldoria, a once-unified kingdom has been torn apart by a dark sorcerer who shattered the Crystal of Unity, the source of peace and harmony. The land is now divided into warring factions, each vying for power. A brave hero must embark on a quest to restore the Crystal and reunite the kingdom before it falls into eternal chaos.
+In un angolo remoto dell'universo, sul pianeta Bovinia, vive una comunità di mucche intergalattiche che parlano il dialetto cosentino stretto. Queste mucche, dotate di intelligenza e capacità di viaggiare tra le stelle, si trovano a dover affrontare una grave crisi: il loro prezioso formaggio galattico, il "Caciocavallo Cosentino", è stato rubato da un gruppo di alieni malintenzionati. Le mucche devono unirsi per recuperare il formaggio e salvare la loro tradizione culinaria.
 
 ## Initial State
-- The protagonist, “Elara,” is in the village of Windhaven.  
-- Elara possesses a Fragment of the Crystal, a piece of the shattered artifact.  
-- The skies are darkened by magical storms, and bandits roam the roads.  
-- The sorcerer, “Malakar,” resides in the Fortress of Shadows, gathering strength.
+- Mucca “Cecilia” è nel VillaggioBovino.  
+- Cecilia ha con sé il MappamondoGalattico.  
+- La NaveSpaziale è parcheggiata nel campo.  
+- Gli AlienoRibelli sono a bordo della loro nave, "Il Formaggio Nero".
 
 ## Goal
-- Elara must collect the remaining Crystal Fragments from the factions and restore the Crystal of Unity.  
-- Elara needs to confront Malakar and defeat him to bring peace back to Eldoria.
+- Cecilia e le sue amiche devono recuperare il Caciocavallo Cosentino.  
+- Tornare al VillaggioBovino con il formaggio.
 
 ## Obstacles
-1. **Warring Factions**: Each faction has its own leader and agenda; Elara must navigate their politics to gain their trust.  
-2. **Magical Storms**: These storms can hinder travel and obscure paths; Elara may need to find a way to calm them.  
-3. **Malakar’s Minions**: Dark creatures patrol the land, seeking to thwart Elara’s progress; she must either fight or outsmart them.
+1. **AlienoRibelli**: ostacoleranno il viaggio e tenteranno di sabotare la nave.  
+2. **Asteroidi**: un campo di asteroidi deve essere attraversato per raggiungere la nave nemica.  
+3. **Enigma del Formaggio**: un puzzle deve essere risolto per accedere al Caciocavallo Cosentino.
 
 ## Branching Factor
-- **Min Actions per State:** 2  
-- **Max Actions per State:** 4  
-
-> *E.g., “Negotiate with the faction leader” / “Scout for hidden paths” / “Engage in combat with bandits” / “Use magic to calm the storm.”*
+- **Min:** 2 azioni per stato  
+- **Max:** 4 azioni per stato
 
 ## Depth Constraints
-- **Min Steps: 6**  
+- **Min steps: 4**  
   **Step Sequences (Min Depth):**  
-  1. Gather information in Windhaven about the factions.  
-  2. Travel to the Forest of Whispers to meet the Elven faction.  
-  3. Retrieve the Elven Crystal Fragment after passing their trials.  
-  4. Navigate through the Cursed Marsh to reach the Dwarven faction.  
-  5. Obtain the Dwarven Crystal Fragment by solving their riddle.  
-  6. Confront Malakar in the Fortress of Shadows and restore the Crystal.
+  1. Prepararsi nel VillaggioBovino e pianificare il viaggio  
+  2. Decollare con la NaveSpaziale  
+  3. Attraversare il campo di asteroidi  
+  4. Confrontare gli AlienoRibelli e recuperare il Caciocavallo Cosentino  
 
-- **Max Steps: 10**  
+- **Max steps: 7**  
   **Step Sequences (Max Depth):**  
-  1. Meet with the village elder in Windhaven for guidance.  
-  2. Gather supplies and allies for the journey.  
-  3. Travel to the Forest of Whispers and negotiate with the Elven faction.  
-  4. Complete a series of challenges to earn the Elven Crystal Fragment.  
-  5. Explore the ruins of an ancient temple for clues about the Crystal.  
-  6. Navigate the Cursed Marsh and face off against swamp creatures.  
-  7. Engage in a political debate with the Dwarven faction leader.  
-  8. Solve the Dwarven riddle to obtain their Crystal Fragment.  
-  9. Gather all fragments and prepare for the final confrontation.  
-  10. Battle Malakar and restore the Crystal of Unity to its rightful place.
+  1. Raccolta di informazioni nel VillaggioBovino  
+  2. Preparazione della NaveSpaziale e raccolta di risorse  
+  3. Decollare e affrontare il primo attacco degli AlienoRibelli  
+  4. Navigare attraverso il campo di asteroidi e subire danni  
+  5. Riparare la nave e pianificare un attacco strategico  
+  6. Risolvere l'Enigma del Formaggio per accedere al tesoro  
+  7. Tornare al VillaggioBovino con il Caciocavallo Cosentino  
 
 ## World Background
-Eldoria is a land rich in magic and history, where the Crystal of Unity was once revered as a symbol of peace. The factions—Elves, Dwarves, and Humans—each have their own cultures and grievances, but they all share a common history tied to the Crystal. The land is filled with mythical creatures, ancient ruins, and powerful artifacts, making it a place of both wonder and danger.
+Bovinia è un pianeta verdeggiante, ricco di pascoli e tradizioni culinarie. Le mucche sono rispettate come custodi della cultura galattica e il Caciocavallo Cosentino è considerato un simbolo di unità e festa. Gli AlienoRibelli, un gruppo di creature astute e ingannevoli, cercano di sfruttare le risorse di Bovinia per i loro scopi malvagi. La lingua delle mucche, il dialetto cosentino stretto, è ricca di espressioni colorite e proverbi che riflettono la loro saggezza e il loro spirito comunitario.

@@ -1,135 +1,176 @@
-(define (domain shattered-kingdom)
-  (:requirements :strips :typing :equality)
+(define (domain mucche-intergalattiche)
+  (:requirements :strips :typing :negative-preconditions)
   (:types
-    hero sorcerer - character
-    faction
+    protagonist
     location
-    fragment
+  )
+
+  (:constants
+    villaggio-bovino
+    spazio-aperto
+    campo-di-asteroidi
+    nave-nemica - location
   )
 
   (:predicates
-    (at ?h - hero ?l - location)
-    (sorcerer-at ?s - sorcerer ?l - location)
-    (faction-at ?f - faction ?l - location)
-    (has-fragment ?h - hero ?frag - fragment)
-    (faction-holds-fragment ?f - faction ?frag - fragment)
-    (connected ?from - location ?to - location)
-    (path-is-stormy ?from - location ?to - location)
-    (path-has-bandits ?from - location ?to - location)
-    (faction-is-distrustful ?f - faction)
-    (malakar-is-active)
-    (malakar-is-defeated)
-    (crystal-is-restored)
-    (information-is-gathered)
-    (allies-are-recruited)
-    (scouted-location ?l - location)
-    (is-village ?l - location)
+    (at ?p - protagonist ?l - location)
+    (in-nave ?p - protagonist)
+    (has-mappa ?p - protagonist)
+    (has-formaggio ?p - protagonist)
+    (viaggio-pianificato ?p - protagonist)
+    (nave-danneggiata)
+    (enigma-risolto)
+    (consiglio-ricevuto)
+    (sfida-inviata)
   )
 
-  (:action gather-information
-    :parameters (?h - hero ?l - location)
+  (:action pianificare-viaggio
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?l)
-      (is-village ?l)
-      (not (information-is-gathered))
+      (at ?p villaggio-bovino)
+      (has-mappa ?p)
+      (not (viaggio-pianificato ?p))
     )
     :effect (and
-      (information-is-gathered)
+      (viaggio-pianificato ?p)
     )
   )
 
-  (:action recruit-allies
-    :parameters (?h - hero ?l - location)
+  (:action parlare-con-anziani
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?l)
-      (is-village ?l)
-      (not (allies-are-recruited))
+      (at ?p villaggio-bovino)
     )
     :effect (and
-      (allies-are-recruited)
+      (consiglio-ricevuto)
     )
   )
 
-  (:action travel
-    :parameters (?h - hero ?from - location ?to - location)
+  (:action decollare
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?from)
-      (connected ?from ?to)
-      (information-is-gathered)
-      (not (path-is-stormy ?from ?to))
-      (not (path-has-bandits ?from ?to))
+      (at ?p villaggio-bovino)
+      (viaggio-pianificato ?p)
     )
     :effect (and
-      (not (at ?h ?from))
-      (at ?h ?to)
+      (not (at ?p villaggio-bovino))
+      (in-nave ?p)
+      (at ?p spazio-aperto)
     )
   )
 
-  (:action calm-stormy-path
-    :parameters (?h - hero ?from - location ?to - location)
+  (:action decollare-e-navigare-ad-asteroidi
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?from)
-      (path-is-stormy ?from ?to)
+      (at ?p villaggio-bovino)
+      (viaggio-pianificato ?p)
     )
     :effect (and
-      (not (path-is-stormy ?from ?to))
+      (not (at ?p villaggio-bovino))
+      (in-nave ?p)
+      (at ?p campo-di-asteroidi)
     )
   )
 
-  (:action defeat-bandits-on-path
-    :parameters (?h - hero ?from - location ?to - location)
+  (:action navigare-ad-asteroidi
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?from)
-      (path-has-bandits ?from ?to)
+      (in-nave ?p)
+      (at ?p spazio-aperto)
     )
     :effect (and
-      (not (path-has-bandits ?from ?to))
+      (not (at ?p spazio-aperto))
+      (at ?p campo-di-asteroidi)
     )
   )
 
-  (:action complete-faction-trial
-    :parameters (?h - hero ?f - faction ?frag - fragment ?l - location)
+  (:action attraversare-asteroidi-e-danneggiarsi
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?l)
-      (faction-at ?f ?l)
-      (faction-is-distrustful ?f)
-      (faction-holds-fragment ?f ?frag)
+      (in-nave ?p)
+      (at ?p campo-di-asteroidi)
     )
     :effect (and
-      (not (faction-is-distrustful ?f))
-      (not (faction-holds-fragment ?f ?frag))
-      (has-fragment ?h ?frag)
+      (not (at ?p campo-di-asteroidi))
+      (at ?p nave-nemica)
+      (nave-danneggiata)
     )
   )
 
-  (:action scout-for-hidden-paths
-    :parameters (?h - hero ?l - location)
+  (:action attraversare-asteroidi-senza-danno
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?l)
-      (not (scouted-location ?l))
+      (in-nave ?p)
+      (at ?p campo-di-asteroidi)
     )
     :effect (and
-      (scouted-location ?l)
+      (not (at ?p campo-di-asteroidi))
+      (at ?p nave-nemica)
     )
   )
 
-  (:action confront-malakar-and-restore-crystal
-    :parameters (?h - hero ?s - sorcerer ?l - location ?f1 - fragment ?f2 - fragment ?f3 - fragment)
+  (:action riparare-nave
+    :parameters (?p - protagonist)
     :precondition (and
-      (at ?h ?l)
-      (sorcerer-at ?s ?l)
-      (malakar-is-active)
-      (has-fragment ?h ?f1)
-      (has-fragment ?h ?f2)
-      (has-fragment ?h ?f3)
-      (not (= ?f1 ?f2))
-      (not (= ?f1 ?f3))
-      (not (= ?f2 ?f3))
+      (in-nave ?p)
+      (at ?p nave-nemica)
+      (nave-danneggiata)
     )
     :effect (and
-      (not (malakar-is-active))
-      (malakar-is-defeated)
-      (crystal-is-restored)
+      (not (nave-danneggiata))
+    )
+  )
+
+  (:action inviare-messaggio-di-sfida
+    :parameters (?p - protagonist)
+    :precondition (and
+      (in-nave ?p)
+      (at ?p nave-nemica)
+    )
+    :effect (and
+      (sfida-inviata)
+    )
+  )
+
+  (:action risolvere-enigma-e-sconfiggere-alieni
+    :parameters (?p - protagonist)
+    :precondition (and
+      (in-nave ?p)
+      (at ?p nave-nemica)
+      (not (nave-danneggiata))
+    )
+    :effect (and
+      (enigma-risolto)
+    )
+  )
+
+  (:action recuperare-formaggio-e-tornare
+    :parameters (?p - protagonist)
+    :precondition (and
+      (in-nave ?p)
+      (at ?p nave-nemica)
+      (enigma-risolto)
+    )
+    :effect (and
+      (not (in-nave ?p))
+      (not (at ?p nave-nemica))
+      (at ?p villaggio-bovino)
+      (has-formaggio ?p)
+    )
+  )
+
+  (:action risolvere-sconfiggere-recuperare-tornare
+    :parameters (?p - protagonist)
+    :precondition (and
+      (in-nave ?p)
+      (at ?p nave-nemica)
+      (not (nave-danneggiata))
+    )
+    :effect (and
+      (not (in-nave ?p))
+      (not (at ?p nave-nemica))
+      (at ?p villaggio-bovino)
+      (has-formaggio ?p)
     )
   )
 )

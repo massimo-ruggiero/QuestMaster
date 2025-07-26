@@ -1,5 +1,5 @@
 (define (domain sunken-temple)
-  (:requirements :strips :typing :equality)
+  (:requirements :strips :typing :equality :negative-preconditions)
   (:types
     location gear creature obstacle
   )

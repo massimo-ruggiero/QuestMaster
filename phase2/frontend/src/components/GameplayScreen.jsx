@@ -1,5 +1,5 @@
 // src/components/GameplayScreen.jsx
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 import '../styles/gameplayScreen.css';
 import { useGame } from '../hooks/useGame';
@@ -25,11 +25,13 @@ function GameplayScreen({ onBackToMain }) {
   // Stato per la paginazione delle azioni
   const [currentActionPageIndex, setCurrentActionPageIndex] = useState(0);
   const actionsPerPage = 3;
+  const hasGameStartedInitialCall = useRef(false);
 
   // Effetto per avviare il gioco automaticamente quando il componente viene montato
   useEffect(() => {
-    if (Object.keys(gameActions).length === 0 && !isGameLoading && !gameError) {
+    if (Object.keys(gameActions).length === 0 && !isGameLoading && !gameError && !hasGameStartedInitialCall.current) {
       startGame();
+      hasGameStartedInitialCall.current = true;
     }
   }, [startGame, gameActions, isGameLoading, gameError]);
 
@@ -161,7 +163,7 @@ function GameplayScreen({ onBackToMain }) {
             <div className="no-actions-message">
               {isGameLoading ? "Caricamento azioni..." :
                gameError ? "Errore nel gioco." :
-               "Preparazione del gioco..."}
+               ""}
             </div>
           )}
         </div>

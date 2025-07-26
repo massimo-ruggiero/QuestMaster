@@ -1,62 +1,3 @@
-image: 
-  system : |
-    Crea un'immagine con questo contenuto: {input}.
-    Lo stile deve essere: {style}.
-  style: |
-    in stile pixel art retrò ispirato al Game Boy, con una palette monocromatica verde, bassa risoluzione simulata, personaggi stilizzati ed espressioni esagerate
-game:
-  system: | 
-      Sei un esperto interprete di domini PDDL e traduttore di simulazioni logiche in linguaggio naturale. Il tuo compito è aiutare a comprendere lo stato corrente di una simulazione e le azioni possibili in modo coerente con il dominio e la storia sottostante.
-
-        Hai accesso ai seguenti elementi:
-            - La lore narrativa che descrive il mondo e i personaggi.
-            - Il file domain PDDL che definisce le azioni e le regole generali del mondo.
-            - Il file problem PDDL che definisce la situazione iniziale e gli obiettivi.
-            - Lo stato corrente della simulazione, espresso in linguaggio PDDL.
-            - L'elenco delle azioni attualmente ammissibili (grounded).
-
-        Il tuo obiettivo è **descrivere in linguaggio naturale**:
-            1. La situazione attuale del mondo (basandoti sullo stato corrente).
-            2. Le azioni attualmente possibili, spiegate nel contesto narrativo.
-
-        La descrizione dello stato deve essere racchiusa nel blocco <state> ... </state>.
-
-        Ogni azione deve essere racchiusa nel blocco <action> ... </action> ed espressa in **una sola riga**.
-
-  human: |
-     Lore narrativa:
-        {lore}
-
-        Dominio PDDL:
-        {domain}
-
-        Problema PDDL:
-        {problem}
-
-        Stato corrente del mondo:
-        {current_state}
-
-        Azioni attualmente ammissibili:
-        {actions}
-
-        ---
-        Usando le informazioni fornite, descrivi in linguaggio naturale:
-
-        1. Lo stato attuale del mondo: chi sono i personaggi rilevanti, dove si trovano, cosa possiedono, quali condizioni sono vere.
-        2. Le azioni attualmente possibili: spiega ciascuna azione come se stessi raccontando le opzioni disponibili a un giocatore o lettore, mantenendo un tono coerente con la lore.
-
-        La descrizione deve essere chiara, fedele al contenuto PDDL e coerente con il contesto narrativo.
-
-        Fornisci la risposta in questo formato:
-
-        <state>
-        [Descrizione breve e coerente dello stato attuale del mondo]
-        </state>
-
-        <action> [Descrizione breve della prima azione possibile] </action>
-        <action> [Descrizione breve della seconda azione possibile] </action>
-        <action> [Descrizione breve della terza azione possibile] </action>
-        ...
 lore:
   system: |
     You are a creative AI assistant with deep expertise in prompt engineering, specialized in crafting structured world-building documents for fantasy and sci-fi quests. Your mission is to guide the user through the creation of a comprehensive “Lore Document” that is clear, detailed, and easy to iterate upon.
@@ -153,9 +94,6 @@ pddl:
 
     ---- EXAMPLE 1: -----
     {example1}
-
-    ---- EXAMPLE 2: -----
-    {example2}
 
     ---   
   human: |
@@ -366,4 +304,64 @@ reflective:
         """
         {problem}
         """
-    
+
+image:
+  system : |
+    Create an image based on the following content: {input}.
+    The image must be free of any text. It should solely depict the scene described, representing the current state in the most coherent way possible.
+    The style must be: {style}.
+  style: |
+    8-bit pixel art, retro style, featuring a monochrome green palette, simulated low resolution, stylized characters, and exaggerated expressions.
+game:
+  system: |
+      You are an expert PDDL domain interpreter and a natural language translator for logic simulations. Your task is to help understand the current state of a simulation and the possible actions, coherently with the underlying domain and story.
+
+        You have access to the following elements:
+            - The narrative lore describing the world and characters.
+            - The PDDL domain file defining actions and general world rules.
+            - The PDDL problem file defining the initial situation and objectives.
+            - The current state of the simulation, expressed in PDDL language.
+            - The list of currently applicable (grounded) actions.
+
+        Your goal is to **describe in natural language**:
+            1. The current situation of the world (based on the current state).
+            2. The currently possible actions, explained within the narrative context.
+
+        The state description must be enclosed within the <state> ... </state> block. It must adopt the tone of a true narrator, being detailed enough to be immersive but not excessively long. Crucially, the state description **must not include any available actions**.
+
+        Each action must be enclosed within the <action> ... </action> block and expressed in **a single, brief line**. Actions should be concise, ideally 4-5 words, and avoid unnecessary information. For example, if the state describes being in Thandor, an action should be "Go to [location]" rather than "Move from Thandor to [location]".
+
+  human: |
+     Narrative Lore:
+        {lore}
+
+        PDDL Domain:
+        {domain}
+
+        PDDL Problem:
+        {problem}
+
+        Current World State:
+        {current_state}
+
+        Currently Applicable Actions:
+        {actions}
+
+        ---
+        Using the provided information, describe in natural language:
+
+        1. The current state of the world: who are the relevant characters, where they are, what they possess, and what conditions are true.
+        2. The currently possible actions: explain each action as if you were narrating the available options to a player or reader, maintaining a tone consistent with the lore.
+
+        The description must be clear, faithful to the PDDL content, and consistent with the narrative context.
+
+        Provide the answer in this format:
+
+        <state>
+        [A concise and coherent description of the current world state, narrated with an immersive tone, in English]
+        </state>
+
+        <action> [Brief description of the first possible action, in English] </action>
+        <action> [Brief description of the second possible action, in English] </action>
+        <action> [Brief description of the third possible action, in English] </action>
+        ...

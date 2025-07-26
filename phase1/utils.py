@@ -77,7 +77,7 @@ def generative_system_template(template: str, examples_path: str = "examples") -
             f"A: <domain>\n{domain}\n</domain>\n"
             f"<problem>\n{problem} \n</problem>\n"
         )
-    example1_content = read_example("example1")
+    example1_content = read_example("example3")
     example2_content = read_example("example2")
 
     filled_template = template.replace("{example1}", example1_content)\
@@ -97,10 +97,8 @@ def fill_lore_system_template(template: str, examples_path: str = "examples/lore
         return lore
 
     example1_content = read_example("example1")
-    example2_content = read_example("example2")
 
-    filled_template = template.replace("{example1}", example1_content)\
-                              .replace("{example2}", example2_content)
+    filled_template = template.replace("{example1}", example1_content)
     return filled_template
 
 

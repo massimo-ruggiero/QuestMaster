@@ -1,5 +1,5 @@
 (define (domain emberfall-conspiracy)
-  (:requirements :strips :typing)
+  (:requirements :strips :typing :negative-preconditions)
   (:types
     character location item faction creature
   )
