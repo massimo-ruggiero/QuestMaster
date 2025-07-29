@@ -1,16 +1,16 @@
 # Quest Master
 
-[cite_start]"Quest Master" is a project designed to assist authors in creating interactive narrative experiences, combining classical planning techniques (Planning Domain Definition Language - PDDL) with the capabilities offered by generative artificial intelligence (Large Language Models - LLM)[cite: 6]. [cite_start]The system is structured into two main phases: a story generation phase (Phase 1) and an interactive narrative game phase (Phase 2)[cite: 7].
+"Quest Master" is a project designed to assist authors in creating interactive narrative experiences, combining classical planning techniques (Planning Domain Definition Language - PDDL) with the capabilities offered by generative artificial intelligence (Large Language Models - LLM). The system is structured into two main phases: a story generation phase (Phase 1) and an interactive narrative game phase (Phase 2).
 
 ## Project Goal
 
-[cite_start]The primary goal of Quest Master is to guide authors through the creation of a coherent and structured narrative experience, formally represented as a planning problem in PDDL[cite: 77]. [cite_start]It also aims to provide an interactive gameplay experience based on the logical structure defined in the preceding phase[cite: 72].
+The primary goal of Quest Master is to guide authors through the creation of a coherent and structured narrative experience, formally represented as a planning problem in PDDL. It also aims to provide an interactive gameplay experience based on the logical structure defined in the preceding phase.
 
 ## Visual Representation of the Project Workflow
 
 Here's a visual overview of the project's execution flow, from the lore ingestion or generation phase to the automatic generation and refinement of PDDL plans, leading into the interactive game loop with the GameAgent.
 
-![Quest Master Execution Flow](QuestMaster/images/execition_flow.pdf)
+![Quest Master Execution Flow](backend/images/execition_flow.pdf)
 
 ## How to Run the Project
 
