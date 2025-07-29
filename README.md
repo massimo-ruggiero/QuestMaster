@@ -6,14 +6,6 @@
 
 The primary goal of Quest Master is to guide authors through the creation of a coherent and structured narrative experience, formally represented as a planning problem in PDDL. It also aims to provide an interactive gameplay experience based on the logical structure defined in the preceding phase.
 
-## Visual Representation of the Project Workflow
-
-Here's a visual overview of the project's execution flow, from the lore ingestion or generation phase to the automatic generation and refinement of PDDL plans, leading into the interactive game loop with the GameAgent.
-
-<p align="center">
-<img src="backend/images/execution_flow.pdf" alt="workflow" width="90%"/>
-</p>
-
 ## How to Run the Project
 
 Follow these steps to get the "Quest Master" project up and running on your system.
