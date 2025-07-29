@@ -10,7 +10,7 @@ The primary goal of Quest Master is to guide authors through the creation of a c
 
 Here's a visual overview of the project's execution flow, from the lore ingestion or generation phase to the automatic generation and refinement of PDDL plans, leading into the interactive game loop with the GameAgent.
 
-![Quest Master Execution Flow](backend/images/execition_flow.pdf)
+![Quest Master Execution Flow](backend/images/execution_flow.pdf)
 
 ## How to Run the Project
 
@@ -41,7 +41,7 @@ pip install -r requirements.txt
 
 1.  **Navigate to the frontend directory**:
     ```bash
-    cd frontend
+    cd frontend/frontend
     ```
     *Note*: Ensure you are in the correct folder where the `package.json` file is located.
 
