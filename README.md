@@ -10,7 +10,9 @@ The primary goal of Quest Master is to guide authors through the creation of a c
 
 Here's a visual overview of the project's execution flow, from the lore ingestion or generation phase to the automatic generation and refinement of PDDL plans, leading into the interactive game loop with the GameAgent.
 
-![Quest Master Execution Flow](backend/images/execution_flow.pdf)
+<p align="center">
+<img src="backend/images/execution_flow.pdf" alt="workflow" width="90%"/>
+</p>
 
 ## How to Run the Project
 
