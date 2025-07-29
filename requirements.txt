@@ -6,4 +6,6 @@ langgraph
 flask
 flask-cors
 langchain-community
+langchain-huggingface
 pddlsim
+sentence-transformers

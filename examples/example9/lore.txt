@@ -1,0 +1,43 @@
+# Lore Document: The Knight's Quest
+
+## Quest Description
+In the enchanted realm of Eldoria, a brave knight named Sir Cedric embarks on a quest to retrieve the lost Crystal of Light, a powerful gem that maintains peace in the kingdom. The crystal has been stolen by a cunning sorceress who resides in the Shadowed Keep, a dark fortress shrouded in mystery. Sir Cedric must navigate treacherous terrain and face magical creatures to reclaim the crystal and restore harmony to Eldoria.
+
+## Initial State
+- Sir Cedric is at the edge of the Whispering Woods.  
+- He carries a trusty sword and a map to the Shadowed Keep.  
+- The path is guarded by enchanted wolves.  
+- The sorceress is aware of Cedric's approach.
+
+## Goal
+- Sir Cedric possesses the Crystal of Light.  
+- Sir Cedric is at the castle of Eldoria.
+
+## Obstacles
+1. **Enchanted Wolves**: They guard the path and will attack if provoked.  
+2. **Illusions**: The sorceress has cast illusions to mislead travelers.  
+3. **Sorceress**: A powerful foe who will defend the crystal with dark magic.
+
+## Branching Factor
+- **Min:** 2 actions per state  
+- **Max:** 3 actions per state
+
+## Depth Constraints
+- **Min steps: 4**  
+  **Step Sequences (Min Depth):**  
+  1. Enter the Whispering Woods and confront the enchanted wolves.  
+  2. Navigate through illusions to find the true path.  
+  3. Reach the Shadowed Keep and face the sorceress.  
+  4. Retrieve the Crystal of Light and return to Eldoria.
+
+- **Max steps: 6**  
+  **Step Sequences (Max Depth):**  
+  1. Gather information from villagers about the Shadowed Keep.  
+  2. Enter the Whispering Woods and confront the enchanted wolves.  
+  3. Use a spell to dispel the illusions blocking the path.  
+  4. Discover a hidden passage leading to the sorceress's lair.  
+  5. Engage in a battle with the sorceress and her minions.  
+  6. Retrieve the Crystal of Light and return triumphantly to Eldoria.
+
+## World Background
+Eldoria is a land of magic and wonder, where mythical creatures roam and ancient legends come to life. The Crystal of Light is said to be a gift from the celestial beings, ensuring peace and prosperity. However, dark forces seek to disrupt this harmony, and only a true hero can restore balance to the realm.

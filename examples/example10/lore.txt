@@ -1,0 +1,46 @@
+# Lore Document: The Heart of Eldergrove
+
+## Quest Description
+In the enchanted forest of Eldergrove, a powerful artifact known as the Heart of the Forest has gone missing. This artifact maintains the balance of magic within the realm. A brave adventurer must embark on a quest to retrieve the Heart before dark forces can exploit its absence.
+
+## Initial State
+- Adventurer “Lira” is at the edge of Eldergrove.  
+- Lira carries a Magical Compass that points towards the Heart.  
+- The forest is shrouded in mist, and strange sounds echo around.  
+- Dark creatures are rumored to be lurking within the shadows.
+
+## Goal
+- Lira possesses the Heart of the Forest.  
+- Lira is at the Eldergrove Clearing.
+
+## Obstacles
+1. **Misty Pathways**: The mist can confuse travelers, leading them astray.  
+2. **Dark Creatures**: Shadows that attack anyone who wanders too far from the path.  
+3. **Guardian of the Heart**: A powerful spirit that tests those who seek the Heart.
+
+## Branching Factor
+- **Min:** 2 actions per state  
+- **Max:** 3 actions per state
+
+## Depth Constraints
+- **Min steps: 5**  
+  **Step Sequences (Min Depth):**  
+  1. Enter Eldergrove and consult the Magical Compass  
+  2. Navigate through the Misty Pathways  
+  3. Encounter and evade Dark Creatures  
+  4. Reach the Guardian of the Heart  
+  5. Retrieve the Heart of the Forest and return to the Clearing  
+
+- **Max steps: 8**  
+  **Step Sequences (Max Depth):**  
+  1. Gather supplies and information at the village before entering Eldergrove  
+  2. Enter Eldergrove and consult the Magical Compass  
+  3. Navigate through the Misty Pathways, facing disorienting illusions  
+  4. Encounter Dark Creatures and devise a strategy to evade them  
+  5. Discover a hidden glade with clues about the Guardian  
+  6. Confront the Guardian of the Heart and pass its tests  
+  7. Retrieve the Heart of the Forest  
+  8. Escape the forest and return to the village, restoring balance  
+
+## World Background
+Eldergrove is a sacred place, revered by the inhabitants of the nearby village. The Heart of the Forest is said to be a gem that pulses with life, and its loss has caused the forest to wither. Legends tell of the Guardian, a spirit that protects the Heart and tests the worthiness of those who seek it. The forest is alive with magic, but also with danger, as dark forces seek to claim its power for themselves.

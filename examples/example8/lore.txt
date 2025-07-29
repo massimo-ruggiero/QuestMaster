@@ -1,0 +1,43 @@
+# Lore Document: The Enchanted Grove
+
+## Quest Description
+In the mystical land of Eldoria, a young herbalist named Elara discovers that the Enchanted Grove, a sacred place known for its magical flora, is wilting due to a dark curse. Elara must venture into the grove, confront the source of the curse, and restore the grove's vitality before the magic of Eldoria fades forever.
+
+## Initial State
+- Elara is at the edge of the Enchanted Grove.  
+- Elara carries a HealingHerb and a Map of Eldoria.  
+- The grove is shrouded in darkness, and the magical creatures are in hiding.  
+- A malevolent spirit, "Nox," lurks within the grove, spreading the curse.
+
+## Goal
+- Elara must lift the curse from the Enchanted Grove.  
+- Elara must return to the village with proof of her success.
+
+## Obstacles
+1. **Nox**: The malevolent spirit will attempt to thwart Elara's progress.  
+2. **Cursed Flora**: Some plants in the grove are hostile and will attack if approached.  
+3. **Time Limit**: The magic of Eldoria will fade completely by the next full moon.
+
+## Branching Factor
+- **Min:** 2 actions per state  
+- **Max:** 3 actions per state
+
+## Depth Constraints
+- **Min steps: 4**  
+  **Step Sequences (Min Depth):**  
+  1. Enter the Enchanted Grove and assess the situation.  
+  2. Encounter a hostile plant and use HealingHerb to pacify it.  
+  3. Confront Nox and learn about the source of the curse.  
+  4. Use the knowledge gained to lift the curse and restore the grove.
+
+- **Max steps: 6**  
+  **Step Sequences (Max Depth):**  
+  1. Gather supplies and prepare at the village before entering the grove.  
+  2. Enter the Enchanted Grove and witness the wilting flora.  
+  3. Encounter a hostile plant and use HealingHerb to pacify it.  
+  4. Discover a hidden path leading to Nox's lair.  
+  5. Confront Nox and learn about the source of the curse.  
+  6. Use the knowledge gained to lift the curse and restore the grove.
+
+## World Background
+Eldoria is a land where magic flows through nature, and the Enchanted Grove is its heart. The grove is home to various magical creatures and plants that maintain the balance of magic in the world. Legends say that the grove can only be restored by someone with a pure heart and a deep connection to nature.

@@ -1,0 +1,67 @@
+# Lore Document: The Echoing Crystal of Nyx
+
+## Quest Description
+
+In the shadowed realm of **Umbra**, the legendary **Echoing Crystal of Nyx**—keeper of sound and silence—fractured during the last **Lunar Eclipse**, scattering its shards across four mysterious domains: the **Cavern of Whispers** (sound), the **Mirror Lake** (reflection), the **Shadow Vale** (darkness), and the **Spire of Silence** (void). If the crystal is not reforged before the next **Eclipse of Nyx**, all sound will unravel into void, plunging Umbra into eternal stillness. The player embodies **Talia**, a novice **Echo Weaver** gifted with the **Tone Sigil**, who must recover each shard and reignite the crystal’s resonant harmony in the **Hall of Resonance**.
+
+## Initial State
+- Talia is in the **Hall of Resonance**, holding the **Tone Sigil** but lacking the **Reflection**, **Darkness**, and **Void Sigils**.  
+- Four shards of the Echoing Crystal lie hidden in:
+  - **Cavern of Whispers**  
+  - **Mirror Lake**  
+  - **Shadow Vale**  
+  - **Spire of Silence**  
+- Each domain is sealed by its own guardian.
+
+## Goal
+Reforge the **Echoing Crystal of Nyx** in the **Hall of Resonance** before the **Eclipse of Nyx** completes its dark cycle.
+
+## Obstacles
+- **Echo Wraiths** guard the Cavern of Whispers.  
+- **Sirens** haunt the shores of Mirror Lake.  
+- **Umbral Beasts** prowl the depths of the Shadow Vale.  
+- **Silence Wardens** stand sentinel atop the Spire of Silence.  
+- The **Ritual of Resonance** must be performed under the shadow of the eclipse.
+
+## World Context
+Umbra is a realm where sound shapes reality and silence conceals truth. Four elemental echoes—sound, reflection, darkness, and void—govern its domains, each steeped in ancient magic and hidden betrayals that intertwine fate and legend.
+
+---
+
+## Branching Factor
+
+- **Minimum Actions per State:** 2  
+  **Example Actions:**  
+  1. Talia uses her Tone Sigil to resonate a sealed door open.  
+  2. She chooses to hide behind a stalactite or distract an Echo Wraith with a piercing note.
+
+- **Maximum Actions per State:** 4  
+  **Example Actions:**  
+  1. Talia examines echo patterns on the cavern wall, deciphers a resonant puzzle, casts a silence spell, and strikes at the guardian’s vulnerability.  
+  2. She negotiates with a minor echo spirit, retrieves a hidden shard fragment, calms the spirit with a lullaby, and retreats to safety.
+
+---
+
+## Depth Constraints
+
+- **Minimum Steps to Goal:** 5  
+  **Example Path (Minimum Depth):**  
+  1. Master basic echo weaving in the Hall of Resonance.  
+  2. Defeat Echo Wraiths to claim the Sound shard in the Cavern of Whispers.  
+  3. Solve the Sirens’ riddle at Mirror Lake for the Reflection shard.  
+  4. Evade Umbral Beasts to retrieve the Darkness shard in the Shadow Vale.  
+  5. Perform the Ritual of Resonance to reforge the Echoing Crystal.
+
+- **Maximum Steps to Goal:** 9  
+  **Example Path (Maximum Depth):**  
+  1. Consult the Archivist of Echoes for the lost incantations.  
+  2. Chart resonant echo nodes throughout the Cavern of Whispers.  
+  3. Befriend a rogue Echo Wraith to gain its trust.  
+  4. Challenge the Siren Queen at Mirror Lake to earn the Reflection Sigil.  
+  5. Navigate the Mirror Labyrinth for hidden passages.  
+  6. Outsmart Umbral Beasts to secure the Darkness shard.  
+  7. Uncover the Obsidian Horn in the Shadow Vale to break the Void wards.  
+  8. Confront the Silence Wardens atop the Spire of Silence and claim the Void Sigil.  
+  9. Gather beneath the eclipse and complete the Ritual of Resonance at the moment of totality.
+
+--–

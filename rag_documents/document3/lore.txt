@@ -1,0 +1,69 @@
+# Lore Document: The Nebular Crown of Orion
+
+## Quest Description
+In the sprawling Orion Arm, the legendary **Nebular Crown of Orion**—artifact of cosmic harmony—shattered when the **Celestial Alignment** went awry, dispersing its shards across four perilous star systems: the **Crystal Nebula** (light), the **Void Station** (darkness), the **Gravity Well Core** (gravity), and the **Radiant Forge** (radiation). If the Crown is not reforged at the **Celestine Observatory** before the next Alignment, the gravitational balance of the galaxy will collapse into cosmic anarchy. The player becomes **Nova**, a rookie **Cosmic Warden** armed with the **Pulse Sigil**, who must recover each shard and restore order to the stars.
+
+## Initial State
+- Nova stands on the panoramic decks of the **Celestine Observatory**, clutching the **Pulse Sigil** but missing the **Lumina**, **Umbra**, and **Gravitas Sigils**.  
+- Four Crown shards lie in:
+  - **Crystal Nebula**  
+  - **Void Station**  
+  - **Gravity Well Core**  
+  - **Radiant Forge**  
+- Each system is guarded by cosmic anomalies:
+  - Photon storms raging through the Nebula  
+  - Antimatter fields patrolled by Sable Drones at the Station  
+  - Gravitational eddies swirling around the Core  
+  - Unstable radiation bursts within the Forge  
+
+## Goal
+Reforge the **Nebular Crown of Orion** at the **Celestine Observatory** before the **Celestial Alignment** culminates in galactic collapse.
+
+## Obstacles
+- Tame or evade the **Photon Behemoths** in the Crystal Nebula.  
+- Disable the Sable Drone network around Void Station.  
+- Navigate the Gravity Well Core’s eddies to claim the Gravitas Sigil.  
+- Survive the Radiant Forge’s lethal bursts to secure the Lumina Sigil.  
+- Perform the **Rite of Convergence** under the Alignment’s zenith.
+
+## World Context
+The Orion Arm is a tapestry of star empires, drifting colonies, and ancient spacefaring civilizations, where warp corridors and hidden wormholes bind distant worlds. Rival factions vie for control of the Crown’s power—some to uphold cosmic balance, others to exploit it—forcing Nova to forge uneasy alliances across nebulae and void.
+
+---
+
+## Branching Factor
+- **Minimum Actions per State:** 2  
+  **Example Actions:**  
+  1. Nova channels the Pulse Sigil to stabilize a photon conduit or dives into an energy rift to bypass it.  
+  2. They choose to hack a Sable Drone’s core or sneak past its patrol route.
+
+- **Maximum Actions per State:** 4  
+  **Example Actions:**  
+  1. Scan anomaly readings on the Gravity Well’s periphery, calibrate the Gravitas Sigil, manipulate local eddies, and extract the shard.  
+  2. Negotiate passage with a rogue asteroid pirate, decipher ancient star-runes, disable defense turrets, and retreat with the fragment.
+
+---
+
+## Depth Constraints
+- **Minimum Steps to Goal:** 5  
+  **Example Path (Minimum Depth):**  
+  1. Master basic Sigil attunement at the Celestine Observatory.  
+  2. Subdue Photon Behemoths in the Crystal Nebula.  
+  3. Infiltrate Void Station to retrieve the Umbra Sigil.  
+  4. Navigate the Gravity Well Core for the Gravitas Sigil.  
+  5. Complete the Rite of Convergence under the Alignment.
+
+- **Maximum Steps to Goal:** 10  
+  **Example Path (Maximum Depth):**  
+  1. Research ancient star maps in the Observatory’s archives.  
+  2. Form an alliance with Nebula Nomads for safe passage.  
+  3. Chart a course through rotating photon fields.  
+  4. Sabotage the Void Station’s central reactor.  
+  5. Decipher Gravitas glyphs hidden in asteroid ruins.  
+  6. Rescue a stranded Gravitas Engineer for deeper insight.  
+  7. Breach the Radiant Forge’s containment chambers.  
+  8. Recover a lost starlight compass to locate the final shard.  
+  9. Synchronize all four Sigils at Celestine’s core.  
+  10. Perform the Rite of Convergence at the Alignment’s peak.
+
+---

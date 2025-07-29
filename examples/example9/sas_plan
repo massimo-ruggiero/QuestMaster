@@ -1,0 +1,5 @@
+(enter_woods_and_confront_wolves cedric whispering_woods_edge whispering_woods)
+(navigate_illusions_to_find_path cedric whispering_woods)
+(reach_keep_and_face_sorceress cedric whispering_woods shadowed_keep)
+(retrieve_crystal_and_return cedric shadowed_keep eldoria_castle crystal_of_light)
+; cost = 4 (unit cost)

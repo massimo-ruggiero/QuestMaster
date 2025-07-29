@@ -1,0 +1,6 @@
+(move elara grove_entrance grove_interior)
+(pacify_hostile_plant elara cursed_plant)
+(confront_nox elara nox)
+(resolve_curse elara)
+(move elara grove_interior village)
+; cost = 5 (unit cost)

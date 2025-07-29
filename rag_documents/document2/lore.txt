@@ -1,0 +1,58 @@
+# Lore Document: The Chrono Staff of Aeons
+
+## Quest Description
+In the fractured realm of **Chronos**, the legendary **Chrono Staff of Aeons**—keeper of time’s flow—was shattered when a temporal storm tore reality asunder. Its fragments were scattered into four distinct domains: the **Temporal Spire** (past), the **Veiled Archive** (memory), the **Echo Isles** (sound), and the **Void Rift** (future). Unless the Staff is reforged at the **Sanctum of Continuum** before the next **Epoch Convergence**, time itself will collapse into endless paradox.
+
+## Initial State
+Arin, an aspiring **Aeon Seeker** wielding the **Flux Sigil**, stands at the center of the **Sanctum of Continuum**, where four time-worn portals shimmer. The **Past Shard** lies in the Temporal Spire, guarded by the **Chrono Warden**; the **Memory Shard** hides within the Veiled Archive behind **Mind Shades**; the **Resonance Shard** calls from the Echo Isles, watched over by **Echo Specters**; and the **Fate Shard** drifts through the Void Rift under the watch of **Void Sentinels**.
+
+## Goal
+Reforge the **Chrono Staff of Aeons** in the **Sanctum of Continuum** before the **Epoch Convergence** tears history apart.
+
+## Obstacles
+Each portal demands mastery of a distinct trial: outmaneuver the Chrono Warden’s time loops, solve the Veiled Archive’s shifting memories, harmonize the Echo Isles’ drifting echoes, and survive the Void Rift’s ever-changing future. Only by uniting all four Sigils and performing the **Rite of Continuum** can Arin restore temporal harmony.
+
+## World Context
+Chronos is a realm where past, present, and future intertwine. Ancient orders of Seers and Chronomancers once maintained the flow of time, but the Great Sundering shattered their dominion. Now scattered factions vie for control of fragmented eras, and Arin must navigate shifting alliances to mend the timeline.
+
+---
+
+## Branching Factor
+- **Minimum Actions per State:** 2  
+  **Example Actions:**  
+  1. Arin slows a looping time field with the Flux Sigil or slips through during a temporal gap.  
+  2. They choose to confront the Chrono Warden head-on or study its attack pattern first.
+
+- **Maximum Actions per State:** 4  
+  **Example Actions:**  
+  1. Examine residual timestamps on a shattered pillar, decipher the sequence, channel the Flux Sigil, and phase through the barrier.  
+  2. Negotiate with a Mind Shade, reconstruct a fragmented memory, claim the Memory Shard, and retreat before it reassembles.
+
+---
+
+## Depth Constraints
+- **Minimum Steps to Goal:** 6  
+  **Example Path (Minimum Depth):**  
+  1. Learn basic time-weaving in the Sanctum of Continuum.  
+  2. Navigate the Temporal Spire to claim the Past Shard.  
+  3. Decode the Veiled Archive’s memory sequence for the Memory Shard.  
+  4. Harmonize the Echo Isles to secure the Resonance Shard.  
+  5. Survive the Void Rift’s temporal distortions for the Fate Shard.  
+  6. Perform the Rite of Continuum to reforge the Chrono Staff.
+
+- **Maximum Steps to Goal:** 12  
+  **Example Path (Maximum Depth):**  
+  1. Research epoch lore with a surviving Chronomancer.  
+  2. Collect temporal glyphs in the Sanctum’s library.  
+  3. Solve the Chrono Warden’s four-phase loop puzzle.  
+  4. Recover a lost timepiece in the Spire’s depths.  
+  5. Outsmart Mind Shades through layered memory trials.  
+  6. Rescue a captive archivist for hidden Archive paths.  
+  7. Chart echo resonances on the Isles’ shifting tides.  
+  8. Forge an alliance with a repentant Echo Specter.  
+  9. Stabilize a future rift collapse in the Void Rift.  
+  10. Retrieve the Fate Shard from a phantom projection.  
+  11. Synchronize all four Sigils at the Sanctum.  
+  12. Complete the Rite of Continuum at the moment of Convergence.
+
+---

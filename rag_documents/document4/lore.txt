@@ -1,0 +1,69 @@
+# Lore Document: The Crown of Eldoria
+
+## Quest Description
+In the realm of **Eldoria**, the ancient **Crown of Eldoria**, emblem of unity and prosperity, was shattered when the exiled sorcerer **Morthain** unleashed the Curse of Shattered Vows. Four royal circlets, each embodying a cardinal virtue, were scattered across the kingdom: the **Ironkeep Fortress** (justice), the **Emberwood Grove** (courage), the **Moonlit Library** (wisdom), and the **Crystaline Abbey** (compassion). Unless they are reunited and reforged at the **Cathedral of Light** before the **Midsummer Solstice**, Eldoria will fracture into feuding baronies and starve under the looming famine. The player becomes **Aric**, a humble squire chosen by destiny and bearer of the **Sigil of Valor**, who must recover each circlet and restore the Crown's light.
+
+## Initial State
+- Aric stands in the **Castle Courtyard** at dawn, clutching the **Sigil of Valor** but lacking the Sigils of Justice, Courage, Wisdom, and Compassion.  
+- The four circlets lie hidden in:
+  - **Ironkeep Fortress**  
+  - **Emberwood Grove**  
+  - **Moonlit Library**  
+  - **Crystaline Abbey**  
+- Each domain is protected by:
+  - The stern **Ironjudge** within Ironkeep’s dungeons.  
+  - A fierce **Emberwyrm** in the heart of the grove.  
+  - Whispering **Moon Wraiths** among the library’s stacks.  
+  - The serene **Compassion Wardens** of the abbey’s cloisters.
+
+## Goal
+Reforge the **Crown of Eldoria** at the **Cathedral of Light** before the **Midsummer Solstice** to save the kingdom from ruin.
+
+## Obstacles
+- Subdue or outwit the **Ironjudge** to claim the Justice circlet.  
+- Calm or slay the **Emberwyrm** to retrieve the Courage circlet.  
+- Solve the riddles of the **Moon Wraiths** to earn the Wisdom circlet.  
+- Aid the **Compassion Wardens** to prove worthiness for the Compassion circlet.  
+- Conduct the **Ceremony of Rebirth** under the solstice sun to remold the Crown.
+
+## World Context
+Eldoria is a feudal realm of knights, nobles, and commoners under a fragile truce. Ancient orders of paladins and wizards guard lost lore, while rival lords scheme for power. Legends speak of the Crown’s divine forge beneath the Cathedral, where only true virtue can reignite its magic.
+
+---
+
+## Branching Factor
+- **Minimum Actions per State:** 2  
+  **Example Actions:**  
+  1. Aric invokes the Sigil of Valor to shield himself or attempts a stealth approach through the fortress corridors.  
+  2. He chooses to parley with a warder or hastily strike.
+
+- **Maximum Actions per State:** 4  
+  **Example Actions:**  
+  1. Examine the warded runes on the abbey gate, decipher their meaning, recite the Compassion incantation, and present a worthy offering.  
+  2. Track the Emberwyrm’s lair, distract it with a blazing torch, strike at its vulnerable flank, and secure the circlet.
+
+---
+
+## Depth Constraints
+- **Minimum Steps to Goal:** 5  
+  **Example Path (Minimum Depth):**  
+  1. Train with the castle blacksmith to channel the Sigil of Valor.  
+  2. Overcome the Ironjudge and claim the Justice circlet.  
+  3. Defeat the Emberwyrm to obtain the Courage circlet.  
+  4. Solve the Moon Wraiths’ riddle for the Wisdom circlet.  
+  5. Perform the Ceremony of Rebirth at the Cathedral of Light.
+
+- **Maximum Steps to Goal:** 10  
+  **Example Path (Maximum Depth):**  
+  1. Seek counsel from the Order of Paladins in the border keep.  
+  2. Recover a stolen tome to reveal the fortress’s secret entrance.  
+  3. Convince a rebel knight to guide you through the Emberwood.  
+  4. Craft a warding charm from moonflower petals to appease the Wraiths.  
+  5. Fetch holy water from the Sacred Springs for the Compassion Wardens.  
+  6. Win the trial of swords in the abbey’s courtyard.  
+  7. Navigate crypt passages beneath the Cathedral to reach the forge.  
+  8. Harmonize all four circlets at the forge’s anvil.  
+  9. Channel the Midsummer Light through the Cathedral’s spire.  
+  10. Remold the Crown of Eldoria in the Ceremony of Rebirth.
+
+---

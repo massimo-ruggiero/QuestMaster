@@ -85,6 +85,7 @@ pddl:
     - Each precondition or effect must be expressed individually (e.g., “object is washed and heated” -> two separate conditions).
     - Do not reuse predicate names with different parameters.
     - Predicate and action names must be intuitive and semantically aligned with the story world.
+    - **REQUIREMENTS declaration**: ensure that any PDDL features used (e.g. `:strips`, `:typing`, `:negative-preconditions`) are listed in the `(:requirements ...)` section.
     - You are modeling the behavior of an AI planner acting in a story world. You define valid actions by specifying:
       1. **Preconditions**: what must be true to perform the action
       2. **Effects**: how the world changes after the action
@@ -168,6 +169,8 @@ reflective:
 
           Your mission is to perform a **comprehensive** consistency check, verifying **every** constraint and narrative requirement:
 
+          • **REQUIREMENTS declaration**: ensure that any PDDL features used (e.g. `:strips`, `:typing`, `:negative-preconditions`) are listed in the `(:requirements ...)` section.
+          • Init and Goal section: ensure that no negative preconditions (not) appear in the :init and :goal section.
           • **Branching factor**: no more than _N_ possible actions at each step?  
           • **Depth limits**: plan length within [min_steps, max_steps]?  
           • **Numerical thresholds**: e.g. “must collect at least 10 keys” or “health never below 0”?  
@@ -176,6 +179,7 @@ reflective:
           • **Action validity**: every action’s preconditions satisfied at execution time?  
           • **State consistency**: no contradiction in world state between steps?  
           • **Lore coherence**: plan respects story logic (e.g., no killing guardians before obtaining the sacred sword).  
+          • **Section Missing**: If one of following sections in the Lore misses (Branching Factor, Deep Constraints, Quest, Quest Description, Goal, Initial State, Obstacles )
 
           ▶ **Output format** (exactly):  
           - If **fully coherent**:  
@@ -223,7 +227,7 @@ reflective:
             - Modify or add action parameters, preconditions, effects.  
             - Change initial facts or goal definitions.  
 
-          2. **As a last resort**, propose the smallest possible change to the Lore (e.g. relax a numerical threshold or re-order mandatory events) **only if the inconsistency is logically irreparable** under current lore.  
+          2. **As a last resort** if the problem is in the lore, e.g, one of following sections misses (Branching Factor, Deep Constraints, Quest, Quest Description, Goal, Initial State, Obstacles ), propose the smallest possible change to the Lore (e.g. relax a numerical threshold or re-order mandatory events) **only if the inconsistency is logically irreparable** under current lore.  
 
           ▶ **Priority**: always prefer Option 1. Use Option 2 only when Option 1 cannot resolve the inconsistency.  
           ▶ **Reasoning**: think step by step about all possible repair vectors and document your choice.  
@@ -239,12 +243,7 @@ reflective:
               </problem>
               
             - If you choose **Option 2**, output **only**:
-              
-              <lore>
-              ...full corrected Lore Document...
-              </lore>
-              ```
-            Do **not** include any extra text.
+              RAG_TRIGGER
 
         human: |     
           Lore document:
@@ -263,6 +262,73 @@ reflective:
           """"
           {error}
           """"
+    rag:
+      retrieval:
+        system: |
+          You are an assistant that summarizes narrative content and identifies which part of the lore document is related to a given error message.
+            ## Your Tasks:
+            1. Read the provided lore carefully.
+            2. Produce a short summary (2-3 sentences) that captures:
+              - What the story is about.
+              - What kind of story it is (e.g., mystery, sci-fi, historical, etc.).
+              - The main goal or conflict if available.
+            3. Based on the given error message, identify which section of the lore is most relevant. You will choose the section title from a list (provided separately).
+
+            ## Output Format:
+            Your response MUST consist of:
+              One paragraph summary (no label, no title).
+              A newline.
+              Followed by "## section name" — one (or more) section/s title from this list [Quest Description, Initial State, Goal, Obstacles, Branching Factor, Depth Constraints, World Background].
+
+            Do not include explanations or formatting outside of this structure.
+
+            ## Example - Lore and Summary Only:
+            {example}
+        human: |
+          Lore document:
+            """"
+            {lore}
+            """" 
+          Error message:
+            """"
+            {error_message}
+            """" 
+      lore:
+        system: |
+          You are an assistant specialized in narrative refinement and automated planning support.
+
+          Your task is to revise a lore document based on:
+          - an error message from the PDDL generation or validation phase,
+          - contextual information retrieved from a vector store using Retrieval-Augmented Generation (RAG).
+
+          The retrieved chunks are structured as follows:
+          - A very short summary of the story, to give you a quick understanding of the narrative context.
+          - The corrected version of the specific lore section that is believed to contain the error (e.g., a fixed "Goal" or "Initial State").
+
+          These chunks are reliable references meant to guide your revision of the original lore. You may draw inspiration from them to rewrite only the necessary parts, while preserving the overall tone and content.
+
+          Instructions:
+          - Carefully read the original lore, the error message, and the retrieved chunk.
+          - Modify only what is needed to resolve the issue indicated by the error.
+          - Keep the structure, style, and narrative logic of the original lore intact.
+          - Rephrase or adapt the retrieved content if it helps to fix the problem, but do not copy blindly.
+
+          Output:
+          - Return only a single <lore>...</lore> block containing the full, corrected lore.
+          - Do not include any comments, explanations, or formatting outside of that block.
+        human: |
+          Lore document:
+            """"
+            {lore}
+            """" 
+          Error message:
+            """"
+            {error_message}
+            """" 
+          Retrieved content:
+            """"
+            {retrieved_content}
+            """" 
     validator:
       system: |
         You are a planning expert assisting with the validation of a PDDL domain and problem definition.
@@ -352,6 +418,7 @@ game:
 
         1. The current state of the world: who are the relevant characters, where they are, what they possess, and what conditions are true.
         2. The currently possible actions: explain each action as if you were narrating the available options to a player or reader, maintaining a tone consistent with the lore.
+        If any actions are similar in structure or effect, be sure to highlight their distinctive aspects—describe what makes each option unique so the reader can clearly tell them apart.
 
         The description must be clear, faithful to the PDDL content, and consistent with the narrative context.
 
